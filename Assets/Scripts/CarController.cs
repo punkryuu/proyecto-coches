@@ -10,12 +10,13 @@ public class CarController : MonoBehaviour
 
     float speed, currentSpeed;
     float rotate, currentRotate;
-   
+
 
     // estos son los paremetros que pillaria luego de los SO de los personajes
+    float maxSpeed = 40;
     float acceleration = 100f;
     float steering = 50f;
-    float gravity = 100f;
+    float gravity = 100f; 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -59,22 +60,16 @@ public class CarController : MonoBehaviour
         Physics.Raycast(transform.position, Vector3.down, out hitNear, 2.0f);
 
         // palante
-        sphere.GetComponent<Rigidbody>().AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
-
+        if (sphere.linearVelocity.magnitude < maxSpeed)
+            sphere.GetComponent<Rigidbody>().AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
+        Debug.Log(sphere.linearVelocity.magnitude);
         // ahora caigo
         if (!Physics.Raycast(transform.position, Vector3.down, 2))
         {
             sphere.GetComponent<Rigidbody>().AddForce(Vector3.down * gravity, ForceMode.Acceleration);
         }
-      
-      
-
         // girar
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
-    
-
-
-
         //Normal rotation
         kartModel.parent.up = Vector3.Lerp(kartModel.parent.up, hitNear.normal, Time.deltaTime*8f);
         kartModel.parent.Rotate(0, transform.eulerAngles.y, 0);
