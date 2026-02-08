@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class CarController : MonoBehaviour
 {
-    [SerializeField] Transform KartModel;
+    [SerializeField] Transform kartModel;
     [SerializeField] Rigidbody sphere;
     [SerializeField] InputActionReference accelerateInput;
     [SerializeField] InputActionReference steerInput;
@@ -13,9 +13,10 @@ public class CarController : MonoBehaviour
    
 
     // estos son los paremetros que pillaria luego de los SO de los personajes
-    float acceleration = 30f;
-    float steering = 30f;
-    float gravity = 10f;
+    float acceleration = 100f;
+    float steering = 50f;
+    float gravity = 100f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,6 +28,7 @@ public class CarController : MonoBehaviour
     {
         //follow Collider
         transform.position = sphere.position;
+
         //acelerar
         if (accelerateInput.action.IsPressed())
             speed = acceleration;
@@ -43,30 +45,39 @@ public class CarController : MonoBehaviour
             Steer(dir, amount);
              
         }
-        currentSpeed = Mathf.SmoothStep(currentSpeed,speed, Time.deltaTime*12f);
+        currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f);
         speed = 0f;
         currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f);
         rotate = 0f;
     }
     private void FixedUpdate()
     {
-        //acelero segun la normal del modelo
-        sphere.AddForce(KartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
-        //ahora caigo
-        sphere.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
-        //giro
-        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, 
-            new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
-
         RaycastHit hitOn;
         RaycastHit hitNear;
 
         Physics.Raycast(transform.position, Vector3.down, out hitOn, 1.1f);
         Physics.Raycast(transform.position, Vector3.down, out hitNear, 2.0f);
 
+        // palante
+        sphere.GetComponent<Rigidbody>().AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
+
+        // ahora caigo
+        if (!Physics.Raycast(transform.position, Vector3.down, 2))
+        {
+            sphere.GetComponent<Rigidbody>().AddForce(Vector3.down * gravity, ForceMode.Acceleration);
+        }
+      
+      
+
+        // girar
+        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, transform.eulerAngles.y + currentRotate, 0), Time.deltaTime * 5f);
+    
+
+
+
         //Normal rotation
-        KartModel.parent.up = Vector3.Lerp(KartModel.parent.up, hitNear.normal, Time.deltaTime*8f);
-        KartModel.parent.Rotate(0, transform.eulerAngles.y, 0);
+        kartModel.parent.up = Vector3.Lerp(kartModel.parent.up, hitNear.normal, Time.deltaTime*8f);
+        kartModel.parent.Rotate(0, transform.eulerAngles.y, 0);
     }
     public void Steer(int direction, float amount) 
     {
