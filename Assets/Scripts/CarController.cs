@@ -16,7 +16,8 @@ public class CarController : MonoBehaviour
     float maxSpeed = 40;
     float acceleration = 100f;
     float steering = 50f;
-    float gravity = 100f; 
+    float gravity = 100f;
+    Vector3 ajustePosicionCoche=new Vector3(0.1f, 0.3f, 0);
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,7 +29,7 @@ public class CarController : MonoBehaviour
     void Update()
     {
         //follow Collider
-        transform.position = sphere.position;
+        transform.position = sphere.position- ajustePosicionCoche;
 
         //acelerar
         if (accelerateInput.action.IsPressed())
@@ -57,14 +58,16 @@ public class CarController : MonoBehaviour
         RaycastHit hitNear;
 
         Physics.Raycast(transform.position, Vector3.down, out hitOn, 1.1f);
-        Physics.Raycast(transform.position, Vector3.down, out hitNear, 2.0f);
+
+        //ajustar el valor del final si no se gira el modelo al subir rampas
+        Physics.Raycast(transform.position, Vector3.down, out hitNear, 3.0f);
 
         // palante
         if (sphere.linearVelocity.magnitude < maxSpeed)
             sphere.GetComponent<Rigidbody>().AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
         Debug.Log(sphere.linearVelocity.magnitude);
         // ahora caigo
-        if (!Physics.Raycast(transform.position, Vector3.down, 2))
+        if (!Physics.Raycast(transform.position, Vector3.down, 3))
         {
             sphere.GetComponent<Rigidbody>().AddForce(Vector3.down * gravity, ForceMode.Acceleration);
         }
