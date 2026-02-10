@@ -16,6 +16,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Drifting",
+                    "type": "Button",
+                    "id": "32df8718-f5a1-445d-8038-2bede7298a57",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Steer",
                     "type": "Value",
                     "id": "20681aac-6cf5-4e84-9692-86763c341116",
@@ -34,6 +43,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Accelerate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ac195350-13da-4d50-b1df-d11c1db78f1b",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drifting",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
