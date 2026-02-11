@@ -9,12 +9,14 @@ public class CarController : MonoBehaviour
     [SerializeField] InputActionReference accelerateInput;
     [SerializeField] InputActionReference steerInput;
     [SerializeField] InputActionReference driftInput;
+    
 
     float speed, currentSpeed;
     float rotate, currentRotate;
     bool drifting = false;
     sbyte driftDir;
     float driftPower;
+    int contadorBarra;
 
     // estos son los paremetros que pillaria luego de los SO de los personajes
     float maxSpeed = 40;
@@ -136,4 +138,14 @@ public class CarController : MonoBehaviour
     { 
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
+    public float GetCurrentSpeed()
+    {
+        if (sphere == null) 
+            return 0;
+        if (!sphere.gameObject.activeInHierarchy)
+            return 0;
+        return sphere.linearVelocity.magnitude * 3.6f; // Convertir de m/s a km/h
+    }
+
+
 }
