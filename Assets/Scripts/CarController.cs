@@ -43,6 +43,7 @@ public class CarController : MonoBehaviour
         SteerInput();
         DriftInput();
         UpdateValues();
+        CarAnimations();
     }
     private void FixedUpdate()
     {
@@ -134,7 +135,30 @@ public class CarController : MonoBehaviour
         currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f);
         rotate = 0f;
     }
-    
+    public void CarAnimations()
+    {
+        float horizontal = steerInput.action.ReadValue<float>();
+        if (!isDrifting)
+        {
+            Quaternion targetRotation = Quaternion.Euler(0,horizontal * 15f,0);
+            kartModel.localRotation = Quaternion.Lerp(kartModel.localRotation, targetRotation, Time.deltaTime*8f);
+        }
+        else 
+        {
+            float control;
+            if (driftDir == 1)
+            {
+                control = Remap(horizontal, -1, 1, .5f, 2);
+            }
+            else
+            {
+                control = Remap(horizontal, -1, 1, 2, .5f);
+            }
+            kartModel.parent.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(kartModel.parent.localEulerAngles.y, (control * 15) * driftDir, .2f), 0);
+        }
+    }
+
+
     //funciones del FixedUpdate
     public void Movement() 
     {
