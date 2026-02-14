@@ -16,14 +16,25 @@ public class CarController : MonoBehaviour
     bool isDrifting = false;
     sbyte driftDir;
     float driftPower;
+    byte groundCheckDistance = 3;
+
+    float baseMaxSpeed = 50f; //velocidad máxima que puede alcanzar el coche
+    float baseAcceleration = 100f;//cuanto tarda en alcanzar la velocidad máxima
+    float baseSteering = 25f; // cuanto gira normal
+    float baseWeight = 100f;// cuanto tarda en caer (gravedad artificial)
+    float baseDriftControl = 30f;// cuanto gira derrapando
+    float baseTurbo = 1f; // cuanto tarda en cargar el turbo (por hacer)
+    float baseAirControl = 0.25f;// redducción de control en el aire
+
 
     // estos son los paremetros que pillaria luego de los SO de los personajes
-    float maxSpeed = 40; //velocidad maxima que puede alcanzar el coche (supongo que se podria igualar a los km mas o menos)
-    float acceleration = 100;// cuanto tarda en alcanzar la velocidad maxima
-    float steering = 50;//cuanto gira
-    float gravity = 100;//como de rápido cae cuando esta en el aire
-    float driftControl = 50;//cuanto gira cuando derrapa
-    float turbo =1;//vgelocidad de carga y potencia del turbo
+    float maxSpeedMultiplier = 1f;
+    float accelerationMultiplier = 1f;
+    float steeringMultiplier = 1f;
+    float weightMultiplier = 1f;
+    float driftControlMultiplier = 1f;
+    float turboMultiplier = 1f;
+    float airControlMultiplier = 1f;
     Vector3 ajustePosicionCoche=new Vector3(0.1f, 0.3f, 0);//cambiar segun el  mmodleo para que no quede flotando al bajar rampas ni se clipee en el suelo
 
     RaycastHit hitOn;
@@ -59,8 +70,8 @@ public class CarController : MonoBehaviour
     }
     public void AccelerationInput() 
     {
-        if (accelerateInput.action.IsPressed())
-            speed = acceleration;
+        if (accelerateInput.action.IsPressed() && IsTouchingFloor())
+            speed = baseAcceleration*accelerationMultiplier;
     }
     public void SteerInput() 
     {
@@ -80,7 +91,7 @@ public class CarController : MonoBehaviour
     {
         float horizontal = steerInput.action.ReadValue<float>();
         //iniciar derrape
-        if (driftInput.action.IsPressed() && !isDrifting && horizontal != 0)
+        if (driftInput.action.IsPressed() && !isDrifting && horizontal != 0 && IsTouchingFloor())
         {
             StartDrift(horizontal);
            
@@ -121,7 +132,7 @@ public class CarController : MonoBehaviour
 
 
         Steer(driftDir, control);
-        driftPower += powerControl * turbo;
+        driftPower += powerControl * baseTurbo*turboMultiplier;
     }
     public void EndDrift() 
     {
@@ -130,7 +141,8 @@ public class CarController : MonoBehaviour
     }
     public void UpdateValues()
     {
-        currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f);
+        if (IsTouchingFloor())
+            { currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f); }
         speed = 0f;
         currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f);
         rotate = 0f;
@@ -162,21 +174,21 @@ public class CarController : MonoBehaviour
     //funciones del FixedUpdate
     public void Movement() 
     {
-        if (sphere.linearVelocity.magnitude < maxSpeed)
+        if (sphere.linearVelocity.magnitude < baseMaxSpeed*maxSpeedMultiplier && IsTouchingFloor())
         {
             if (!isDrifting)
-                sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration);
+                { sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration); }
             else
-                sphere.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration);
+                { sphere.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration); }
 
         }
         Debug.Log(sphere.linearVelocity.magnitude);
     }
     public void Gravity() 
     {
-        if (!Physics.Raycast(transform.position, Vector3.down, 3))
+        if (!IsTouchingFloor())
         {
-            sphere.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
+            sphere.AddForce(Vector3.down * baseWeight*weightMultiplier, ForceMode.Acceleration);
         }
     }
     public void VisualRotation() 
@@ -193,11 +205,16 @@ public class CarController : MonoBehaviour
         kartModel.parent.up = Vector3.Lerp(kartModel.parent.up, hitNear.normal, Time.deltaTime * 8f);
         kartModel.parent.Rotate(0, transform.eulerAngles.y, 0);
     }
+    public bool IsTouchingFloor() 
+    {
+        return Physics.Raycast(transform.position, Vector3.down, groundCheckDistance);
+    }
     public void Steer(sbyte direction, float amount) 
     {
         float steeringForce;
-        if (!isDrifting) { steeringForce = steering; }
-        else { steeringForce = driftControl; }
+        if (!isDrifting) { steeringForce = baseSteering*steeringMultiplier; }
+        else { steeringForce = baseDriftControl*driftControlMultiplier; }
+        if (!IsTouchingFloor()){ steeringForce *= baseAirControl*airControlMultiplier; }
         rotate = (steeringForce * direction) * amount;
     }
     public float Remap(float value, float from1, float to1, float from2, float to2) 
