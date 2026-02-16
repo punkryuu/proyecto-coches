@@ -1,10 +1,12 @@
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
+using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
-public class CarController : MonoBehaviour
-{
+public class CarController : MonoBehaviour {
     [SerializeField] Transform kartModel;
     [SerializeField] Rigidbody sphere;
     [SerializeField] InputActionReference accelerateInput;
@@ -14,16 +16,21 @@ public class CarController : MonoBehaviour
     float speed, currentSpeed;
     float rotate, currentRotate;
     bool isDrifting = false;
+    bool isBoosting = false;
+    bool first, second, third;
     sbyte driftDir;
     float driftPower;
+    byte driftMode;
     byte groundCheckDistance = 3;
+    
 
     float baseMaxSpeed = 50f; //velocidad máxima que puede alcanzar el coche
     float baseAcceleration = 100f;//cuanto tarda en alcanzar la velocidad máxima
     float baseSteering = 25f; // cuanto gira normal
     float baseWeight = 100f;// cuanto tarda en caer (gravedad artificial)
     float baseDriftControl = 30f;// cuanto gira derrapando
-    float baseTurbo = 1f; // cuanto tarda en cargar el turbo (por hacer)
+    float baseTurboPower=2f;
+    float baseTurboDuration = 0.3f; // cuanto tarda en cargar el turbo (por hacer)
     float baseAirControl = 0.25f;// redducción de control en el aire
 
 
@@ -35,15 +42,14 @@ public class CarController : MonoBehaviour
     float driftControlMultiplier = 1f;
     float turboMultiplier = 1f;
     float airControlMultiplier = 1f;
-    Vector3 ajustePosicionCoche=new Vector3(0.1f, 0.3f, 0);//cambiar segun el  mmodleo para que no quede flotando al bajar rampas ni se clipee en el suelo
+    Vector3 ajustePosicionCoche = new Vector3(0.1f, 0.3f, 0);//cambiar segun el  mmodleo para que no quede flotando al bajar rampas ni se clipee en el suelo
 
-    RaycastHit hitOn;
     RaycastHit hitNear;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -64,16 +70,16 @@ public class CarController : MonoBehaviour
         VisualOrientation();
     }
     //funciones del update
-    public void FollowCollider()
+    public void FollowCollider()//la parte visual sigue a la pelota, la resta es para que no se clipee
     {
         transform.position = sphere.position - ajustePosicionCoche;
     }
-    public void AccelerationInput() 
+    public void AccelerationInput()
     {
         if (accelerateInput.action.IsPressed() && IsTouchingFloor())
-            speed = baseAcceleration*accelerationMultiplier;
+            speed = baseAcceleration * accelerationMultiplier;
     }
-    public void SteerInput() 
+    public void SteerInput()
     {
         float horizontal = steerInput.action.ReadValue<float>();
         if (horizontal != 0)
@@ -87,24 +93,24 @@ public class CarController : MonoBehaviour
 
         }
     }
-    public void DriftInput() 
+    public void DriftInput()
     {
         float horizontal = steerInput.action.ReadValue<float>();
         //iniciar derrape
         if (driftInput.action.IsPressed() && !isDrifting && horizontal != 0 && IsTouchingFloor())
         {
             StartDrift(horizontal);
-           
+
         }
         if (isDrifting)
         {
             ProcessDrift(horizontal);
-            
+
         }
         if (!driftInput.action.IsPressed() && isDrifting)
         {
             EndDrift();
-            
+
         }
     }
     private void StartDrift(float horizontalInput)
@@ -112,37 +118,40 @@ public class CarController : MonoBehaviour
         isDrifting = true;
         if (horizontalInput > 0)
             driftDir = 1;
-        else driftDir = -1;
+        else if (horizontalInput < 0) driftDir = -1;
         driftPower = 0f;
     }
-    private void ProcessDrift(float horizontalInput) 
+    private void ProcessDrift(float horizontalInput)
     {
         float control;
         float powerControl;
         if (driftDir == 1)
         {
-            control = Remap(horizontalInput, -1, 1, 0, 2);
-            powerControl = Remap(horizontalInput, -1, 1, .2f, 1);
+            control = Remap(horizontalInput, -1, 1, .5f, 2);//EL .5 ES EL GIRO MINIMO QUE PUEDE HACER Y EL 2 EL MAXIMO
+            powerControl = Remap(horizontalInput, -1, 1, .2f, 1);//Cuanto mas derrapes más rapido carga el turbo
         }
         else
         {
-            control = Remap(horizontalInput, -1, 1, 2, 0);
+            control = Remap(horizontalInput, -1, 1, 2, .5f);
             powerControl = Remap(horizontalInput, -1, 1, 1, .2f);
         }
 
 
         Steer(driftDir, control);
-        driftPower += powerControl * baseTurbo*turboMultiplier;
+        driftPower += powerControl * baseTurboPower* turboMultiplier;
+        UpdateDriftlevel();
     }
-    public void EndDrift() 
+    public void EndDrift()
     {
         isDrifting = false;
+        Boost();
         driftPower = 0;
+
     }
     public void UpdateValues()
     {
-        if (IsTouchingFloor())
-            { currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f); }
+        if (IsTouchingFloor() && !isBoosting)
+        { currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f); }
         speed = 0f;
         currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f);
         rotate = 0f;
@@ -152,46 +161,48 @@ public class CarController : MonoBehaviour
         float horizontal = steerInput.action.ReadValue<float>();
         if (!isDrifting)
         {
-            Quaternion targetRotation = Quaternion.Euler(0,horizontal * 15f,0);
-            kartModel.localRotation = Quaternion.Lerp(kartModel.localRotation, targetRotation, Time.deltaTime*8f);
+            Quaternion targetRotation = Quaternion.Euler(0, horizontal * 15f, 0);
+            kartModel.localRotation = Quaternion.Lerp(kartModel.localRotation, targetRotation, Time.deltaTime * 8f);
         }
-        else 
+        else
         {
             float control;
             if (driftDir == 1)
             {
-                control = Remap(horizontal, -1, 1, .5f, 2);
+                control = Remap(horizontal, -1, 1, .25f, 2);
             }
             else
             {
-                control = Remap(horizontal, -1, 1, 2, .5f);
+                control = Remap(horizontal, -1, 1, 2, .25f);
             }
-            kartModel.parent.localRotation = Quaternion.Euler(0, Mathf.LerpAngle(kartModel.parent.localEulerAngles.y, (control * 15) * driftDir, .2f), 0);
+            float targetY = (control * 15) * driftDir;
+            Quaternion targetRotation = Quaternion.Euler(0, targetY, 0);
+            kartModel.localRotation = Quaternion.Lerp(kartModel.localRotation, targetRotation, Time.deltaTime * 8f);
         }
     }
 
 
     //funciones del FixedUpdate
-    public void Movement() 
+    public void Movement()
     {
-        if (sphere.linearVelocity.magnitude < baseMaxSpeed*maxSpeedMultiplier && IsTouchingFloor())
+        if (sphere.linearVelocity.magnitude < baseMaxSpeed * maxSpeedMultiplier && IsTouchingFloor())
         {
             if (!isDrifting)
-                { sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration); }
+            { sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration); }
             else
-                { sphere.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration); }
+            { sphere.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration); }
 
         }
-        Debug.Log(sphere.linearVelocity.magnitude);
+        //Debug.Log(sphere.linearVelocity.magnitude);
     }
-    public void Gravity() 
+    public void Gravity()
     {
         if (!IsTouchingFloor())
         {
-            sphere.AddForce(Vector3.down * baseWeight*weightMultiplier, ForceMode.Acceleration);
+            sphere.AddForce(Vector3.down * baseWeight * weightMultiplier, ForceMode.Acceleration);
         }
     }
-    public void VisualRotation() 
+    public void VisualRotation()
     {
         Vector3 targetRotation = new Vector3(0, transform.eulerAngles.y + currentRotate, 0);
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, targetRotation, Time.deltaTime * 5f);
@@ -199,12 +210,57 @@ public class CarController : MonoBehaviour
     }
     public void VisualOrientation()
     {
-        Physics.Raycast(transform.position, Vector3.down, out hitOn, 1.1f);
         //ajustar el valor del final si no se gira el modelo al subir rampas
         Physics.Raycast(transform.position, Vector3.down, out hitNear, 3.0f);
         kartModel.parent.up = Vector3.Lerp(kartModel.parent.up, hitNear.normal, Time.deltaTime * 8f);
         kartModel.parent.Rotate(0, transform.eulerAngles.y, 0);
     }
+    public void Boost()
+    {
+        if (driftMode > 0)
+        {
+            float duration = baseTurboDuration * driftMode * turboMultiplier; // 0.3, 0.6, 0.9 segundos por defecto
+            float startSpeed = currentSpeed;
+            float boostedSpeed = startSpeed * 3f;
+            StartCoroutine(BoostRoutine(startSpeed, boostedSpeed, duration));
+            driftMode = 0;
+        }
+    }
+    IEnumerator BoostRoutine(float _startSpeed, float _boostedSpeed, float _duration)
+    {
+        isBoosting = true;
+        float elapsed = 0f;
+        while (elapsed < _duration)
+        {
+            float t = elapsed / _duration;
+            currentSpeed = Mathf.Lerp(_boostedSpeed, _startSpeed, t);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        currentSpeed = _startSpeed;
+        first=second=third = false;
+        isBoosting = false;
+    }
+    public void UpdateDriftlevel()
+    {
+        if (!first && driftPower > 50f)
+        {
+            driftMode = 1;
+            first = true;  
+        }
+        else if (first && !second && driftPower > 100f)
+        {
+            driftMode = 2;
+            second = true; 
+        }
+        else if (first && second && !third && driftPower > 150f)
+        {
+            driftMode = 3;
+            third = true;
+        }
+        Debug.Log(driftMode);
+    }
+
     public bool IsTouchingFloor() 
     {
         return Physics.Raycast(transform.position, Vector3.down, groundCheckDistance);
