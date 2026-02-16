@@ -30,6 +30,7 @@ public class CarController : MonoBehaviour {
     float baseWeight = 100f;// cuanto tarda en caer (gravedad artificial)
     float baseDriftControl = 30f;// cuanto gira derrapando
     float baseTurboPower=2f;
+    float baseTurboCharge = 50f;
     float baseTurboDuration = 0.3f; // cuanto tarda en cargar el turbo (por hacer)
     float baseAirControl = 0.25f;// redducción de control en el aire
 
@@ -243,17 +244,17 @@ public class CarController : MonoBehaviour {
     }
     public void UpdateDriftlevel()
     {
-        if (!first && driftPower > 50f)
+        if (!first && driftPower > baseTurboCharge)
         {
             driftMode = 1;
             first = true;  
         }
-        else if (first && !second && driftPower > 100f)
+        else if (first && !second && driftPower > baseTurboCharge*3f)
         {
             driftMode = 2;
             second = true; 
         }
-        else if (first && second && !third && driftPower > 150f)
+        else if (first && second && !third && driftPower > baseTurboCharge * 5f)
         {
             driftMode = 3;
             third = true;
