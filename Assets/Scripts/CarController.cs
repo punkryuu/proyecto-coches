@@ -8,7 +8,7 @@ using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class CarController : MonoBehaviour {
     [SerializeField] Transform kartModel;
-    [SerializeField] Rigidbody sphere;
+    [SerializeField]  Rigidbody sphereRb;
     [SerializeField] InputActionReference accelerateInput;
     [SerializeField] InputActionReference steerInput;
     [SerializeField] InputActionReference driftInput;
@@ -31,7 +31,7 @@ public class CarController : MonoBehaviour {
     float baseDriftControl = 30f;// cuanto gira derrapando
     float baseTurboPower=2f;
     float baseTurboCharge = 50f;
-    float baseTurboDuration = 0.3f; // cuanto tarda en cargar el turbo (por hacer)
+    float baseTurboDuration = 0.5f; // cuanto tarda en cargar el turbo
     float baseAirControl = 0.25f;// redducción de control en el aire
 
 
@@ -50,7 +50,6 @@ public class CarController : MonoBehaviour {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -73,7 +72,7 @@ public class CarController : MonoBehaviour {
     //funciones del update
     public void FollowCollider()//la parte visual sigue a la pelota, la resta es para que no se clipee
     {
-        transform.position = sphere.position - ajustePosicionCoche;
+        transform.position = sphereRb.position - ajustePosicionCoche;
     }
     public void AccelerationInput()
     {
@@ -186,12 +185,12 @@ public class CarController : MonoBehaviour {
     //funciones del FixedUpdate
     public void Movement()
     {
-        if (sphere.linearVelocity.magnitude < baseMaxSpeed * maxSpeedMultiplier && IsTouchingFloor())
+        if (sphereRb.linearVelocity.magnitude < baseMaxSpeed * maxSpeedMultiplier && IsTouchingFloor())
         {
             if (!isDrifting)
-            { sphere.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration); }
+            { sphereRb.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration); }
             else
-            { sphere.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration); }
+            { sphereRb.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration); }
 
         }
         //Debug.Log(sphere.linearVelocity.magnitude);
@@ -200,7 +199,7 @@ public class CarController : MonoBehaviour {
     {
         if (!IsTouchingFloor())
         {
-            sphere.AddForce(Vector3.down * baseWeight * weightMultiplier, ForceMode.Acceleration);
+            sphereRb.AddForce(Vector3.down * baseWeight * weightMultiplier, ForceMode.Acceleration);
         }
     }
     public void VisualRotation()
@@ -220,7 +219,7 @@ public class CarController : MonoBehaviour {
     {
         if (driftMode > 0)
         {
-            float duration = baseTurboDuration * driftMode * turboMultiplier; // 0.3, 0.6, 0.9 segundos por defecto
+            float duration = baseTurboDuration * driftMode * turboMultiplier; // 0.5, 1, 1.5 segundos por defecto
             float startSpeed = currentSpeed;
             float boostedSpeed = startSpeed * 3f;
             StartCoroutine(BoostRoutine(startSpeed, boostedSpeed, duration));
