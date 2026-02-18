@@ -1727,6 +1727,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77762e64303003048b6452589e365513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  barraPoder: {fileID: 1358002805}
+  uiManager: {fileID: 1685766091}
   velocidadRotacion: {x: 0, y: 100, z: 0}
 --- !u!136 &1101002024
 CapsuleCollider:
@@ -2302,7 +2304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 1608415636}
   textoVelocidad: {fileID: 668621119}
-  barraPoder: {fileID: 1358002805}
+  progreso: 10
 --- !u!1 &1868036124
 GameObject:
   m_ObjectHideFlags: 0
@@ -2498,14 +2500,6 @@ PrefabInstance:
     - target: {fileID: 4126455363605797109, guid: dbb74b839020afa4db65ecd78370ab26, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 7667523060614845201, guid: dbb74b839020afa4db65ecd78370ab26, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8385979230217298184, guid: dbb74b839020afa4db65ecd78370ab26, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
