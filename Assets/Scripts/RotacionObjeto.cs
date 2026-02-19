@@ -5,7 +5,7 @@ public class RotacionObjeto : MonoBehaviour
 {
     [SerializeField] Slider barraPoder;
     [SerializeField] UIManager uiManager;
-    public Vector3 velocidadRotacion = new Vector3(0, 100, 0); 
+    public Vector3 velocidadRotacion = new Vector3(50, 200, 0); 
     void Update()
     {
         transform.Rotate(velocidadRotacion * Time.deltaTime); 
