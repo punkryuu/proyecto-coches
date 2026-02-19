@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class UIManager : MonoBehaviour
 {
@@ -13,11 +14,28 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject contenedorOpciones;
     [SerializeField] TMP_Text countdownText;
     [SerializeField] TMP_Dropdown resolutionDropdown;
+    [SerializeField] Slider volumenGeneral, volumenMusica, volumenSFX;
+
+    [SerializeField] AudioMixer audioMixer;
 
     public float progreso = 10;   //prueba, cambiar el public a un get set
     float speed = 0;
     Resolution[] resolutions;
     List<string> options = new List<string>();
+
+    public static UIManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void Start()
     {
@@ -55,7 +73,8 @@ public class UIManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape))
         {
           contenedorPausa.SetActive(true);
-          Time.timeScale = 0;
+          contenedorOpciones.SetActive(false);
+            Time.timeScale = 0;
         }   
     }
     public IEnumerator Delay()
@@ -76,7 +95,11 @@ public class UIManager : MonoBehaviour
     }
     public void MainMenuButton()
     {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(""); //poner el nombre de la escena del menu principal cuando la tenga
+            UnityEngine.SceneManagement.SceneManager.LoadScene(1); 
+    }
+    public void PlayButton()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0); 
     }
 
     public void OptionButton()
@@ -89,7 +112,6 @@ public class UIManager : MonoBehaviour
        QualitySettings.SetQualityLevel(qualityIndex);
        
     }
-
     public void SetFullscreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
@@ -99,6 +121,21 @@ public class UIManager : MonoBehaviour
     {
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+    }
+
+    public void ChangeGeneralVolume()
+    {
+               audioMixer.SetFloat("GeneralVolume", volumenGeneral.value);
+    }
+
+    public void ChangeMusicVolume()
+    {
+        audioMixer.SetFloat("MusicaVolume", volumenMusica.value);
+    }
+
+    public void ChangeSFXVolume() 
+    {
+        audioMixer.SetFloat("SFXVolume", volumenSFX.value);
     }
 }
 
