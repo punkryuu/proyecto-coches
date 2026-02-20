@@ -1,5 +1,6 @@
 
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
@@ -10,9 +11,10 @@ public class CarController : MonoBehaviour {
     [SerializeField] Transform kartModel;
     [SerializeField]  Rigidbody sphereRb;
     [SerializeField] InputActionReference accelerateInput;
+    [SerializeField] InputActionReference stopInput;
     [SerializeField] InputActionReference steerInput;
     [SerializeField] InputActionReference driftInput;
-
+    [SerializeField] Transform wheelParticles;
     float speed, currentSpeed;
     float rotate, currentRotate;
     bool isDrifting = false;
@@ -22,7 +24,9 @@ public class CarController : MonoBehaviour {
     float driftPower;
     byte driftMode;
     byte groundCheckDistance = 3;
-    
+    List<ParticleSystem> driftParticles = new List<ParticleSystem>();
+    Color c;
+    [SerializeField] Color[] turboColors;
 
     float baseMaxSpeed = 50f; //velocidad máxima que puede alcanzar el coche
     float baseAcceleration = 100f;//cuanto tarda en alcanzar la velocidad máxima
@@ -33,6 +37,7 @@ public class CarController : MonoBehaviour {
     float baseTurboCharge = 50f;
     float baseTurboDuration = 0.5f; // cuanto tarda en cargar el turbo
     float baseAirControl = 0.25f;// redducción de control en el aire
+
 
 
     // estos son los paremetros que pillaria luego de los SO de los personajes
@@ -50,6 +55,17 @@ public class CarController : MonoBehaviour {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        for (int i = 0; i < wheelParticles.GetChild(0).childCount; i++)
+        {
+            driftParticles.Add(wheelParticles.GetChild(0).GetChild(i).GetComponent<ParticleSystem>());
+        }
+
+        for (int i = 0; i < wheelParticles.GetChild(1).childCount; i++)
+        {
+            driftParticles.Add(wheelParticles.GetChild(1).GetChild(i).GetComponent<ParticleSystem>());
+        }
+
+        Debug.Log("driftParticles count: " + driftParticles.Count);
     }
 
     // Update is called once per frame
@@ -76,8 +92,16 @@ public class CarController : MonoBehaviour {
     }
     public void AccelerationInput()
     {
+        speed = 0f; 
+
         if (accelerateInput.action.IsPressed() && IsTouchingFloor())
+        {
             speed = baseAcceleration * accelerationMultiplier;
+        }
+        else if (stopInput.action.IsPressed() && IsTouchingFloor())
+        {
+            speed = -baseAcceleration/2 * accelerationMultiplier;
+        }
     }
     public void SteerInput()
     {
@@ -116,10 +140,14 @@ public class CarController : MonoBehaviour {
     private void StartDrift(float horizontalInput)
     {
         isDrifting = true;
-        if (horizontalInput > 0)
-            driftDir = 1;
-        else if (horizontalInput < 0) driftDir = -1;
+        driftDir = (sbyte)(horizontalInput > 0 ? 1 : -1);
         driftPower = 0f;
+        foreach (ParticleSystem p in driftParticles)
+        {
+            Debug.Log("Playing particle: " + p.name);
+            var main = p.main;
+            p.Play();
+        }
     }
     private void ProcessDrift(float horizontalInput)
     {
@@ -145,8 +173,11 @@ public class CarController : MonoBehaviour {
     {
         isDrifting = false;
         Boost();
+        foreach (ParticleSystem p in driftParticles)
+        {
+            p.Stop();
+        }
         driftPower = 0;
-
     }
     public void UpdateValues()
     {
@@ -243,22 +274,31 @@ public class CarController : MonoBehaviour {
     }
     public void UpdateDriftlevel()
     {
+        Color c = Color.white;
         if (!first && driftPower > baseTurboCharge)
         {
+            c = turboColors[0];
             driftMode = 1;
-            first = true;  
+            first = true;
         }
-        else if (first && !second && driftPower > baseTurboCharge*3f)
+        else if (first && !second && driftPower > baseTurboCharge * 3f)
         {
+            c = turboColors[1];
             driftMode = 2;
-            second = true; 
+            second = true;
         }
         else if (first && second && !third && driftPower > baseTurboCharge * 5f)
         {
+            c = turboColors[2];
             driftMode = 3;
             third = true;
         }
-        Debug.Log(driftMode);
+
+        foreach (ParticleSystem p in driftParticles)
+        {
+            var main = p.main;
+            main.startColor = c;
+        }
     }
 
     public bool IsTouchingFloor() 
@@ -277,4 +317,14 @@ public class CarController : MonoBehaviour {
     { 
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
+    void PlayFlashParticle(Color c)
+    {
+        foreach (ParticleSystem p in driftParticles)
+        {
+            var pmain = p.main;
+            pmain.startColor = c;
+            p.Play();
+        }
+    }
+
 }
