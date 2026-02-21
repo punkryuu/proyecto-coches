@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +8,7 @@ using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class CarController : MonoBehaviour {
     [SerializeField] Transform kartModel;
-    [SerializeField]  Rigidbody sphereRb;
+    [SerializeField] Rigidbody sphereRb;
     [SerializeField] InputActionReference accelerateInput;
     [SerializeField] InputActionReference stopInput;
     [SerializeField] InputActionReference steerInput;
@@ -26,19 +25,15 @@ public class CarController : MonoBehaviour {
     byte groundCheckDistance = 3;
     List<ParticleSystem> driftParticles = new List<ParticleSystem>();
     Color c;
-    [SerializeField] Color[] turboColors;
-
     float baseMaxSpeed = 50f; //velocidad máxima que puede alcanzar el coche
     float baseAcceleration = 100f;//cuanto tarda en alcanzar la velocidad máxima
     float baseSteering = 25f; // cuanto gira normal
     float baseWeight = 100f;// cuanto tarda en caer (gravedad artificial)
     float baseDriftControl = 30f;// cuanto gira derrapando
-    float baseTurboPower=2f;
+    float baseTurboPower = 2f;
     float baseTurboCharge = 50f;
     float baseTurboDuration = 0.5f; // cuanto tarda en cargar el turbo
     float baseAirControl = 0.25f;// redducción de control en el aire
-
-
 
     // estos son los paremetros que pillaria luego de los SO de los personajes
     float maxSpeedMultiplier = 1f;
@@ -52,7 +47,7 @@ public class CarController : MonoBehaviour {
 
     RaycastHit hitNear;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // Start is called before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         for (int i = 0; i < wheelParticles.GetChild(0).childCount; i++)
@@ -71,40 +66,21 @@ public class CarController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        FollowCollider();
-        AccelerationInput();
-        SteerInput();
-        DriftInput();
-        UpdateValues();
-        CarAnimations();
-    }
-    private void FixedUpdate()
-    {
-        Movement();
-        Gravity();
-        VisualRotation();
-        VisualOrientation();
-    }
-    //funciones del update
-    public void FollowCollider()//la parte visual sigue a la pelota, la resta es para que no se clipee
-    {
+        // FollowCollider
         transform.position = sphereRb.position - ajustePosicionCoche;
-    }
-    public void AccelerationInput()
-    {
-        speed = 0f; 
 
+        // AccelerationInput
+        speed = 0f;
         if (accelerateInput.action.IsPressed() && IsTouchingFloor())
         {
             speed = baseAcceleration * accelerationMultiplier;
         }
         else if (stopInput.action.IsPressed() && IsTouchingFloor())
         {
-            speed = -baseAcceleration/2 * accelerationMultiplier;
+            speed = -baseAcceleration / 2 * accelerationMultiplier;
         }
-    }
-    public void SteerInput()
-    {
+
+        // SteerInput
         float horizontal = steerInput.action.ReadValue<float>();
         if (horizontal != 0)
         {
@@ -114,82 +90,31 @@ public class CarController : MonoBehaviour {
             else dir = -1;
             float amount = Mathf.Abs(horizontal);
             Steer(dir, amount);
-
         }
-    }
-    public void DriftInput()
-    {
-        float horizontal = steerInput.action.ReadValue<float>();
+
+        // DriftInput
         //iniciar derrape
         if (driftInput.action.IsPressed() && !isDrifting && horizontal != 0 && IsTouchingFloor())
         {
             StartDrift(horizontal);
-
         }
         if (isDrifting)
         {
             ProcessDrift(horizontal);
-
         }
         if (!driftInput.action.IsPressed() && isDrifting)
         {
             EndDrift();
-
-        }
-    }
-    private void StartDrift(float horizontalInput)
-    {
-        isDrifting = true;
-        driftDir = (sbyte)(horizontalInput > 0 ? 1 : -1);
-        driftPower = 0f;
-        foreach (ParticleSystem p in driftParticles)
-        {
-            Debug.Log("Playing particle: " + p.name);
-            var main = p.main;
-            p.Play();
-        }
-    }
-    private void ProcessDrift(float horizontalInput)
-    {
-        float control;
-        float powerControl;
-        if (driftDir == 1)
-        {
-            control = Remap(horizontalInput, -1, 1, .5f, 2);//EL .5 ES EL GIRO MINIMO QUE PUEDE HACER Y EL 2 EL MAXIMO
-            powerControl = Remap(horizontalInput, -1, 1, .2f, 1);//Cuanto mas derrapes más rapido carga el turbo
-        }
-        else
-        {
-            control = Remap(horizontalInput, -1, 1, 2, .5f);
-            powerControl = Remap(horizontalInput, -1, 1, 1, .2f);
         }
 
-
-        Steer(driftDir, control);
-        driftPower += powerControl * baseTurboPower* turboMultiplier;
-        UpdateDriftlevel();
-    }
-    public void EndDrift()
-    {
-        isDrifting = false;
-        Boost();
-        foreach (ParticleSystem p in driftParticles)
-        {
-            p.Stop();
-        }
-        driftPower = 0;
-    }
-    public void UpdateValues()
-    {
+        // UpdateValues
         if (IsTouchingFloor() && !isBoosting)
         { currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f); }
         speed = 0f;
         currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f);
         rotate = 0f;
-    }
-    public void CarAnimations()
-    {
-        float horizontal = steerInput.action.ReadValue<float>();
+
+        // CarAnimations
         if (!isDrifting)
         {
             Quaternion targetRotation = Quaternion.Euler(0, horizontal * 15f, 0);
@@ -212,40 +137,93 @@ public class CarController : MonoBehaviour {
         }
     }
 
-
-    //funciones del FixedUpdate
-    public void Movement()
+    private void FixedUpdate()
     {
+        // Movement
         if (sphereRb.linearVelocity.magnitude < baseMaxSpeed * maxSpeedMultiplier && IsTouchingFloor())
         {
             if (!isDrifting)
             { sphereRb.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration); }
             else
             { sphereRb.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration); }
-
         }
-        //Debug.Log(sphere.linearVelocity.magnitude);
-    }
-    public void Gravity()
-    {
+
+        // Gravity
         if (!IsTouchingFloor())
         {
             sphereRb.AddForce(Vector3.down * baseWeight * weightMultiplier, ForceMode.Acceleration);
         }
-    }
-    public void VisualRotation()
-    {
+
+        // VisualRotation
         Vector3 targetRotation = new Vector3(0, transform.eulerAngles.y + currentRotate, 0);
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, targetRotation, Time.deltaTime * 5f);
 
+        // VisualOrientation
+        if (Physics.Raycast(transform.position, Vector3.down, out hitNear, groundCheckDistance))
+        {
+            Physics.Raycast(transform.position, Vector3.down, out hitNear, 3.0f);
+            kartModel.parent.up = Vector3.Lerp(kartModel.parent.up, hitNear.normal, Time.deltaTime * 8f);
+            kartModel.parent.Rotate(0, transform.eulerAngles.y, 0);
+        }
+        else
+        {
+            Quaternion targetRot = Quaternion.LookRotation(transform.forward, Vector3.up);
+            kartModel.parent.rotation = Quaternion.Lerp(kartModel.parent.rotation, targetRot, Time.deltaTime * 4f);
+        }
     }
-    public void VisualOrientation()
+
+    // Resto de funciones auxiliares (se mantienen igual)
+    private void StartDrift(float horizontalInput)
     {
-        //ajustar el valor del final si no se gira el modelo al subir rampas
-        Physics.Raycast(transform.position, Vector3.down, out hitNear, 3.0f);
-        kartModel.parent.up = Vector3.Lerp(kartModel.parent.up, hitNear.normal, Time.deltaTime * 8f);
-        kartModel.parent.Rotate(0, transform.eulerAngles.y, 0);
+        isDrifting = true;
+        driftDir = (sbyte)(horizontalInput > 0 ? 1 : -1);
+        driftPower = 0f;
+        foreach (ParticleSystem p in driftParticles)
+        {
+            Debug.Log("Playing particle: " + p.name);
+            var main = p.main;
+            p.Play();
+        }
     }
+
+    private void ProcessDrift(float horizontalInput)
+    {
+        float control;
+        float powerControl;
+        if (driftDir == 1)
+        {
+            control = Remap(horizontalInput, -1, 1, .5f, 2);//EL .5 ES EL GIRO MINIMO QUE PUEDE HACER Y EL 2 EL MAXIMO
+            powerControl = Remap(horizontalInput, -1, 1, .2f, 1);//Cuanto mas derrapes más rapido carga el turbo
+        }
+        else
+        {
+            control = Remap(horizontalInput, -1, 1, 2, .5f);
+            powerControl = Remap(horizontalInput, -1, 1, 1, .2f);
+        }
+
+        Steer(driftDir, control);
+        driftPower += powerControl * baseTurboPower * turboMultiplier;
+        UpdateDriftlevel();
+    }
+
+    public void EndDrift()
+    {
+        isDrifting = false;
+        Boost();
+        Color c = Color.clear;
+        foreach (ParticleSystem p in driftParticles)
+        {
+            var main = p.main;
+            main.startColor = c;
+        }
+
+        foreach (ParticleSystem p in driftParticles)
+        {
+            p.Stop();
+        }
+        driftPower = 0;
+    }
+
     public void Boost()
     {
         if (driftMode > 0)
@@ -257,6 +235,7 @@ public class CarController : MonoBehaviour {
             driftMode = 0;
         }
     }
+
     IEnumerator BoostRoutine(float _startSpeed, float _boostedSpeed, float _duration)
     {
         isBoosting = true;
@@ -269,62 +248,65 @@ public class CarController : MonoBehaviour {
             yield return null;
         }
         currentSpeed = _startSpeed;
-        first=second=third = false;
+        first = second = third = false;
         isBoosting = false;
     }
+
     public void UpdateDriftlevel()
     {
-        Color c = Color.white;
+        bool colorChanged = false;
         if (!first && driftPower > baseTurboCharge)
         {
-            c = turboColors[0];
+            c = Color.yellow;
             driftMode = 1;
             first = true;
+            colorChanged = true;
         }
         else if (first && !second && driftPower > baseTurboCharge * 3f)
         {
-            c = turboColors[1];
+            c = Color.red;
             driftMode = 2;
             second = true;
+            colorChanged = true;
+
         }
         else if (first && second && !third && driftPower > baseTurboCharge * 5f)
         {
-            c = turboColors[2];
+            c = Color.cyan;
             driftMode = 3;
             third = true;
-        }
+            colorChanged = true;
 
-        foreach (ParticleSystem p in driftParticles)
-        {
-            var main = p.main;
-            main.startColor = c;
         }
+        if (colorChanged) 
+        {
+            foreach (ParticleSystem p in driftParticles)
+            {
+                var main = p.main;
+                main.startColor = c;
+                p.Stop();
+                p.Play();
+            }
+        }
+       
     }
 
-    public bool IsTouchingFloor() 
+    public bool IsTouchingFloor()
     {
         return Physics.Raycast(transform.position, Vector3.down, groundCheckDistance);
     }
-    public void Steer(sbyte direction, float amount) 
+
+    public void Steer(sbyte direction, float amount)
     {
         float steeringForce;
-        if (!isDrifting) { steeringForce = baseSteering*steeringMultiplier; }
-        else { steeringForce = baseDriftControl*driftControlMultiplier; }
-        if (!IsTouchingFloor()){ steeringForce *= baseAirControl*airControlMultiplier; }
+        if (!isDrifting) { steeringForce = baseSteering * steeringMultiplier; }
+        else { steeringForce = baseDriftControl * driftControlMultiplier; }
+        if (!IsTouchingFloor()) { steeringForce *= baseAirControl * airControlMultiplier; }
         rotate = (steeringForce * direction) * amount;
     }
-    public float Remap(float value, float from1, float to1, float from2, float to2) 
-    { 
+
+    public float Remap(float value, float from1, float to1, float from2, float to2)
+    {
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
-    void PlayFlashParticle(Color c)
-    {
-        foreach (ParticleSystem p in driftParticles)
-        {
-            var pmain = p.main;
-            pmain.startColor = c;
-            p.Play();
-        }
-    }
-
 }

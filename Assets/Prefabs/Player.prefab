@@ -5091,10 +5091,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
+  m_Interpolate: 1
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!1 &4710856755617530447
 GameObject:
@@ -9970,9 +9970,41 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4648837593745385113}
+  m_Father: {fileID: 2192370834768441558}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6118499826144167523
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4648837593745385113}
+  m_Layer: 0
+  m_Name: Visual
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4648837593745385113
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6118499826144167523}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
   - {fileID: 8532274292578360825}
   - {fileID: 5289315325992237809}
-  m_Father: {fileID: 2192370834768441558}
+  m_Father: {fileID: 7078124504065047754}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6563388283732812429
 GameObject:
@@ -10005,7 +10037,7 @@ Transform:
   m_Children:
   - {fileID: 3492831900277696577}
   - {fileID: 8380673349962906282}
-  m_Father: {fileID: 7078124504065047754}
+  m_Father: {fileID: 4648837593745385113}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6652076036969216400
 GameObject:
@@ -10118,7 +10150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c74d11dbe0ae7a4da0f88663556cbaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kartModel: {fileID: 8532274292578360825}
+  kartModel: {fileID: 4648837593745385113}
   sphereRb: {fileID: 3981155007233523394}
   accelerateInput: {fileID: 2491186937690589549, guid: cf689c6ca04564d458d0fad99e249ed8, type: 3}
   stopInput: {fileID: 1547144754917925912, guid: cf689c6ca04564d458d0fad99e249ed8, type: 3}
@@ -10128,7 +10160,7 @@ MonoBehaviour:
   turboColors:
   - {r: 1, g: 0.70397, b: 0, a: 0}
   - {r: 1, g: 0, b: 0, a: 0}
-  - {r: 0.799387, g: 0, b: 1, a: 0}
+  - {r: 0, g: 0.8705809, b: 1, a: 0}
 --- !u!114 &3281663559740883193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10165,7 +10197,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 7078124504065047754}
+    m_TransformParent: {fileID: 4648837593745385113}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: c2fd446d02177eb4e9188323e70d51ed, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10185,15 +10217,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c2fd446d02177eb4e9188323e70d51ed, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c2fd446d02177eb4e9188323e70d51ed, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c2fd446d02177eb4e9188323e70d51ed, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c2fd446d02177eb4e9188323e70d51ed, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
