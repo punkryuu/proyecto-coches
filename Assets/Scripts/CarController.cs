@@ -49,7 +49,7 @@ public class CarController : MonoBehaviour {
 
 
 
-    Vector3 ajustePosicionCoche = new Vector3(.1f, .3f, 0);//cambiar segun el  mmodleo para que no quede flotando al bajar rampas ni se clipee en el suelo
+    Vector3 ajustePosicionCoche = new Vector3(0f, .3f, 0);//cambiar segun el  mmodleo para que no quede flotando al bajar rampas ni se clipee en el suelo
 
 
     RaycastHit hitNear;
