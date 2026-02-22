@@ -27,15 +27,16 @@ public class CarController : MonoBehaviour {
     List<ParticleSystem> driftParticlesList = new List<ParticleSystem>();
     Color c;
     List<ParticleSystem> turboParticlesList = new List<ParticleSystem>();
-    float baseMaxSpeed = 50f; //velocidad máxima que puede alcanzar el coche
-    float baseAcceleration = 100f;//cuanto tarda en alcanzar la velocidad máxima
+    float baseMaxSpeed = 50f; //velocidad mï¿½xima que puede alcanzar el coche
+    float baseAcceleration = 100f;//cuanto tarda en alcanzar la velocidad mï¿½xima
     float baseSteering = 25f; // cuanto gira normal
     float baseWeight = 100f;// cuanto tarda en caer (gravedad artificial)
     float baseDriftControl = 30f;// cuanto gira derrapando
     float baseTurboPower = 2f;
     float baseTurboCharge = 50f;
     float baseTurboDuration = 0.5f; // cuanto tarda en cargar el turbo
-    float baseAirControl = 0.25f;// redducción de control en el aire
+    float baseAirControl = 0.25f;// redducciï¿½n de control en el aire
+    int contadorBarra;
 
     // estos son los paremetros que pillaria luego de los SO de los personajes
     float maxSpeedMultiplier = 1f;
@@ -222,7 +223,7 @@ public class CarController : MonoBehaviour {
         if (driftDir == 1)
         {
             control = Remap(horizontalInput, -1, 1, .5f, 2);//EL .5 ES EL GIRO MINIMO QUE PUEDE HACER Y EL 2 EL MAXIMO
-            powerControl = Remap(horizontalInput, -1, 1, .2f, 1);//Cuanto mas derrapes más rapido carga el turbo
+            powerControl = Remap(horizontalInput, -1, 1, .2f, 1);//Cuanto mas derrapes mï¿½s rapido carga el turbo
         }
         else
         {
@@ -345,4 +346,14 @@ public class CarController : MonoBehaviour {
     {
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
+    public float GetCurrentSpeed()
+    {
+        if (sphere == null) 
+            return 0;
+        if (!sphere.gameObject.activeInHierarchy)
+            return 0;
+        return sphere.linearVelocity.magnitude * 3.6f; // Convertir de m/s a km/h
+    }
+
+
 }
