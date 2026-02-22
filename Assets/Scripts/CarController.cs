@@ -48,8 +48,8 @@ public class CarController : MonoBehaviour {
     bool grounded;
 
 
-
-    Vector3 ajustePosicionCoche = new Vector3(0f, .3f, 0);//cambiar segun el  mmodleo para que no quede flotando al bajar rampas ni se clipee en el suelo
+    float verticalOffset = 0.8f;
+    float horizontalOffset = 0.65f;
 
 
     RaycastHit hitNear;
@@ -82,9 +82,23 @@ public class CarController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        grounded = IsTouchingFloor();
-        // FollowCollider
-        transform.position = sphereRb.position - ajustePosicionCoche;
+        RaycastHit groundHit;
+        Vector3 groundNormal = Vector3.up;
+        if (Physics.Raycast(sphereRb.position, Vector3.down, out groundHit, groundCheckDistance))
+        {
+            groundNormal = groundHit.normal;
+            grounded = true;
+        }
+        else
+        {
+            grounded = false;
+        }
+
+        // Offset horizontal
+        Vector3 desiredHorizontalOffset = transform.rotation * new Vector3(0f, 0f, -horizontalOffset); 
+        Vector3 horizontalOffsetOnPlane = Vector3.ProjectOnPlane(desiredHorizontalOffset, groundNormal);
+
+        transform.position = sphereRb.position - horizontalOffsetOnPlane - groundNormal * verticalOffset;
 
         // AccelerationInput
         speed = 0f;
@@ -316,11 +330,6 @@ public class CarController : MonoBehaviour {
             }
         }
        
-    }
-
-    public bool IsTouchingFloor()
-    {
-        return Physics.Raycast(transform.position, Vector3.down, groundCheckDistance);
     }
 
     public void Steer(sbyte direction, float amount)
