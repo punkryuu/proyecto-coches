@@ -12,5 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4bc3b433391d7a41bdbb8d5844e55b5, type: 3}
   m_Name: Rana
   m_EditorClassIdentifier: 
+  visual: {fileID: 2613718824486627978, guid: aec19c1847de9874d899bee5f41304b4, type: 3}
   characterPrefab: {fileID: 4126455363605797109, guid: dbb74b839020afa4db65ecd78370ab26, type: 3}
+  driftParticlesPath: driftParticles
+  turboParticlesPath: turboParticles
   selectionImage: {fileID: 21300000, guid: 2beb075740fcd304e9667a8d5dd0b6cd, type: 3}
+  maxSpeedMultiplier: 1
+  accelerationMultiplier: 1
+  steeringMultiplier: 1
+  weightMultiplier: 1
+  driftControlMultiplier: 1
+  turboMultiplier: 1
+  airControlMultiplier: 1
+  verticalOffset: 0.8
+  horizontalOffset: 0.65

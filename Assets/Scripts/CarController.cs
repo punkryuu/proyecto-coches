@@ -7,14 +7,15 @@ using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class CarController : MonoBehaviour {
-    [SerializeField] Transform visual;//contiene el modelo del coche y las particulas
+    [SerializeField] PersonajeSO personajeSO;//luego se quita el serialize es para probar
+    Transform driftParticles;
+    Transform turboParticles;
+    GameObject visual;//contiene el modelo del coche y las particulas
     [SerializeField] Rigidbody sphereRb;
     [SerializeField] InputActionReference accelerateInput;
     [SerializeField] InputActionReference stopInput;
     [SerializeField] InputActionReference steerInput;
     [SerializeField] InputActionReference driftInput;
-    [SerializeField] Transform driftParticles;
-    [SerializeField] Transform turboParticles;
     float speed, currentSpeed;
     float rotate, currentRotate;
     bool isDrifting = false;
@@ -49,34 +50,46 @@ public class CarController : MonoBehaviour {
     bool grounded;
 
 
-    float verticalOffset = 0.8f;
-    float horizontalOffset = 0.65f;
+    float verticalOffset;
+    float horizontalOffset;
 
 
     RaycastHit hitNear;
-
     // Start is called before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        for (int i = 0; i < driftParticles.GetChild(0).childCount; i++)
+        if (personajeSO!=null)
         {
-            driftParticlesList.Add(driftParticles.GetChild(0).GetChild(i).GetComponent<ParticleSystem>());
-        }
+            verticalOffset = personajeSO.verticalOffset;
+            horizontalOffset = personajeSO.horizontalOffset;
+            if (personajeSO.visual != null)
+            {
+                visual = Instantiate(personajeSO.visual, transform.GetChild(0));
+                visual.transform.localPosition = new Vector3(0, 0, 0);
+            }
+            else
+            {
+                Debug.LogError("No hay modelo");
+                return;
+            }
+            driftParticles = visual.transform.Find(personajeSO.driftParticlesPath);
+            turboParticles = visual.transform.Find(personajeSO.turboParticlesPath);
+            if (driftParticles != null)
+            {
+                for (int i = 0; i < driftParticles.GetChild(0).childCount; i++)
+                    driftParticlesList.Add(driftParticles.GetChild(0).GetChild(i).GetComponent<ParticleSystem>());
+                for (int i = 0; i < driftParticles.GetChild(1).childCount; i++)
+                    driftParticlesList.Add(driftParticles.GetChild(1).GetChild(i).GetComponent<ParticleSystem>());
+            }
 
-        for (int i = 0; i < driftParticles.GetChild(1).childCount; i++)
-        {
-            driftParticlesList.Add(driftParticles.GetChild(1).GetChild(i).GetComponent<ParticleSystem>());
+            if (turboParticles != null)
+            {
+                for (int i = 0; i < turboParticles.GetChild(0).childCount; i++)
+                    turboParticlesList.Add(turboParticles.GetChild(0).GetChild(i).GetComponent<ParticleSystem>());
+                for (int i = 0; i < turboParticles.GetChild(1).childCount; i++)
+                    turboParticlesList.Add(turboParticles.GetChild(1).GetChild(i).GetComponent<ParticleSystem>());
+            }
         }
-        for (int i = 0; i < turboParticles.GetChild(0).childCount; i++)
-        {
-            turboParticlesList.Add(turboParticles.GetChild(0).GetChild(i).GetComponent<ParticleSystem>());
-        }
-
-        for (int i = 0; i < turboParticles.GetChild(1).childCount; i++)
-        {
-            turboParticlesList.Add(turboParticles.GetChild(1).GetChild(i).GetComponent<ParticleSystem>());
-        }
-
 
     }
 
@@ -149,7 +162,7 @@ public class CarController : MonoBehaviour {
         if (!isDrifting)
         {
             Quaternion targetRotation = Quaternion.Euler(0, horizontal * 15f, 0);
-            visual.localRotation = Quaternion.Lerp(visual.localRotation, targetRotation, Time.deltaTime * 8f);
+            visual.transform.localRotation = Quaternion.Lerp(visual.transform.localRotation, targetRotation, Time.deltaTime * 8f);
         }
         else
         {
@@ -164,7 +177,7 @@ public class CarController : MonoBehaviour {
             }
             float targetY = (control * 15) * driftDir;
             Quaternion targetRotation = Quaternion.Euler(0, targetY, 0);
-            visual.localRotation = Quaternion.Lerp(visual.localRotation, targetRotation, Time.deltaTime * 8f);
+            visual.transform.localRotation = Quaternion.Lerp(visual.transform.localRotation, targetRotation, Time.deltaTime * 8f);
         }
     }
 
@@ -192,13 +205,13 @@ public class CarController : MonoBehaviour {
         // VisualOrientation
         if (Physics.Raycast(transform.position, Vector3.down, out hitNear, groundCheckDistance))
         {
-            visual.parent.up = Vector3.Lerp(visual.parent.up, hitNear.normal, Time.deltaTime * 8f);
-            visual.parent.Rotate(0, transform.eulerAngles.y, 0);
+            visual.transform.parent.up = Vector3.Lerp(visual.transform.parent.up, hitNear.normal, Time.deltaTime * 8f);
+            visual.transform.parent.Rotate(0, transform.eulerAngles.y, 0);
         }
         else
         {
             Quaternion targetRot = Quaternion.LookRotation(transform.forward, Vector3.up);
-            visual.parent.rotation = Quaternion.Lerp(visual.parent.rotation, targetRot, Time.deltaTime * 4f);
+            visual.transform.parent.rotation = Quaternion.Lerp(visual.transform.parent.rotation, targetRot, Time.deltaTime * 4f);
         }
     }
 
