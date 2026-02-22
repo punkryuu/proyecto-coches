@@ -7,13 +7,14 @@ using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class CarController : MonoBehaviour {
-    [SerializeField] Transform kartModel;
+    [SerializeField] Transform visual;//contiene el modelo del coche y las particulas
     [SerializeField] Rigidbody sphereRb;
     [SerializeField] InputActionReference accelerateInput;
     [SerializeField] InputActionReference stopInput;
     [SerializeField] InputActionReference steerInput;
     [SerializeField] InputActionReference driftInput;
-    [SerializeField] Transform wheelParticles;
+    [SerializeField] Transform driftParticles;
+    [SerializeField] Transform turboParticles;
     float speed, currentSpeed;
     float rotate, currentRotate;
     bool isDrifting = false;
@@ -23,8 +24,9 @@ public class CarController : MonoBehaviour {
     float driftPower;
     byte driftMode;
     byte groundCheckDistance = 3;
-    List<ParticleSystem> driftParticles = new List<ParticleSystem>();
+    List<ParticleSystem> driftParticlesList = new List<ParticleSystem>();
     Color c;
+    List<ParticleSystem> turboParticlesList = new List<ParticleSystem>();
     float baseMaxSpeed = 50f; //velocidad máxima que puede alcanzar el coche
     float baseAcceleration = 100f;//cuanto tarda en alcanzar la velocidad máxima
     float baseSteering = 25f; // cuanto gira normal
@@ -43,24 +45,37 @@ public class CarController : MonoBehaviour {
     float driftControlMultiplier = 1f;
     float turboMultiplier = 1f;
     float airControlMultiplier = 1f;
-    Vector3 ajustePosicionCoche = new Vector3(0.1f, 0.3f, 0);//cambiar segun el  mmodleo para que no quede flotando al bajar rampas ni se clipee en el suelo
+
+
+
+    Vector3 ajustePosicionCoche = new Vector3(.1f, .3f, 0);//cambiar segun el  mmodleo para que no quede flotando al bajar rampas ni se clipee en el suelo
+
 
     RaycastHit hitNear;
 
     // Start is called before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        for (int i = 0; i < wheelParticles.GetChild(0).childCount; i++)
+        for (int i = 0; i < driftParticles.GetChild(0).childCount; i++)
         {
-            driftParticles.Add(wheelParticles.GetChild(0).GetChild(i).GetComponent<ParticleSystem>());
+            driftParticlesList.Add(driftParticles.GetChild(0).GetChild(i).GetComponent<ParticleSystem>());
         }
 
-        for (int i = 0; i < wheelParticles.GetChild(1).childCount; i++)
+        for (int i = 0; i < driftParticles.GetChild(1).childCount; i++)
         {
-            driftParticles.Add(wheelParticles.GetChild(1).GetChild(i).GetComponent<ParticleSystem>());
+            driftParticlesList.Add(driftParticles.GetChild(1).GetChild(i).GetComponent<ParticleSystem>());
+        }
+        for (int i = 0; i < turboParticles.GetChild(0).childCount; i++)
+        {
+            turboParticlesList.Add(turboParticles.GetChild(0).GetChild(i).GetComponent<ParticleSystem>());
         }
 
-        Debug.Log("driftParticles count: " + driftParticles.Count);
+        for (int i = 0; i < turboParticles.GetChild(1).childCount; i++)
+        {
+            turboParticlesList.Add(turboParticles.GetChild(1).GetChild(i).GetComponent<ParticleSystem>());
+        }
+
+
     }
 
     // Update is called once per frame
@@ -118,7 +133,7 @@ public class CarController : MonoBehaviour {
         if (!isDrifting)
         {
             Quaternion targetRotation = Quaternion.Euler(0, horizontal * 15f, 0);
-            kartModel.localRotation = Quaternion.Lerp(kartModel.localRotation, targetRotation, Time.deltaTime * 8f);
+            visual.localRotation = Quaternion.Lerp(visual.localRotation, targetRotation, Time.deltaTime * 8f);
         }
         else
         {
@@ -133,7 +148,7 @@ public class CarController : MonoBehaviour {
             }
             float targetY = (control * 15) * driftDir;
             Quaternion targetRotation = Quaternion.Euler(0, targetY, 0);
-            kartModel.localRotation = Quaternion.Lerp(kartModel.localRotation, targetRotation, Time.deltaTime * 8f);
+            visual.localRotation = Quaternion.Lerp(visual.localRotation, targetRotation, Time.deltaTime * 8f);
         }
     }
 
@@ -143,7 +158,7 @@ public class CarController : MonoBehaviour {
         if (sphereRb.linearVelocity.magnitude < baseMaxSpeed * maxSpeedMultiplier && IsTouchingFloor())
         {
             if (!isDrifting)
-            { sphereRb.AddForce(kartModel.transform.forward * currentSpeed, ForceMode.Acceleration); }
+            { sphereRb.AddForce(visual.transform.forward * currentSpeed, ForceMode.Acceleration); }
             else
             { sphereRb.AddForce(transform.forward * currentSpeed, ForceMode.Acceleration); }
         }
@@ -161,14 +176,13 @@ public class CarController : MonoBehaviour {
         // VisualOrientation
         if (Physics.Raycast(transform.position, Vector3.down, out hitNear, groundCheckDistance))
         {
-            Physics.Raycast(transform.position, Vector3.down, out hitNear, 3.0f);
-            kartModel.parent.up = Vector3.Lerp(kartModel.parent.up, hitNear.normal, Time.deltaTime * 8f);
-            kartModel.parent.Rotate(0, transform.eulerAngles.y, 0);
+            visual.parent.up = Vector3.Lerp(visual.parent.up, hitNear.normal, Time.deltaTime * 8f);
+            visual.parent.Rotate(0, transform.eulerAngles.y, 0);
         }
         else
         {
             Quaternion targetRot = Quaternion.LookRotation(transform.forward, Vector3.up);
-            kartModel.parent.rotation = Quaternion.Lerp(kartModel.parent.rotation, targetRot, Time.deltaTime * 4f);
+            visual.parent.rotation = Quaternion.Lerp(visual.parent.rotation, targetRot, Time.deltaTime * 4f);
         }
     }
 
@@ -178,7 +192,7 @@ public class CarController : MonoBehaviour {
         isDrifting = true;
         driftDir = (sbyte)(horizontalInput > 0 ? 1 : -1);
         driftPower = 0f;
-        foreach (ParticleSystem p in driftParticles)
+        foreach (ParticleSystem p in driftParticlesList)
         {
             Debug.Log("Playing particle: " + p.name);
             var main = p.main;
@@ -211,13 +225,13 @@ public class CarController : MonoBehaviour {
         isDrifting = false;
         Boost();
         Color c = Color.clear;
-        foreach (ParticleSystem p in driftParticles)
+        foreach (ParticleSystem p in driftParticlesList)
         {
             var main = p.main;
             main.startColor = c;
         }
 
-        foreach (ParticleSystem p in driftParticles)
+        foreach (ParticleSystem p in driftParticlesList)
         {
             p.Stop();
         }
@@ -238,14 +252,26 @@ public class CarController : MonoBehaviour {
 
     IEnumerator BoostRoutine(float _startSpeed, float _boostedSpeed, float _duration)
     {
+        foreach (ParticleSystem p in turboParticlesList)
+        {
+            Debug.Log("Playing particle: " + p.name);
+            var main = p.main;
+            p.Play();
+        }
         isBoosting = true;
         float elapsed = 0f;
+
         while (elapsed < _duration)
         {
             float t = elapsed / _duration;
             currentSpeed = Mathf.Lerp(_boostedSpeed, _startSpeed, t);
             elapsed += Time.deltaTime;
             yield return null;
+        }
+        foreach (ParticleSystem p in turboParticlesList)
+        {
+            var main = p.main;
+            p.Stop();
         }
         currentSpeed = _startSpeed;
         first = second = third = false;
@@ -280,7 +306,7 @@ public class CarController : MonoBehaviour {
         }
         if (colorChanged) 
         {
-            foreach (ParticleSystem p in driftParticles)
+            foreach (ParticleSystem p in driftParticlesList)
             {
                 var main = p.main;
                 main.startColor = c;
