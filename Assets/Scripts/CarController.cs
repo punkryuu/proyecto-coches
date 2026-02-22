@@ -45,6 +45,7 @@ public class CarController : MonoBehaviour {
     float driftControlMultiplier = 1f;
     float turboMultiplier = 1f;
     float airControlMultiplier = 1f;
+    bool grounded;
 
 
 
@@ -81,16 +82,17 @@ public class CarController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        grounded = IsTouchingFloor();
         // FollowCollider
         transform.position = sphereRb.position - ajustePosicionCoche;
 
         // AccelerationInput
         speed = 0f;
-        if (accelerateInput.action.IsPressed() && IsTouchingFloor())
+        if (accelerateInput.action.IsPressed() && grounded)
         {
             speed = baseAcceleration * accelerationMultiplier;
         }
-        else if (stopInput.action.IsPressed() && IsTouchingFloor())
+        else if (stopInput.action.IsPressed() && grounded)
         {
             speed = -baseAcceleration / 2 * accelerationMultiplier;
         }
@@ -109,7 +111,7 @@ public class CarController : MonoBehaviour {
 
         // DriftInput
         //iniciar derrape
-        if (driftInput.action.IsPressed() && !isDrifting && horizontal != 0 && IsTouchingFloor())
+        if (driftInput.action.IsPressed() && !isDrifting && horizontal != 0 && grounded)
         {
             StartDrift(horizontal);
         }
@@ -123,7 +125,7 @@ public class CarController : MonoBehaviour {
         }
 
         // UpdateValues
-        if (IsTouchingFloor() && !isBoosting)
+        if (grounded && !isBoosting)
         { currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f); }
         speed = 0f;
         currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f);
@@ -155,7 +157,7 @@ public class CarController : MonoBehaviour {
     private void FixedUpdate()
     {
         // Movement
-        if (sphereRb.linearVelocity.magnitude < baseMaxSpeed * maxSpeedMultiplier && IsTouchingFloor())
+        if (sphereRb.linearVelocity.magnitude < baseMaxSpeed * maxSpeedMultiplier && grounded)
         {
             if (!isDrifting)
             { sphereRb.AddForce(visual.transform.forward * currentSpeed, ForceMode.Acceleration); }
@@ -164,7 +166,7 @@ public class CarController : MonoBehaviour {
         }
 
         // Gravity
-        if (!IsTouchingFloor())
+        if (!grounded)
         {
             sphereRb.AddForce(Vector3.down * baseWeight * weightMultiplier, ForceMode.Acceleration);
         }
@@ -327,7 +329,7 @@ public class CarController : MonoBehaviour {
         float steeringForce;
         if (!isDrifting) { steeringForce = baseSteering * steeringMultiplier; }
         else { steeringForce = baseDriftControl * driftControlMultiplier; }
-        if (!IsTouchingFloor()) { steeringForce *= baseAirControl * airControlMultiplier; }
+        if (!grounded) { steeringForce *= baseAirControl * airControlMultiplier; }
         rotate = (steeringForce * direction) * amount;
     }
 
