@@ -127,7 +127,6 @@ public class CarController : MonoBehaviour {
         // UpdateValues
         if (grounded && !isBoosting)
         { currentSpeed = Mathf.SmoothStep(currentSpeed, speed, Time.deltaTime * 12f); }
-        speed = 0f;
         currentRotate = Mathf.Lerp(currentRotate, rotate, Time.deltaTime * 4f);
         rotate = 0f;
 
