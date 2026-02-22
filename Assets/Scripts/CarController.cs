@@ -348,11 +348,11 @@ public class CarController : MonoBehaviour {
     }
     public float GetCurrentSpeed()
     {
-        if (sphere == null) 
+        if (sphereRb == null) 
             return 0;
-        if (!sphere.gameObject.activeInHierarchy)
+        if (!sphereRb.gameObject.activeInHierarchy)
             return 0;
-        return sphere.linearVelocity.magnitude * 3.6f; // Convertir de m/s a km/h
+        return sphereRb.linearVelocity.magnitude * 3.6f; // Convertir de m/s a km/h
     }
 
 
