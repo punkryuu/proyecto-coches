@@ -137,6 +137,37 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &2812302625739888242
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1836669379973892907}
+  m_Layer: 0
+  m_Name: ModeloVisual
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1836669379973892907
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812302625739888242}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7078124504065047754}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4126455363605797109
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,7 +213,7 @@ GameObject:
   - component: {fileID: 8385979230217298184}
   - component: {fileID: 3981155007233523394}
   m_Layer: 0
-  m_Name: collider
+  m_Name: sphere
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -261,7 +292,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7078124504065047754}
   m_Layer: 0
-  m_Name: Normal
+  m_Name: VisualContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -279,7 +310,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1836669379973892907}
   m_Father: {fileID: 2192370834768441558}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7667523060614845201
@@ -291,8 +323,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2192370834768441558}
-  - component: {fileID: 4077620020013943061}
   - component: {fileID: 3281663559740883193}
+  - component: {fileID: 9149775844701144741}
+  - component: {fileID: 3290354010551357564}
+  - component: {fileID: 731583620965158178}
+  - component: {fileID: 4299367767215909581}
+  - component: {fileID: 4171939257439656165}
   m_Layer: 0
   m_Name: Kart
   m_TagString: Player
@@ -317,24 +353,6 @@ Transform:
   - {fileID: 8406692970054601640}
   m_Father: {fileID: 918635737100812005}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4077620020013943061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7667523060614845201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c74d11dbe0ae7a4da0f88663556cbaa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  personajeSO: {fileID: 0}
-  sphereRb: {fileID: 3981155007233523394}
-  accelerateInput: {fileID: 2491186937690589549, guid: cf689c6ca04564d458d0fad99e249ed8, type: 3}
-  stopInput: {fileID: 1547144754917925912, guid: cf689c6ca04564d458d0fad99e249ed8, type: 3}
-  steerInput: {fileID: -8448381970595699741, guid: cf689c6ca04564d458d0fad99e249ed8, type: 3}
-  driftInput: {fileID: -5724354674883348201, guid: cf689c6ca04564d458d0fad99e249ed8, type: 3}
 --- !u!114 &3281663559740883193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,3 +383,84 @@ MonoBehaviour:
   m_DefaultActionMap: Driving
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 4624058992144317217}
+--- !u!114 &9149775844701144741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7667523060614845201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b79bb503d78850488a1dd551595e9d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sphereRb: {fileID: 3981155007233523394}
+  kartInput: {fileID: 731583620965158178}
+  kartDrift: {fileID: 3290354010551357564}
+  carVisualParent: {fileID: 7078124504065047754}
+--- !u!114 &3290354010551357564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7667523060614845201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f602597f2da5aac48b4641e3de3c6388, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kartInput: {fileID: 731583620965158178}
+  kartMovement: {fileID: 9149775844701144741}
+  kartVisual: {fileID: 4299367767215909581}
+--- !u!114 &731583620965158178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7667523060614845201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5f2b51ca2f283a488a15a0b8acb542b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  accelerateInput: {fileID: 2491186937690589549, guid: cf689c6ca04564d458d0fad99e249ed8, type: 3}
+  stopInput: {fileID: 1547144754917925912, guid: cf689c6ca04564d458d0fad99e249ed8, type: 3}
+  steerInput: {fileID: -8448381970595699741, guid: cf689c6ca04564d458d0fad99e249ed8, type: 3}
+  driftInput: {fileID: -5724354674883348201, guid: cf689c6ca04564d458d0fad99e249ed8, type: 3}
+--- !u!114 &4299367767215909581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7667523060614845201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d8b1e654eaeeb44aae273c15fa5353, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kartModelParent: {fileID: 7078124504065047754}
+  kartModel: {fileID: 1836669379973892907}
+  kartInput: {fileID: 731583620965158178}
+  kartDrift: {fileID: 3290354010551357564}
+  kartMovement: {fileID: 9149775844701144741}
+--- !u!114 &4171939257439656165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7667523060614845201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c74d11dbe0ae7a4da0f88663556cbaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  personajeSO: {fileID: 11400000, guid: 511fc3b0ece607e44b88013484da2037, type: 2}
+  kartInput: {fileID: 731583620965158178}
+  kartMovement: {fileID: 9149775844701144741}
+  kartDrift: {fileID: 3290354010551357564}
+  kartVisual: {fileID: 4299367767215909581}
