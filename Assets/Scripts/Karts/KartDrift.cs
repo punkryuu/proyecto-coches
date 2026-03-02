@@ -56,7 +56,6 @@ public class KartDrift : MonoBehaviour {
 
         kartVisual.ClearDriftParticles();
         kartVisual.SetDriftParticlesColor(Color.yellow);
-        kartVisual.PlayDriftParticles();
     }
 
     private void ProcessDrift(float horizontalInput)
