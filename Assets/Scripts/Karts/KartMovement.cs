@@ -28,7 +28,7 @@ public class KartMovement : MonoBehaviour
     float horizontalOffset;
 
     //groundCheck
-    byte groundCheckDistance = 3;
+    byte groundCheckDistance = 5;
 
     float speed, currentSpeed;
     float rotate, currentRotate;
@@ -43,7 +43,20 @@ public class KartMovement : MonoBehaviour
         if (kartInput == null) kartInput = GetComponent<KartInput>();
         if (kartDrift == null) kartDrift = GetComponent<KartDrift>();
     }
-    private void Update()
+    public void Initialize(PersonajeSO so)
+    {
+        maxSpeedMultiplier = so.maxSpeedMultiplier;
+        accelerationMultiplier = so.accelerationMultiplier;
+        steeringMultiplier = so.steeringMultiplier;
+        weightMultiplier = so.weightMultiplier;
+        driftControlMultiplier = so.driftControlMultiplier;
+        airControlMultiplier = so.airControlMultiplier;
+
+        verticalOffset = so.verticalOffset;
+        horizontalOffset = so.horizontalOffset;
+
+}
+private void Update()
     {
         grounded = Physics.Raycast(sphereRb.position, Vector3.down, out goundHit, groundCheckDistance);
 
@@ -142,16 +155,5 @@ public class KartMovement : MonoBehaviour
             return 0;
         return sphereRb.linearVelocity.magnitude * 3.6f;// Convertir de m/s a km/h
     }
-    public void Initialize(PersonajeSO so)
-    {
-        maxSpeedMultiplier = so.maxSpeedMultiplier;
-        accelerationMultiplier = so.accelerationMultiplier;
-        steeringMultiplier = so.steeringMultiplier;
-        weightMultiplier = so.weightMultiplier;
-        driftControlMultiplier = so.driftControlMultiplier;
-        airControlMultiplier = so.airControlMultiplier;
 
-        verticalOffset = so.verticalOffset;
-        horizontalOffset = so.horizontalOffset;
-    }
 }

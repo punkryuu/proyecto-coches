@@ -34,37 +34,50 @@ public class KartVisual : MonoBehaviour {
     private void Update()
     {
         float horizontal = kartInput.SteerAmount;
+        float tiltAngle;
 
         if (!kartDrift.IsDrifting)
         {
+            tiltAngle = horizontal * 15f;
+            /*
             Quaternion targetRotation = Quaternion.Euler(0, horizontal * 15f, 0);
-            kartModel.localRotation = Quaternion.Lerp(kartModel.localRotation, targetRotation, Time.deltaTime * rotationSmoothTime);
+            kartModelParent.transform.localRotation = Quaternion.Lerp(kartModelParent.transform.localRotation, targetRotation, Time.deltaTime * rotationSmoothTime);
+            */
         }
         else
         {
             float control;
             if (kartDrift.DriftDirection == 1)
-                control = Remap(horizontal, -1, 1, 0.25f, 2f);
+            {
+                control = Remap(horizontal, -1, 1, .25f, 2);
+            }
             else
-                control = Remap(horizontal, -1, 1, 2f, 0.25f);
-
-            float targetY = control * 15 * kartDrift.DriftDirection;
-            Quaternion targetRotation = Quaternion.Euler(0, targetY, 0);
-            kartModel.localRotation = Quaternion.Lerp(kartModel.localRotation, targetRotation, Time.deltaTime * rotationSmoothTime);
+            {
+                control = Remap(horizontal, -1, 1, 2, .25f);
+            }
+            tiltAngle = (control * 15f) * kartDrift.DriftDirection;
         }
-
+        Quaternion targetRot;
         if (kartMovement.Grounded)
         {
-            Quaternion targetRot = Quaternion.LookRotation(transform.forward, kartMovement.GroundNormal);
-            kartModelParent.rotation = Quaternion.Lerp(kartModelParent.rotation, targetRot, Time.deltaTime * orientationSmoothTime);
+            Vector3 forwardProjected = Vector3.ProjectOnPlane(transform.forward, kartMovement.GroundNormal).normalized;
+            Quaternion groundRotation = Quaternion.LookRotation(forwardProjected, kartMovement.GroundNormal);
+            Quaternion tiltRotation = Quaternion.Euler(0, tiltAngle, 0);
+            targetRot = groundRotation * tiltRotation;
+
         }
         else
         {
-            Quaternion targetRot = Quaternion.LookRotation(transform.forward, Vector3.up);
-            kartModelParent.rotation = Quaternion.Lerp(kartModelParent.rotation, targetRot, Time.deltaTime * airOrientationSmoothTime);
+            targetRot = Quaternion.LookRotation(transform.forward, Vector3.up);
         }
-    }
+        float smoothTime;
+        if (kartMovement.Grounded)
+            smoothTime = orientationSmoothTime;
+        else
+            smoothTime = airOrientationSmoothTime;
 
+        kartModelParent.rotation = Quaternion.Lerp(kartModelParent.rotation, targetRot, Time.deltaTime *smoothTime);
+    }
     public void PlayDriftParticles()
     {
         foreach (var p in driftParticles) p.Play();

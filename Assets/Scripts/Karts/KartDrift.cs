@@ -34,7 +34,10 @@ public class KartDrift : MonoBehaviour {
         if (kartMovement == null) kartMovement = GetComponent<KartMovement>();
         if (kartVisual == null) kartVisual = GetComponent<KartVisual>();
     }
-
+    public void Initialize(PersonajeSO so)
+    {
+        turboMultiplier = so.turboMultiplier;
+    }
     private void Update()
     {
         if (kartInput.IsDriftPressed && !IsDrifting && kartInput.SteerAmount != 0 && kartMovement.Grounded)
@@ -142,8 +145,5 @@ public class KartDrift : MonoBehaviour {
     {
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
-    public void Initialize(PersonajeSO so)
-    {
-        turboMultiplier = so.turboMultiplier;
-    }
+   
 }

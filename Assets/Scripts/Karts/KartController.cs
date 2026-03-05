@@ -82,7 +82,7 @@ public class KartController : MonoBehaviour {
         }
         else
         {
-            Debug.LogError("No hay modelo visual en PersonajeSO");
+            Debug.LogError("no hay modelo visual ");
         }
     }
 }
