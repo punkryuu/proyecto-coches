@@ -8,7 +8,7 @@ using UnityEngine.Audio;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] CarController car; 
+    [SerializeField] KartMovement car; 
     [SerializeField] TextMeshProUGUI textoVelocidad;
     [SerializeField] GameObject contenedorPausa;
     [SerializeField] TMP_Text countdownText;

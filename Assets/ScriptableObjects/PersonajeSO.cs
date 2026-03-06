@@ -4,10 +4,10 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName = "PersonajeSO", menuName = "Scriptable Objects/PersonajeSO")]
 public class PersonajeSO : ScriptableObject
 {
-    public Transform visual;
-    public Transform driftParticles;
-    public Transform turboParticles;
+    public GameObject visual;
     public GameObject characterPrefab;
+    public string driftParticlesPath = "driftParticles";
+    public string turboParticlesPath = "turboParticles";
     public Sprite selectionImage;
     public float maxSpeedMultiplier = 1f;
     public float accelerationMultiplier = 1f;
