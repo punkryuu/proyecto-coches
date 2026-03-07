@@ -16,7 +16,9 @@ public class CharcoRalentizador : MonoBehaviour
     void CrearCharco()
     {
         GameObject charco = Instantiate(Resources.Load("CharcoRalentizador") as GameObject, transform.position, Quaternion.identity); // Instanciamos el charco en la posición del jugador
+        charco.GetComponent<ColisionCharco>().owner = gameObject; // Asignamos el propietario del charco para que no afecte al jugador que lo creódime
         StartCoroutine(DuracionPoder(charco));  
+        barraPoder.value = 0f; 
     }
 
     public IEnumerator DuracionPoder(GameObject charco)
