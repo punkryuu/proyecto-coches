@@ -33,6 +33,8 @@ public class KartMovement : MonoBehaviour
     float speed, currentSpeed;
     float rotate, currentRotate;
     bool grounded;
+    byte groundedAngle = 60;
+    float sphereRadius;
     RaycastHit goundHit;
     public bool Grounded => grounded;
     public Vector3 GroundNormal => goundHit.normal;
@@ -42,6 +44,7 @@ public class KartMovement : MonoBehaviour
     {
         if (kartInput == null) kartInput = GetComponent<KartInput>();
         if (kartDrift == null) kartDrift = GetComponent<KartDrift>();
+        sphereRadius = sphereRb.GetComponent<SphereCollider>().radius;
     }
     public void Initialize(PersonajeSO so)
     {
@@ -58,8 +61,7 @@ public class KartMovement : MonoBehaviour
 }
 private void Update()
     {
-        grounded = Physics.Raycast(sphereRb.position, Vector3.down, out goundHit, groundCheckDistance);
-
+        CheckGrounded();
         Vector3 desiredHorizontalOffset = transform.rotation * new Vector3(0f, 0f, -horizontalOffset);
         Vector3 horizontalOffsetOnPlane = Vector3.ProjectOnPlane(desiredHorizontalOffset, GroundNormal);
         transform.position = sphereRb.position - horizontalOffsetOnPlane - GroundNormal * verticalOffset;
@@ -155,5 +157,37 @@ private void Update()
             return 0;
         return sphereRb.linearVelocity.magnitude * 3.6f;// Convertir de m/s a km/h
     }
+    public void CheckGrounded()
+    {
+        byte detectedRaycasts = 0;
+        float checkDistance = sphereRadius*1.5f;
+        Physics.Raycast(sphereRb.position, Vector3.down, out goundHit, checkDistance*10);
+        
+        if (Physics.SphereCast(sphereRb.position, sphereRadius, Vector3.down, out RaycastHit centralHit, checkDistance))
+        {
+            float angle = Vector3.Angle(centralHit.normal, Vector3.up);
+            if (angle <= groundedAngle)
+            {
+                detectedRaycasts++;
+            }
+        }
 
+
+        Vector3 baseOrigin = sphereRb.position - Vector3.up * sphereRadius;
+        Vector3[] directions = { Vector3.forward, Vector3.back, Vector3.left, Vector3.right };
+        foreach (Vector3 dir in directions)
+        {
+            Vector3 offset = dir * sphereRadius * 0.9f;
+            Vector3 rayOrigin = baseOrigin + offset;
+
+            if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, sphereRadius * 1.2f))
+            {
+                float angle = Vector3.Angle(hit.normal, Vector3.up);
+                if (angle <= groundedAngle)
+                    detectedRaycasts++;
+            }
+        }
+
+        grounded = detectedRaycasts >= 1;
+    }
 }
