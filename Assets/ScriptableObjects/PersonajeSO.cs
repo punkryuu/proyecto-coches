@@ -19,4 +19,5 @@ public class PersonajeSO : ScriptableObject
     public float verticalOffset = 0f;
     public float horizontalOffset = 0f;
 
+
 }
