@@ -10,9 +10,9 @@ public class Grounded : TemplateStateMachine
     {
         _fsm = _stateMachineFlow;
     }
-    public override void UpdatePhysics()
+    public override void UpdateLogic()
     {
-        base.UpdatePhysics();
+        base.UpdateLogic();
         if (!_fsm.CheckGrounded())
         {
             stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).fallingState);

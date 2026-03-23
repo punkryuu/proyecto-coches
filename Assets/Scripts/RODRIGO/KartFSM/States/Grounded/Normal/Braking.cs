@@ -19,9 +19,8 @@ public class Braking : Normal
     {
 
         base.UpdateLogic();
-                _fsm.accelerateInput = _fsm.GetInputActions().Driving.Accelerate.IsPressed();
+        _fsm.accelerateInput = _fsm.GetInputActions().Driving.Accelerate.IsPressed();
         _fsm.brakeInput = _fsm.GetInputActions().Driving.Stop.IsPressed();
-        _fsm.steerInput = _fsm.GetInputActions().Driving.Steer.ReadValue<float>();
         if (_fsm.accelerateInput)
         {
             stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).acceleratingState);
@@ -30,16 +29,10 @@ public class Braking : Normal
         {
             stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).idleState);
         }
-        /*
-        if (!_fsm.CheckGrounded())
-        {
-            stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).fallingState);
-        }
-        */
     }
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        _fsm.FordwardMovement();
+        _fsm.FordwardMovement(_fsm.hitBox.transform.forward);
     }
 }

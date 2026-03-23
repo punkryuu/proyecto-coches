@@ -13,13 +13,15 @@ public class FSMManager : StateMachineFlow
 
     private PlayerInputActions inputActions;
     public Rigidbody rb;
+    public CapsuleCollider hitBox;
     public float maxSpeed = 100f;
     public float fordwardSpeed;
-    public float acceleration = 10f;
+    public float acceleration = 50f;
+    public float steer = 25f;
     public bool accelerateInput;
     public bool brakeInput;
     public float steerInput;
-
+    private float currentRotate;
     public bool isGrounded = false;
 
     public void Awake()
@@ -28,9 +30,10 @@ public class FSMManager : StateMachineFlow
         acceleratingState = new Accelerating(this);
         brakingState = new Braking(this);
         fallingState = new Falling(this);
-        Debug.Log($"Estados creados: idle={idleState}, acc={acceleratingState}, brake={brakingState}");
         inputActions = new PlayerInputActions();
         inputActions.Enable();
+        rb = GetComponent<Rigidbody>();
+        hitBox = GetComponentInChildren<CapsuleCollider>(); 
     }
     protected override void GetinitialState(out TemplateStateMachine _stateMachine)
     {
@@ -50,9 +53,23 @@ public class FSMManager : StateMachineFlow
     {
         return inputActions;
     }
-    public void FordwardMovement() 
+    public void FordwardMovement(Vector3 direction) 
     {
-        rb.AddForce(fordwardSpeed * transform.forward, ForceMode.Acceleration);
+        rb.AddForce(fordwardSpeed * direction, ForceMode.Acceleration);
+    }
+    public void Steer()
+    {
+        float targetRotate = 0f;
+
+        if (steerInput != 0)
+        {
+            targetRotate = steer * steerInput;
+        }
+
+        currentRotate = Mathf.Lerp(currentRotate, targetRotate, Time.deltaTime * 4f);
+
+        Vector3 targetRotation = new Vector3(0, transform.eulerAngles.y + currentRotate, 0);
+        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, targetRotation, Time.deltaTime * 5f);
     }
     public void Gravity()
     {

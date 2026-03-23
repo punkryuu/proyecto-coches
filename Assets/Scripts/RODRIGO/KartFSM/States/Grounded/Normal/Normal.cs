@@ -8,4 +8,14 @@ public class Normal : Grounded
     {
         _fsm = _stateMachineFlow;
     }
+    public override void UpdateLogic()
+    {
+        base.UpdateLogic();
+        _fsm.steerInput = _fsm.GetInputActions().Driving.Steer.ReadValue<float>();
+    }
+    public override void UpdatePhysics()
+    {
+        base.UpdatePhysics();
+        //_fsm.Steer();
+    }
 }
