@@ -9,10 +9,12 @@ public class FSMManager : StateMachineFlow
     public Idle idleState;
     public Accelerating acceleratingState;
     public Braking brakingState;
+    public Falling fallingState;
 
     private PlayerInputActions inputActions;
     public Rigidbody rb;
     public float maxSpeed = 100f;
+    public float fordwardSpeed;
     public float acceleration = 10f;
     public bool accelerateInput;
     public bool brakeInput;
@@ -25,7 +27,7 @@ public class FSMManager : StateMachineFlow
         idleState= new Idle(this);
         acceleratingState = new Accelerating(this);
         brakingState = new Braking(this);
-        //fallingingState = new Falling(this);
+        fallingState = new Falling(this);
         Debug.Log($"Estados creados: idle={idleState}, acc={acceleratingState}, brake={brakingState}");
         inputActions = new PlayerInputActions();
         inputActions.Enable();
@@ -35,20 +37,31 @@ public class FSMManager : StateMachineFlow
         _stateMachine = idleState;
     }
     // para leer los valorers del newInputSystem
-    private void Update()
-    {
-        accelerateInput = inputActions.Driving.Accelerate.IsPressed();
-        brakeInput = inputActions.Driving.Stop.IsPressed();
-        steerInput = inputActions.Driving.Steer.ReadValue<float>();
-    }
     public bool CheckGrounded() 
     {
-        if (Physics.Raycast(transform.position, Vector3.down, 5f)) 
+        if (Physics.Raycast(transform.position, Vector3.down, 3f)) 
         {
             isGrounded = true;
         }
         else isGrounded = false;
         return isGrounded;
+    }
+    public PlayerInputActions GetInputActions() 
+    {
+        return inputActions;
+    }
+    public void FordwardMovement() 
+    {
+        rb.AddForce(fordwardSpeed * transform.forward, ForceMode.Acceleration);
+    }
+    public void Gravity()
+    {
+        rb.AddForce(maxSpeed * Vector3.down, ForceMode.Acceleration);
+    }
+    public void SlowDown(float _slowDown) 
+    {
+        rb.AddForce(-rb.linearVelocity.normalized * _slowDown, ForceMode.Acceleration);
+
     }
 
 }

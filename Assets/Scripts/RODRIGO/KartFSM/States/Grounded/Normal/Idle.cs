@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Idle : Normal
 {
@@ -14,23 +15,32 @@ public class Idle : Normal
     {
         base.Enter();
         _fsm.stateName.text = name;
-
     }
     public override void UpdateLogic()
     {
-
         base.UpdateLogic();
+
+        _fsm.accelerateInput = _fsm.GetInputActions().Driving.Accelerate.IsPressed();
+        _fsm.brakeInput = _fsm.GetInputActions().Driving.Stop.IsPressed();
+        _fsm.steerInput = _fsm.GetInputActions().Driving.Steer.ReadValue<float>();
         if (_fsm.accelerateInput)
         {
-            Debug.Log("Idle → accelerateInput true, cambiando a acceleratingState");
             stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).acceleratingState);
         }
         else if (_fsm.brakeInput)
         {
-            Debug.Log("Idle → brakeInput true, cambiando a brakingState");
             stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).brakingState);
+        }
+        if (!_fsm.CheckGrounded())
+        {
+            stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).fallingState);
         }
 
     }
-   
+    public override void UpdatePhysics()
+    {
+        base.UpdatePhysics();
+        _fsm.SlowDown(2f);
+    }
+
 }

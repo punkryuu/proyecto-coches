@@ -10,22 +10,12 @@ public class Grounded : TemplateStateMachine
     {
         _fsm = _stateMachineFlow;
     }
-    public override void UpdateLogic()
+    public override void UpdatePhysics()
     {
-
-        base.UpdateLogic();
-        /*
-        _fsm.horizontalInput = Input.GetAxis("Horizontal");
-        if ((Mathf.Abs(_fsm.horizontalInput) > Mathf.Epsilon) || (Mathf.Abs(_fsm.verticalInput) > Mathf.Epsilon))
+        base.UpdatePhysics();
+        if (!_fsm.CheckGrounded())
         {
-            stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).movingState);
+            stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).fallingState);
         }
-        if (Mathf.Abs(_fsm.horizontalInput) < Mathf.Epsilon && Mathf.Abs(_fsm.verticalInput) < Mathf.Epsilon)
-        {
-            stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).idleState);
-        }
-        */
-
-
     }
 }
