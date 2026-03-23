@@ -31,11 +31,12 @@ public class Idle : Normal
         {
             stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).brakingState);
         }
+        /*
         if (!_fsm.CheckGrounded())
         {
             stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).fallingState);
         }
-
+        */
     }
     public override void UpdatePhysics()
     {
