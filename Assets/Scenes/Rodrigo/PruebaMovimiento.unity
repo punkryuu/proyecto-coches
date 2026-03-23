@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 28842145}
   - component: {fileID: 28842144}
   - component: {fileID: 28842143}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1393,7 +1393,7 @@ GameObject:
   - component: {fileID: 1323874953}
   - component: {fileID: 1323874952}
   - component: {fileID: 1323874951}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1645,21 +1645,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1382295861772498882, guid: 7fb065129d356644782395ff78cd1468, type: 3}
-      propertyPath: m_UseGravity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1382295861772498882, guid: 7fb065129d356644782395ff78cd1468, type: 3}
-      propertyPath: m_Constraints
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 1382295861772498882, guid: 7fb065129d356644782395ff78cd1468, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4126455363605797109, guid: 7fb065129d356644782395ff78cd1468, type: 3}
       propertyPath: m_Name
       value: Player.V2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445134920326946967, guid: 7fb065129d356644782395ff78cd1468, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
