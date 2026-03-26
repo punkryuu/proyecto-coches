@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,16 +14,24 @@ public class FSMManager : StateMachineFlow
 
     private PlayerInputActions inputActions;
     public Rigidbody rb;
-    public CapsuleCollider hitBox;
+    public Collider hitBox;
+
+
     public float maxSpeed = 100f;
-    public float fordwardSpeed;
-    public float acceleration = 50f;
-    public float steer = 25f;
+    public float accelerationPower = 50f;
+    public float brakePower = 25f;
+
+    public float steerPower = 80f;
+    private float currentRotate;
+    private float targetRotate;
+
+    public float gravityForce = 50f;
+
     public bool accelerateInput;
     public bool brakeInput;
     public float steerInput;
-    private float currentRotate;
     public bool isGrounded = false;
+
 
     public void Awake()
     {
@@ -33,13 +42,12 @@ public class FSMManager : StateMachineFlow
         inputActions = new PlayerInputActions();
         inputActions.Enable();
         rb = GetComponent<Rigidbody>();
-        hitBox = GetComponentInChildren<CapsuleCollider>(); 
+        hitBox = GetComponentInChildren<Collider>(); 
     }
     protected override void GetinitialState(out TemplateStateMachine _stateMachine)
     {
         _stateMachine = idleState;
     }
-    // para leer los valorers del newInputSystem
     public bool CheckGrounded() 
     {
         if (Physics.Raycast(transform.position, Vector3.down, 3f)) 
@@ -53,29 +61,36 @@ public class FSMManager : StateMachineFlow
     {
         return inputActions;
     }
-    public void FordwardMovement(Vector3 direction) 
+    public void ApplyAcceleration(float power) 
     {
-        rb.AddForce(fordwardSpeed * direction, ForceMode.Acceleration);
+        rb.AddForce(transform.forward * power, ForceMode.Acceleration);
     }
-    public void Steer()
+    public void ApplyBrake(float power)
     {
-        float targetRotate = 0f;
+        rb.AddForce(-transform.forward * power, ForceMode.Acceleration);
+    }
 
         if (steerInput != 0)
         {
             targetRotate = steer * steerInput;
         }
+        float currentSpeed = rb.linearVelocity.magnitude;
+        targetRotate = steerInput * steerPower;
 
+
+    }
+    public void ApplySteer()
+    {
         currentRotate = Mathf.Lerp(currentRotate, targetRotate, Time.deltaTime * 4f);
 
         Vector3 targetRotation = new Vector3(0, transform.eulerAngles.y + currentRotate, 0);
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, targetRotation, Time.deltaTime * 5f);
     }
-    public void Gravity()
+    public void ApplyGravity()
     {
-        rb.AddForce(maxSpeed * Vector3.down, ForceMode.Acceleration);
+        rb.AddForce(gravityForce * Vector3.down, ForceMode.Acceleration);
     }
-    public void SlowDown(float _slowDown) 
+    public void ApplySlowDown(float _slowDown) 
     {
         rb.AddForce(-rb.linearVelocity.normalized * _slowDown, ForceMode.Acceleration);
 
