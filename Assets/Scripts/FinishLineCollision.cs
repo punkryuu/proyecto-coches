@@ -7,10 +7,19 @@ public class FinishLineCollision : MonoBehaviour
     [SerializeField] TMP_Text lapCounterText;
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("finish") && raceController.lapCounter <= 3)
+        if (raceController.playerLapCounter <= 3)
         {
-            raceController.lapCounter++;
-            lapCounterText.text = raceController.lapCounter.ToString();
+            CarIdetifier carIdetifier = other.GetComponent<CarIdetifier>();
+            if (carIdetifier == null) return;
+            if(carIdetifier.isPlayer)
+            {
+                raceController.playerLapCounter++;
+                lapCounterText.text = raceController.playerLapCounter.ToString();
+            }
+           else
+            {
+                raceController.IncrementNPCLapCounter(other.gameObject);
+            }
         }
     }
 }

@@ -13,7 +13,8 @@ public class ModoCarrera : MonoBehaviour
     public PersonajeSO[] SOOptions;
     public  List <PersonajeSO> selectedCharacters = new List<PersonajeSO>();
     public int characterCount = 3;
-    public int lapCounter = 0;
+    public int playerLapCounter = 0;
+    public Dictionary<GameObject,int> npcLapCounter = new Dictionary<GameObject,int>();
     int raceCounter = 0;
 
     [SerializeField] TMP_Text countdownText;
@@ -58,10 +59,27 @@ public class ModoCarrera : MonoBehaviour
  
     void NextRace()
     {
-        if(lapCounter > 3)
+        if(playerLapCounter > 3)
         {
             raceCounter++;
             UnityEngine.SceneManagement.SceneManager.LoadScene(raceCounter);//cambiar cuando esté el siguiente escenario
+        }
+    }
+
+    public void RegisterNPC(GameObject npc)
+    {
+        if (!npcLapCounter.ContainsKey(npc))
+            npcLapCounter.Add(npc, 0);
+    }
+    public void IncrementNPCLapCounter(GameObject npc)
+    {
+        if (npcLapCounter.ContainsKey(npc))
+        {
+            npcLapCounter[npc]++;
+        }
+        else
+        {
+            npcLapCounter[npc] = 1;// Si el NPC no tiene un contador, lo inicializamos en 1
         }
     }
     IEnumerator StartCountdown()
