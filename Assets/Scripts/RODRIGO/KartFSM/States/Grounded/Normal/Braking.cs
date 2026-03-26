@@ -12,8 +12,6 @@ public class Braking : Normal
     {
         base.Enter();
         _fsm.stateName.text = name;
-        _fsm.fordwardSpeed = -_fsm.acceleration/2;
-
     }
     public override void UpdateLogic()
     {
@@ -33,6 +31,6 @@ public class Braking : Normal
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        _fsm.FordwardMovement(_fsm.hitBox.transform.forward);
+        _fsm.ApplyBrake(_fsm.brakePower);
     }
 }

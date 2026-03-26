@@ -404,9 +404,10 @@ MonoBehaviour:
   rb: {fileID: 0}
   hitBox: {fileID: 0}
   maxSpeed: 100
-  fordwardSpeed: 0
-  acceleration: 10
-  steer: 25
+  accelerationPower: 50
+  brakePower: 25
+  steerPower: 80
+  gravityForce: 50
   accelerateInput: 0
   brakeInput: 0
   steerInput: 0
@@ -468,7 +469,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4445134920326946967}
-  - component: {fileID: 6072499393147424732}
+  - component: {fileID: 7406414930145537838}
   m_Layer: 7
   m_Name: HitBox
   m_TagString: Untagged
@@ -492,8 +493,8 @@ Transform:
   - {fileID: 1232648858020963825}
   m_Father: {fileID: 918635737100812005}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &6072499393147424732
-CapsuleCollider:
+--- !u!65 &7406414930145537838
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -505,15 +506,13 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 320
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.5
-  m_Height: 5
-  m_Direction: 2
+  serializedVersion: 3
+  m_Size: {x: 2.5, y: 2, z: 4.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6281987217537393359
 GameObject:

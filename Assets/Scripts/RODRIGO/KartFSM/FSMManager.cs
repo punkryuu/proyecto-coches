@@ -25,7 +25,7 @@ public class FSMManager : StateMachineFlow
     private float currentRotate;
     private float targetRotate;
 
-    public float gravityForce = 50f;
+    public float gravityForce = 100f;
 
     public bool accelerateInput;
     public bool brakeInput;
@@ -69,22 +69,27 @@ public class FSMManager : StateMachineFlow
     {
         rb.AddForce(-transform.forward * power, ForceMode.Acceleration);
     }
+    
+    public void ApplySteer()
+    {
+        float targetRotate = 0f;
 
         if (steerInput != 0)
         {
-            targetRotate = steer * steerInput;
+            sbyte dir;
+            if ((sbyte)(steerPower) > 0)
+            {
+                dir = 1;
+            }
+            else dir = -1;
+            targetRotate = steerPower * steerInput;
         }
-        float currentSpeed = rb.linearVelocity.magnitude;
-        targetRotate = steerInput * steerPower;
 
-
-    }
-    public void ApplySteer()
-    {
         currentRotate = Mathf.Lerp(currentRotate, targetRotate, Time.deltaTime * 4f);
 
         Vector3 targetRotation = new Vector3(0, transform.eulerAngles.y + currentRotate, 0);
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, targetRotation, Time.deltaTime * 5f);
+
     }
     public void ApplyGravity()
     {

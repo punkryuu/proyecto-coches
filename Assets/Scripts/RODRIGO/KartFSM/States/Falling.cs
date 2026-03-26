@@ -26,6 +26,6 @@ public class Falling: TemplateStateMachine {
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        _fsm.Gravity();
+        _fsm.ApplyGravity();
     }
 }

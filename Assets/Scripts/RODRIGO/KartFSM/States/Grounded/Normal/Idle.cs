@@ -41,7 +41,7 @@ public class Idle : Normal
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        _fsm.SlowDown(2f);
+        _fsm.ApplySlowDown(2f);
     }
 
 }

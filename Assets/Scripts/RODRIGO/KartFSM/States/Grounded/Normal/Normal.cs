@@ -16,6 +16,6 @@ public class Normal : Grounded
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        //_fsm.Steer();
+        _fsm.ApplySteer();
     }
 }

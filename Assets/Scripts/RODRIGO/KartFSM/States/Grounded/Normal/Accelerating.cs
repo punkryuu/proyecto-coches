@@ -12,8 +12,6 @@ public class Accelerating : Normal
     {
         base.Enter();
         _fsm.stateName.text = name;
-        _fsm.fordwardSpeed = _fsm.acceleration;
-
 
     }
     public override void UpdateLogic()
@@ -34,6 +32,6 @@ public class Accelerating : Normal
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        _fsm.FordwardMovement(_fsm.hitBox.transform.forward);
+        _fsm.ApplyAcceleration(_fsm.accelerationPower);
     }
 }
