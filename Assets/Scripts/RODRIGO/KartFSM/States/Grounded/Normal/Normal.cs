@@ -17,5 +17,6 @@ public class Normal : Grounded
     {
         base.UpdatePhysics();
         _fsm.ApplySteer();
+        _fsm.ApplyLateralFriction();
     }
 }

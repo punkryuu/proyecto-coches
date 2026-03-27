@@ -1649,6 +1649,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player.V2
       objectReference: {fileID: 0}
+    - target: {fileID: 6906419765089951152, guid: 7fb065129d356644782395ff78cd1468, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 6942431811437918486, guid: 7fb065129d356644782395ff78cd1468, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6942431811437918486, guid: 7fb065129d356644782395ff78cd1468, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

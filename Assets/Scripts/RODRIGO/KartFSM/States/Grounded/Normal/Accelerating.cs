@@ -32,6 +32,6 @@ public class Accelerating : Normal
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        _fsm.ApplyAcceleration(_fsm.accelerationPower);
+        _fsm.ApplyAcceleration();
     }
 }

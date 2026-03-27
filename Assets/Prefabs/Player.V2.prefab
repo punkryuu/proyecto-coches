@@ -403,11 +403,6 @@ MonoBehaviour:
   stateName: {fileID: 2702613700133972365}
   rb: {fileID: 0}
   hitBox: {fileID: 0}
-  maxSpeed: 100
-  accelerationPower: 50
-  brakePower: 25
-  steerPower: 80
-  gravityForce: 50
   accelerateInput: 0
   brakeInput: 0
   steerInput: 0
@@ -458,7 +453,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!1 &5555443707811750602
 GameObject:
@@ -469,7 +464,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4445134920326946967}
-  - component: {fileID: 7406414930145537838}
+  - component: {fileID: 9002019786373921149}
   m_Layer: 7
   m_Name: HitBox
   m_TagString: Untagged
@@ -493,8 +488,8 @@ Transform:
   - {fileID: 1232648858020963825}
   m_Father: {fileID: 918635737100812005}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7406414930145537838
-BoxCollider:
+--- !u!136 &9002019786373921149
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -511,8 +506,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.5, y: 2, z: 4.5}
+  serializedVersion: 2
+  m_Radius: 1.5
+  m_Height: 4.5
+  m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6281987217537393359
 GameObject:

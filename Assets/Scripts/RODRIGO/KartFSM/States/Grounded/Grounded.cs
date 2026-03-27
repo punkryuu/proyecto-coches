@@ -10,12 +10,24 @@ public class Grounded : TemplateStateMachine
     {
         _fsm = _stateMachineFlow;
     }
+    private float groundTimer = 0f;
+
     public override void UpdateLogic()
     {
         base.UpdateLogic();
+
         if (!_fsm.CheckGrounded())
         {
-            stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).fallingState);
+            groundTimer += Time.deltaTime;
+
+            if (groundTimer > 0.1f)
+            {
+                stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).fallingState);
+            }
+        }
+        else
+        {
+            groundTimer = 0f;
         }
     }
 }

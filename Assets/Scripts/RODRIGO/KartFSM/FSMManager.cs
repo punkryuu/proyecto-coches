@@ -17,15 +17,16 @@ public class FSMManager : StateMachineFlow
     public Collider hitBox;
 
 
-    public float maxSpeed = 100f;
-    public float accelerationPower = 50f;
-    public float brakePower = 25f;
+    public const float maxSpeed = 50f;
+    public const float accelerationPower = 20f;
+    public const float brakePower = 25f;
 
-    public float steerPower = 80f;
+    public const float steerPower = 25f;
+    public const float frictionStrength = 2f;
     private float currentRotate;
     private float targetRotate;
 
-    public float gravityForce = 100f;
+    public  const float gravityForce = 100f;
 
     public bool accelerateInput;
     public bool brakeInput;
@@ -61,13 +62,13 @@ public class FSMManager : StateMachineFlow
     {
         return inputActions;
     }
-    public void ApplyAcceleration(float power) 
+    public void ApplyAcceleration(float power = accelerationPower) 
     {
-        rb.AddForce(transform.forward * power, ForceMode.Acceleration);
+        rb.AddForce(hitBox.transform.forward * power, ForceMode.Acceleration);
     }
-    public void ApplyBrake(float power)
+    public void ApplyBrake(float power = brakePower)
     {
-        rb.AddForce(-transform.forward * power, ForceMode.Acceleration);
+        rb.AddForce(-hitBox.transform.forward * power, ForceMode.Acceleration);
     }
     
     public void ApplySteer()
@@ -76,20 +77,17 @@ public class FSMManager : StateMachineFlow
 
         if (steerInput != 0)
         {
-            sbyte dir;
-            if ((sbyte)(steerPower) > 0)
-            {
-                dir = 1;
-            }
-            else dir = -1;
             targetRotate = steerPower * steerInput;
         }
 
         currentRotate = Mathf.Lerp(currentRotate, targetRotate, Time.deltaTime * 4f);
-
-        Vector3 targetRotation = new Vector3(0, transform.eulerAngles.y + currentRotate, 0);
-        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, targetRotation, Time.deltaTime * 5f);
-
+        Vector3 targetRotation = new Vector3(0, hitBox.transform.eulerAngles.y + currentRotate, 0);
+        hitBox.transform.eulerAngles = Vector3.Lerp(hitBox.transform.eulerAngles, targetRotation, Time.deltaTime * 5f);
+    }
+    public void ApplyLateralFriction(float frictionStrength = frictionStrength)
+    {
+        Vector3 lateralVelocity = Vector3.ProjectOnPlane(rb.linearVelocity, hitBox.transform.forward);
+        rb.AddForce(-lateralVelocity * frictionStrength, ForceMode.Acceleration);
     }
     public void ApplyGravity()
     {
@@ -97,8 +95,7 @@ public class FSMManager : StateMachineFlow
     }
     public void ApplySlowDown(float _slowDown) 
     {
-        rb.AddForce(-rb.linearVelocity.normalized * _slowDown, ForceMode.Acceleration);
-
+        rb.AddForce(-rb.linearVelocity * _slowDown, ForceMode.Acceleration);
     }
 
 }

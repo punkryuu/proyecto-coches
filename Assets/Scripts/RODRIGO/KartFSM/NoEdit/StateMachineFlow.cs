@@ -22,7 +22,8 @@ public class StateMachineFlow : MonoBehaviour
 
         }
     }
-    private void LateUpdate()
+    //ocurria un jitter raro asi que modifique el lateUpdate por FixedUpdate dado que todas las funciones son cosas de físicas
+    private void FixedUpdate()
     {
         if (currentState != null)
         {

@@ -31,6 +31,6 @@ public class Braking : Normal
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        _fsm.ApplyBrake(_fsm.brakePower);
+        _fsm.ApplyBrake();
     }
 }
