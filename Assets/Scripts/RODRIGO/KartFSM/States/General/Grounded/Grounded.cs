@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grounded : TemplateStateMachine
+public class Grounded : General
 {
     private FSMManager _fsm;
 
-    public Grounded(string name, FSMManager _stateMachineFlow) : base(name, (StateMachineFlow)_stateMachineFlow)
+    public Grounded(string name, FSMManager _stateMachineFlow) : base(name, _stateMachineFlow)
     {
         _fsm = _stateMachineFlow;
     }
@@ -30,4 +30,5 @@ public class Grounded : TemplateStateMachine
             groundTimer = 0f;
         }
     }
+
 }

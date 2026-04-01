@@ -11,12 +11,12 @@ public class Normal : Grounded
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        _fsm.steerInput = _fsm.GetInputActions().Driving.Steer.ReadValue<float>();
+        _fsm.horizontalInput = _fsm.GetInputActions().Driving.Steer.ReadValue<float>();
+
     }
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
         _fsm.ApplySteer();
-        _fsm.ApplyLateralFriction();
     }
 }

@@ -22,7 +22,7 @@ public class Idle : Normal
 
         _fsm.accelerateInput = _fsm.GetInputActions().Driving.Accelerate.IsPressed();
         _fsm.brakeInput = _fsm.GetInputActions().Driving.Stop.IsPressed();
-        _fsm.steerInput = _fsm.GetInputActions().Driving.Steer.ReadValue<float>();
+        _fsm.horizontalInput = _fsm.GetInputActions().Driving.Steer.ReadValue<float>();
         if (_fsm.accelerateInput)
         {
             stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).acceleratingState);
@@ -31,17 +31,11 @@ public class Idle : Normal
         {
             stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).brakingState);
         }
-        /*
-        if (!_fsm.CheckGrounded())
-        {
-            stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).fallingState);
-        }
-        */
     }
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        _fsm.ApplySlowDown(2f);
+        _fsm.ApplySlowDown();
     }
 
 }
