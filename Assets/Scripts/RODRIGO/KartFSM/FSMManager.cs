@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class FSMManager : StateMachineFlow {
     [Header("Estados")]
@@ -32,9 +33,17 @@ public class FSMManager : StateMachineFlow {
     public float driftTimer;
     public float driftSideForce = 10f;
     public float driftAngle = 40f;
+    public float driftEntrySpeed = 120f;   
+    private float currentDriftAngle;
     public sbyte driftDirection; // 0 = ninguno, 1 = derecha, 2 = izquierda
     public bool driftFlag = false;
     private Quaternion driftBaseRotation;
+    bool first, second, third;
+
+    [Header("particles")]
+    public List<ParticleSystem> driftParticles;
+    public List<ParticleSystem> turboParticles;
+
     // Inputs
     public bool accelerateInput;
     public bool brakeInput;
@@ -60,6 +69,7 @@ public class FSMManager : StateMachineFlow {
         // Si no se asigna cámara, buscar una por defecto
         if (cameraFollow == null && Camera.main != null)
             cameraFollow = Camera.main.transform;
+        InstanceParticles();
     }
 
     protected override void GetinitialState(out TemplateStateMachine _stateMachine)
@@ -168,7 +178,7 @@ public class FSMManager : StateMachineFlow {
                 Vector3.up
             );
 
-            cameraFollow.rotation = Quaternion.Slerp(cameraFollow.rotation, targetRot, Time.deltaTime * 5f);
+            hitBox.transform.rotation = Quaternion.Slerp(hitBox.transform.rotation, targetRot, Time.deltaTime * 5f);
         }
 
         ApplyLateralFriction(frictionPower);
@@ -178,12 +188,18 @@ public class FSMManager : StateMachineFlow {
 
     public void RotateHitbox()
     {
-        if (driftFlag) return;
+        if (driftFlag)
+        {
+            RotateHitboxDrift();
+            return;
+        }
+
         Vector3 avgNormal = GetAverageGroundNormals();
         if (avgNormal == Vector3.zero) avgNormal = Vector3.up;
 
         Vector3 forwardProj = Vector3.ProjectOnPlane(hitBox.transform.forward, avgNormal).normalized;
         Quaternion targetRot = Quaternion.LookRotation(forwardProj, avgNormal);
+
         hitBox.transform.rotation = Quaternion.Slerp(hitBox.transform.rotation, targetRot, Time.deltaTime * 10f);
     }
 
@@ -198,10 +214,8 @@ public class FSMManager : StateMachineFlow {
         if (driftDirection == 0) driftDirection = 1;
 
         driftBaseRotation = hitBox.transform.rotation;
-
-        Quaternion baseDrift = Quaternion.Euler(0, driftAngle * driftDirection, 0);
-
-        hitBox.transform.rotation = driftBaseRotation * baseDrift;
+        currentDriftAngle = 0f;
+        PlayDriftParticles();
     }
 
 
@@ -209,51 +223,160 @@ public class FSMManager : StateMachineFlow {
 
     public void ApplyDriftMovement()
     {
+        if (currentDriftAngle < driftAngle)
+        {
+            currentDriftAngle += driftEntrySpeed * Time.deltaTime;
+            if (currentDriftAngle > driftAngle) currentDriftAngle = driftAngle;
+        }
         float adjustAngle = horizontalInput * driftPower;
-
         Quaternion adjustRot = Quaternion.Euler(0, adjustAngle, 0);
+        float spin = driftDirection * driftPower * driftTimer *2;
+        Quaternion spinRot = Quaternion.Euler(0, spin, 0);
 
-        Quaternion targetRot = driftBaseRotation * Quaternion.Euler(0, driftAngle * driftDirection, 0) * adjustRot;
-
-        cameraFollow.transform.rotation = Quaternion.Slerp(
-            cameraFollow.transform.rotation,
+        Quaternion targetRot = driftBaseRotation
+            * Quaternion.Euler(0, currentDriftAngle * driftDirection, 0)
+            * adjustRot
+            * spinRot;
+        hitBox.transform.transform.rotation = Quaternion.Slerp(
+            hitBox.transform.transform.rotation,
             targetRot,
             Time.deltaTime * 8f
         );
 
-        Vector3 accelForce =  Vector3.zero;
-        // Movimiento
+        //movimiento
+        Vector3 accelForce = Vector3.zero;
         if (accelerateInput)
         {
             accelForce = hitBox.transform.forward * accelerationPower * 0.8f;
         }
-        rb.AddForce(accelForce+ (hitBox.transform.right * -driftDirection * driftSideForce), ForceMode.Acceleration);
+        rb.AddForce(accelForce + (hitBox.transform.right * -driftDirection * driftSideForce), ForceMode.Acceleration);
         ApplyLateralFriction(driftFrictionPower);
+        driftTimer += Time.deltaTime;
     }
 
-    
-   
+
+
 
     public void EndDrift()
     {
         driftFlag = false;
+        StopDriftParticles();
+    }
+    public void RotateHitboxDrift()
+    {
+        Vector3 avgNormal = GetAverageGroundNormals();
+        if (avgNormal == Vector3.zero) avgNormal = Vector3.up;
 
-        Vector3 camForward = cameraFollow.forward;
-        camForward.y = 0;
-        camForward.Normalize();
+        Vector3 forward = hitBox.transform.forward;
 
-        Quaternion targetRot = Quaternion.LookRotation(camForward, Vector3.up);
+        Vector3 projectedForward = Vector3.ProjectOnPlane(forward, avgNormal).normalized;
 
-        hitBox.transform.rotation = targetRot;
+        Quaternion groundRotation = Quaternion.LookRotation(projectedForward, avgNormal);
 
-        float speed = rb.linearVelocity.magnitude;
-        rb.linearVelocity = camForward * speed;
+        hitBox.transform.rotation = Quaternion.Slerp(
+            hitBox.transform.rotation,
+            groundRotation,
+            Time.deltaTime * 10f
+        );
     }
 
     // ==================== PARTÍCULAS ====================
+    public void PlayDriftParticles()
+    {
+        foreach (var p in driftParticles) p.Play();
+    }
+
+    public void StopDriftParticles()
+    {
+        foreach (var p in driftParticles) p.Stop();
+    }
+
+    public void ClearDriftParticles()
+    {
+        foreach (var p in driftParticles) p.Clear();
+    }
+
+    public void SetDriftParticlesColor(Color color)
+    {
+        foreach (var p in driftParticles)
+        {
+            var main = p.main;
+            main.startColor = color;
+        }
+    }
+
+    public void PlayTurboParticles()
+    {
+        foreach (var p in turboParticles) p.Play();
+    }
+
+    public void StopTurboParticles()
+    {
+        foreach (var p in turboParticles) p.Stop();
+    }
+    public void SetDriftParticles(List<ParticleSystem> particles) => driftParticles = particles;
+    public void SetTurboParticles(List<ParticleSystem> particles) => turboParticles = particles;
+    public void InstanceParticles()
+    {
+        // Buscar partículas
+        Transform driftParticles = hitBox.transform.Find("Visual/RanaCoche/driftParticles");
+        Transform turboParticles = hitBox.transform.Find("Visual/RanaCoche/turboParticles");
+
+        List<ParticleSystem> driftList = new List<ParticleSystem>();
+        List<ParticleSystem> turboList = new List<ParticleSystem>();
+
+        if (driftParticles != null)
+        {
+            for (int i = 0; i < driftParticles.GetChild(0).childCount; i++)
+                driftList.Add(driftParticles.GetChild(0).GetChild(i).GetComponent<ParticleSystem>());
+            for (int i = 0; i < driftParticles.GetChild(1).childCount; i++)
+                driftList.Add(driftParticles.GetChild(1).GetChild(i).GetComponent<ParticleSystem>());
+        }
+
+        if (turboParticles != null)
+        {
+            for (int i = 0; i < turboParticles.GetChild(0).childCount; i++)
+                turboList.Add(turboParticles.GetChild(0).GetChild(i).GetComponent<ParticleSystem>());
+            for (int i = 0; i < turboParticles.GetChild(1).childCount; i++)
+                turboList.Add(turboParticles.GetChild(1).GetChild(i).GetComponent<ParticleSystem>());
+        }
+
+        SetDriftParticles(driftList);
+        SetTurboParticles(turboList);
+    }
+    public void UpdateDriftLevel()
+    {
+        bool colorChanged = false;
+        Color newColor = Color.clear;
+
+        if (!first && driftTimer > 2)
+        {
+            newColor = Color.yellow;
+            first = true;
+            colorChanged = true;
+        }
+        else if (first && !second && driftTimer > 4)
+        {
+            newColor = Color.red;
+            second = true;
+            colorChanged = true;
+        }
+        else if (first && second && !third && driftTimer > 10)
+        {
+            newColor = Color.cyan;
+            third = true;
+            colorChanged = true;
+        }
+
+        if (colorChanged)
+        {
+            SetDriftParticlesColor(newColor);
+            PlayDriftParticles();
+        }
+    }
 
 
-    // ==================== UTILIDADES ====================
+    // ==================== ????? ====================
     private float Remap(float val, float from1, float to1, float from2, float to2)
     {
         return (val - from1) / (to1 - from1) * (to2 - from2) + from2;

@@ -25,6 +25,7 @@ public class Drifting : Grounded
             stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).idleState);
         }
         _fsm.horizontalInput = _fsm.GetInputActions().Driving.Steer.ReadValue<float>();
+        _fsm.UpdateDriftLevel();
     }
     public override void UpdatePhysics()
     {

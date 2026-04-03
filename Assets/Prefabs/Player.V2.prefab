@@ -28,11 +28,11 @@ Transform:
   m_GameObject: {fileID: 783552080401079335}
   serializedVersion: 2
   m_LocalRotation: {x: 0.13629092, y: -0, z: -0, w: 0.9906689}
-  m_LocalPosition: {x: 0, y: 4.5, z: -8.50001}
+  m_LocalPosition: {x: 0, y: 4, z: -8.500011}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6598501947968177138}
+  m_Father: {fileID: 4445134920326946967}
   m_LocalEulerAnglesHint: {x: 15.667, y: 0, z: 0}
 --- !u!20 &4624058992144317217
 Camera:
@@ -385,6 +385,7 @@ Transform:
   m_Children:
   - {fileID: 7552497246826747953}
   - {fileID: 6598501947968177138}
+  - {fileID: 4445134920326946967}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!114 &6201759470707482290
@@ -401,16 +402,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateName: {fileID: 2702613700133972365}
   cameraFollow: {fileID: 6598501947968177138}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  driftFrictionPower: 2
+  driftPower: 20
+  driftTimer: 0
+  driftSideForce: 10
+  driftAngle: 40
+  driftEntrySpeed: 120
+  driftDirection: 0
+  driftFlag: 0
   accelerateInput: 0
   brakeInput: 0
   horizontalInput: 0
   driftInput: 0
-  driftParticles: []
-  turboParticles: []
   isGrounded: 1
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!135 &6942431811437918486
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -487,9 +494,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4445134920326946967}
-  - {fileID: 8406692970054601640}
+  m_Children: []
   m_Father: {fileID: 918635737100812005}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5555443707811750602
@@ -523,7 +528,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1232648858020963825}
-  m_Father: {fileID: 6598501947968177138}
+  - {fileID: 8406692970054601640}
+  m_Father: {fileID: 918635737100812005}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &9002019786373921149
 CapsuleCollider:
