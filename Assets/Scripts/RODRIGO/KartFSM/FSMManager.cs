@@ -11,6 +11,8 @@ public class FSMManager : StateMachineFlow {
     public Braking brakingState;
     public Falling fallingState;
     public Drifting driftingState;
+    public Boosting boostingState;
+
 
     [Header("Referencias")]
     [SerializeField] private Transform cameraFollow;
@@ -39,6 +41,18 @@ public class FSMManager : StateMachineFlow {
     public bool driftFlag = false;
     private Quaternion driftBaseRotation;
     bool first, second, third;
+    Color driftFirstColor =  Color.yellow;
+    Color driftSecondColor = Color.red;
+    Color driftThirdColor = Color.cyan;
+
+    [Header("Boost")]
+    
+    public BoostType currentBoostType;
+    public float boostDuration;
+    public enum BoostType {
+        Drift
+    }
+
 
     [Header("particles")]
     public List<ParticleSystem> driftParticles;
@@ -59,6 +73,7 @@ public class FSMManager : StateMachineFlow {
         brakingState = new Braking(this);
         fallingState = new Falling(this);
         driftingState = new Drifting(this);
+        boostingState = new Boosting(this);
 
         // Componentes
         inputActions = new PlayerInputActions();
@@ -131,15 +146,15 @@ public class FSMManager : StateMachineFlow {
         return new Vector3(avg.x, 1f, avg.z).normalized;
     }
 
-    // ==================== MOVIMIENTO BÁSICO ====================
-    public void ApplyAcceleration(float power = -1f)
+    // ==================== MOVIMIENTO ====================
+    public void ApplyAcceleration(float power = -1f)//Accelerating
     {
         if (power < 0) power = accelerationPower;
         if (rb.linearVelocity.magnitude < maxSpeed)
             rb.AddForce(hitBox.transform.forward * power, ForceMode.Acceleration);
     }
 
-    public void ApplyBrake(float power = -1f)
+    public void ApplyBrake(float power = -1f)//Braking
     {
         if (power < 0) power = brakePower;
         if (rb.linearVelocity.magnitude < maxSpeed)
@@ -148,25 +163,25 @@ public class FSMManager : StateMachineFlow {
     }
 
 
-    public void ApplySlowDown(float slowDown = 2f)
+    public void ApplySlowDown(float slowDown = 2f)//Idle
     {
         if (rb.linearVelocity.magnitude > 0.1f)
             rb.AddForce(-rb.linearVelocity.normalized * slowDown, ForceMode.Acceleration);
     }
 
-    public void ApplyGravity()
+    public void ApplyGravity()//Falling y Boosting
     {
         rb.AddForce(gravityForce * Vector3.down, ForceMode.Acceleration);
     }
 
-    public void ApplyLateralFriction(float strength)
+    public void ApplyLateralFriction(float strength)//Normal y Drift
     {
         Vector3 forward = hitBox.transform.forward;
 
         Vector3 lateralVel = Vector3.ProjectOnPlane(rb.linearVelocity, forward);
         rb.AddForce(-lateralVel * strength, ForceMode.Acceleration);
     }
-    public void ApplySteer()
+    public void ApplySteer()//Normal
     {
         if (Mathf.Abs(horizontalInput) > Mathf.Epsilon && rb.linearVelocity != Vector3.zero)
         {
@@ -186,7 +201,7 @@ public class FSMManager : StateMachineFlow {
 
 
 
-    public void RotateHitbox()
+    public void RotateHitbox()//General 
     {
         if (driftFlag)
         {
@@ -204,7 +219,7 @@ public class FSMManager : StateMachineFlow {
     }
 
     // ==================== DRIFT ====================
-    public void StartDrift()
+    public void StartDrift()//Drifting
     {
 
         driftFlag = true;
@@ -215,14 +230,16 @@ public class FSMManager : StateMachineFlow {
 
         driftBaseRotation = hitBox.transform.rotation;
         currentDriftAngle = 0f;
-        PlayDriftParticles();
+        SetDriftParticlesColor(driftFirstColor);
+
     }
 
 
 
 
-    public void ApplyDriftMovement()
+    public void ApplyDriftMovement()//Drifting
     {
+        driftTimer += Time.deltaTime;
         if (currentDriftAngle < driftAngle)
         {
             currentDriftAngle += driftEntrySpeed * Time.deltaTime;
@@ -251,18 +268,24 @@ public class FSMManager : StateMachineFlow {
         }
         rb.AddForce(accelForce + (hitBox.transform.right * -driftDirection * driftSideForce), ForceMode.Acceleration);
         ApplyLateralFriction(driftFrictionPower);
-        driftTimer += Time.deltaTime;
     }
 
 
 
 
-    public void EndDrift()
+    public void EndDrift()//Drifting
     {
         driftFlag = false;
+        first = second = third = false;
         StopDriftParticles();
+        ClearDriftParticles();
+
     }
-    public void RotateHitboxDrift()
+    public bool CanBoost() //Drifting
+    {
+        return isGrounded && first;
+    }
+    public void RotateHitboxDrift()//Drifting
     {
         Vector3 avgNormal = GetAverageGroundNormals();
         if (avgNormal == Vector3.zero) avgNormal = Vector3.up;
@@ -279,24 +302,71 @@ public class FSMManager : StateMachineFlow {
             Time.deltaTime * 10f
         );
     }
+    public void UpdateDriftLevel()//Drifting
+    {
+        bool colorChanged = false;
+        Color newColor = Color.clear;
+
+        if (!first && driftTimer > 0.5)
+        {
+            newColor = driftFirstColor;
+            first = true;
+            colorChanged = true;
+        }
+        else if (first && !second && driftTimer > 3)
+        {
+            newColor = driftSecondColor;
+            second = true;
+            colorChanged = true;
+        }
+        else if (first && second && !third && driftTimer > 5)
+        {
+            newColor = driftThirdColor;
+            third = true;
+            colorChanged = true;
+        }
+
+        if (colorChanged)
+        {
+            SetDriftParticlesColor(newColor);
+            PlayDriftParticles();
+        }
+    }
+    // ==================== BOOST ====================
+
+    public float GetBoostDurationAfterDrift()
+    {
+        if (third) return 1f;
+        if (second) return 0.75f;
+        if (first) return 0.5f;
+
+        return 0f;
+    }
+    public void ApplyBoostSpeed()
+    {
+        Vector3 v = rb.linearVelocity;
+        Vector3 forward = hitBox.transform.forward * maxSpeed;
+
+        rb.linearVelocity = new Vector3(forward.x, v.y, forward.z);
+    }
 
     // ==================== PARTÍCULAS ====================
-    public void PlayDriftParticles()
+    public void PlayDriftParticles()//Drifting
     {
         foreach (var p in driftParticles) p.Play();
     }
 
-    public void StopDriftParticles()
+    public void StopDriftParticles()//Drifting
     {
         foreach (var p in driftParticles) p.Stop();
     }
 
-    public void ClearDriftParticles()
+    public void ClearDriftParticles()//Drifting
     {
         foreach (var p in driftParticles) p.Clear();
     }
 
-    public void SetDriftParticlesColor(Color color)
+    public void SetDriftParticlesColor(Color color)//Drifting
     {
         foreach (var p in driftParticles)
         {
@@ -305,17 +375,17 @@ public class FSMManager : StateMachineFlow {
         }
     }
 
-    public void PlayTurboParticles()
+    public void PlayTurboParticles()//Boosting
     {
         foreach (var p in turboParticles) p.Play();
     }
 
-    public void StopTurboParticles()
+    public void StopTurboParticles()//Boosting
     {
         foreach (var p in turboParticles) p.Stop();
     }
-    public void SetDriftParticles(List<ParticleSystem> particles) => driftParticles = particles;
-    public void SetTurboParticles(List<ParticleSystem> particles) => turboParticles = particles;
+    public void SetDriftParticles(List<ParticleSystem> particles) => driftParticles = particles;//Drifting
+    public void SetTurboParticles(List<ParticleSystem> particles) => turboParticles = particles;//Boosting
     public void InstanceParticles()
     {
         // Buscar partículas
@@ -344,36 +414,7 @@ public class FSMManager : StateMachineFlow {
         SetDriftParticles(driftList);
         SetTurboParticles(turboList);
     }
-    public void UpdateDriftLevel()
-    {
-        bool colorChanged = false;
-        Color newColor = Color.clear;
-
-        if (!first && driftTimer > 2)
-        {
-            newColor = Color.yellow;
-            first = true;
-            colorChanged = true;
-        }
-        else if (first && !second && driftTimer > 4)
-        {
-            newColor = Color.red;
-            second = true;
-            colorChanged = true;
-        }
-        else if (first && second && !third && driftTimer > 10)
-        {
-            newColor = Color.cyan;
-            third = true;
-            colorChanged = true;
-        }
-
-        if (colorChanged)
-        {
-            SetDriftParticlesColor(newColor);
-            PlayDriftParticles();
-        }
-    }
+    
 
 
     // ==================== ????? ====================
