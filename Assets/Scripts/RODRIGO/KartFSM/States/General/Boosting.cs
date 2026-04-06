@@ -23,6 +23,8 @@ public override void Enter()
                 Debug.Log("Boost de drift");
                 break;
         }
+        _fsm.PlayTurboParticles();    
+    
     }
     public override void UpdateLogic()
     {
@@ -34,6 +36,7 @@ public override void Enter()
 
         if (timer >= _fsm.boostDuration)
         {
+            _fsm.StopTurboParticles();
             stateMachineFlow.ChangeState(_fsm.idleState);
         }
     }
