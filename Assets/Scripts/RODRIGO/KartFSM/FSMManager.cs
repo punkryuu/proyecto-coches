@@ -203,11 +203,6 @@ public class FSMManager : StateMachineFlow {
 
     public void RotateHitbox()//General 
     {
-        if (driftFlag)
-        {
-            RotateHitboxDrift();
-            return;
-        }
 
         Vector3 avgNormal = GetAverageGroundNormals();
         if (avgNormal == Vector3.zero) avgNormal = Vector3.up;

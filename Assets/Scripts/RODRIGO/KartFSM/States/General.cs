@@ -10,6 +10,7 @@ public class General: TemplateStateMachine
     }
     public override void UpdatePhysics()
     {
-        _fsm.RotateHitbox();
+        if (!_fsm.driftFlag) _fsm.RotateHitbox();
+        else _fsm.RotateHitboxDrift();
     }
 }
