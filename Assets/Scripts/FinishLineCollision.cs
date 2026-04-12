@@ -9,9 +9,15 @@ public class FinishLineCollision : MonoBehaviour
     {
         if (raceController.playerLapCounter <= 3)
         {
-            CarIdetifier carIdetifier = other.GetComponent<CarIdetifier>();
+            Debug.Log("Trigger con: " + other.name);
+            CarIdetifier carIdetifier = other.GetComponentInParent<CarIdetifier>();
             if (carIdetifier == null) return;
-            if (carIdetifier.isPlayer)
+
+            if(carIdetifier.currentWayPoint >= carIdetifier.totalWaypoints)
+            {
+                 
+            
+            if (carIdetifier.isPlayer )
             {
                 raceController.playerLapCounter++;
                 lapCounterText.text = raceController.playerLapCounter.ToString();
@@ -19,6 +25,8 @@ public class FinishLineCollision : MonoBehaviour
             else
             {
                 raceController.IncrementNPCLapCounter(other.gameObject);
+            }
+                carIdetifier.currentWayPoint = 0;
             }
         }
     }
