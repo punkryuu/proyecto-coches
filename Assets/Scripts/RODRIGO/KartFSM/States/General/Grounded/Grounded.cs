@@ -10,24 +10,18 @@ public class Grounded : General
     {
         _fsm = _stateMachineFlow;
     }
-    private float groundTimer = 0f;
 
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-
+        _fsm.trickInput = _fsm.GetInputActions().Driving.Trick.IsPressed();
         if (!_fsm.CheckGrounded())
         {
-            groundTimer += Time.deltaTime;
-
-            if (groundTimer > 0.1f)
+            if (_fsm.canTrick&&_fsm.trickInput)
             {
-                stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).fallingState);
+                stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).trickingState);
             }
-        }
-        else
-        {
-            groundTimer = 0f;
+            else { stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).fallingState); }
         }
     }
 

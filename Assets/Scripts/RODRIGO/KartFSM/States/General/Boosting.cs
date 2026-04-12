@@ -10,17 +10,24 @@ public class Boosting : General
     {
     _fsm = _stateMachineFlow;
 }
-public override void Enter()
-{
+    public override void Enter()
+    {
         base.Enter();
-        _fsm.stateName.text = name;
-
-        timer = 0f; 
+        timer = 0f;
 
         switch (_fsm.currentBoostType)
         {
             case BoostType.Drift:
-                Debug.Log("Boost de drift");
+                _fsm.boostDuration = _fsm.GetBoostDurationAfterDrift();
+                Debug.Log("Boost de drift - Duración: " + _fsm.boostDuration);
+                break;
+            case BoostType.Trick:
+                _fsm.boostDuration = _fsm.trickBoostDuration;
+                Debug.Log("Boost de truco - Duración: " + _fsm.boostDuration);
+                break;
+            default:
+                _fsm.boostDuration = 0.5f; 
+                Debug.LogWarning("desconocido, usando duración por defecto.");
                 break;
         }
         _fsm.PlayTurboParticles();    

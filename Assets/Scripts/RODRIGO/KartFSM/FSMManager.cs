@@ -12,6 +12,8 @@ public class FSMManager : StateMachineFlow {
     public Falling fallingState;
     public Drifting driftingState;
     public Boosting boostingState;
+    public Tricking trickingState;
+
 
 
     [Header("Referencias")]
@@ -49,10 +51,13 @@ public class FSMManager : StateMachineFlow {
     
     public BoostType currentBoostType;
     public float boostDuration;
+    public float trickBoostDuration = 0.5f;
     public enum BoostType {
-        Drift
+        Drift,Trick
     }
 
+    [Header("tricks")]
+    public bool canTrick;
 
     [Header("particles")]
     public List<ParticleSystem> driftParticles;
@@ -64,6 +69,7 @@ public class FSMManager : StateMachineFlow {
     public float horizontalInput;
     public bool driftInput;
     public bool isGrounded;
+    public bool trickInput;
 
     private void Awake()
     {
@@ -74,6 +80,7 @@ public class FSMManager : StateMachineFlow {
         fallingState = new Falling(this);
         driftingState = new Drifting(this);
         boostingState = new Boosting(this);
+        trickingState = new Tricking(this);
 
         // Componentes
         inputActions = new PlayerInputActions();
@@ -280,7 +287,7 @@ public class FSMManager : StateMachineFlow {
     {
         return isGrounded && first;
     }
-    public void RotateHitboxDrift()//Drifting
+    public void RotateHitboxDrift() //Drifting
     {
         Vector3 avgNormal = GetAverageGroundNormals();
         if (avgNormal == Vector3.zero) avgNormal = Vector3.up;
@@ -344,7 +351,7 @@ public class FSMManager : StateMachineFlow {
 
         rb.linearVelocity = new Vector3(forward.x, v.y, forward.z);
     }
-
+    //TRICKS
     // ==================== PARTÍCULAS ====================
     public void PlayDriftParticles()//Drifting
     {

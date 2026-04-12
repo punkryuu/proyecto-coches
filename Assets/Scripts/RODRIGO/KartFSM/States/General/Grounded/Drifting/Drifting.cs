@@ -28,16 +28,14 @@ public class Drifting : Grounded
             if (_fsm.CanBoost())
             {
                 _fsm.currentBoostType = BoostType.Drift;
-
-                _fsm.boostDuration = _fsm.GetBoostDurationAfterDrift();
                 _fsm.EndDrift();
                 stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).boostingState);
-
             }
-            else stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).idleState);
-        }
-        _fsm.horizontalInput = _fsm.GetInputActions().Driving.Steer.ReadValue<float>();
+            else
+                stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).idleState);
 
+            _fsm.horizontalInput = _fsm.GetInputActions().Driving.Steer.ReadValue<float>();
+        }
     }
     public override void UpdatePhysics()
     {
