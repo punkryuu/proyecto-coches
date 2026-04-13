@@ -405,19 +405,23 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  driftFrictionPower: 2
-  driftPower: 20
+  visual: {fileID: 1232648858020963825}
+  personajeSO: {fileID: 0}
   driftTimer: 0
-  driftSideForce: 10
-  driftAngle: 40
-  driftEntrySpeed: 120
   driftDirection: 0
   driftFlag: 0
+  currentBoostType: 0
+  boostDuration: 0
+  trickBoostDuration: 0.5
+  canTrick: 0
+  driftParticles: []
+  turboParticles: []
   accelerateInput: 0
   brakeInput: 0
   horizontalInput: 0
   driftInput: 0
   isGrounded: 1
+  trickInput: 0
 --- !u!135 &6942431811437918486
 SphereCollider:
   m_ObjectHideFlags: 0

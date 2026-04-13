@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.InputSystem.LowLevel.InputStateHistory;
 
 public class FSMManager : StateMachineFlow {
     [Header("Estados")]
@@ -14,54 +13,76 @@ public class FSMManager : StateMachineFlow {
     public Boosting boostingState;
     public Tricking trickingState;
 
-
-
     [Header("Referencias")]
     [SerializeField] private Transform cameraFollow;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Transform visual; // Contenedor del modelo visual (asignar en Inspector)
+
+    private Transform visualModel;
     private PlayerInputActions inputActions;
     private Rigidbody rb;
     private CapsuleCollider hitBox;
 
-    [Header("Movimiento")]
-    private float maxSpeed = 50f;
-     private float accelerationPower = 20f;
-    private float brakePower = 25f;
-    private float steerPower = 10f;
-    private float frictionPower = 10f;
-    private float gravityForce = 100f;
+    [Header("Configuración Base (sin multiplicadores)")]
+    private float baseMaxSpeed = 50f;
+    private float baseAcceleration = 20f;
+    private float baseBrakePower = 25f;
+    private float baseSteerPower = 10f;
+    private float baseFriction = 10f;
+    private float baseGravity = 100f;
+
+    [Header("Drift Base")]
+    private float baseDriftFriction = 2f;
+    private float baseDriftPower = 20f;
+    private float baseDriftSideForce = 10f;
+    private float baseDriftAngle = 40f;
+    private float baseDriftEntrySpeed = 120f;
+
+    [Header("Boost Base")]
+     private float baseBoostDurationMultiplier = 1f;
+
+    [Header("Referencia al SO de Personaje")]
+    [SerializeField] private PersonajeSO personajeSO;
+
+    // Variables finales (base * multiplicador)
+    private float maxSpeed;
+    private float accelerationPower;
+    private float brakePower;
+    private float steerPower;
+    private float frictionPower;
+    private float gravityForce;
+
+    private float driftFrictionPower;
+    private float driftPower;
+    private float driftSideForce;
+    private float driftAngle;
+    private float driftEntrySpeed;
+
+    private float boostDurationMultiplier;
 
     [Header("Drift")]
-    public float driftFrictionPower = 2f;
-    public float driftPower = 20f;
     public float driftTimer;
-    public float driftSideForce = 10f;
-    public float driftAngle = 40f;
-    public float driftEntrySpeed = 120f;   
-    private float currentDriftAngle;
-    public sbyte driftDirection; // 0 = ninguno, 1 = derecha, 2 = izquierda
+    public sbyte driftDirection;
     public bool driftFlag = false;
     private Quaternion driftBaseRotation;
+    private float currentDriftAngle;
     bool first, second, third;
-    Color driftFirstColor =  Color.yellow;
+    Color driftFirstColor = Color.yellow;
     Color driftSecondColor = Color.red;
     Color driftThirdColor = Color.cyan;
 
     [Header("Boost")]
-    
     public BoostType currentBoostType;
     public float boostDuration;
     public float trickBoostDuration = 0.5f;
-    public enum BoostType {
-        Drift,Trick
-    }
+    public enum BoostType { Drift, Trick }
 
-    [Header("tricks")]
+    [Header("Tricks")]
     public bool canTrick;
 
-    [Header("particles")]
-    public List<ParticleSystem> driftParticles;
-    public List<ParticleSystem> turboParticles;
+    [Header("Partículas")]
+    public List<ParticleSystem> driftParticles = new List<ParticleSystem>();
+    public List<ParticleSystem> turboParticles = new List<ParticleSystem>();
 
     // Inputs
     public bool accelerateInput;
@@ -88,15 +109,129 @@ public class FSMManager : StateMachineFlow {
         rb = GetComponent<Rigidbody>();
         hitBox = GetComponentInChildren<CapsuleCollider>();
 
-        // Si no se asigna cámara, buscar una por defecto
         if (cameraFollow == null && Camera.main != null)
             cameraFollow = Camera.main.transform;
-        InstanceParticles();
+
+        // Aplicar multiplicadores desde el SO
+        ApplyMultipliersFromSO();
+
+        // Instanciar modelo visual y partículas
+        InstantiateVisualSO();
     }
 
     protected override void GetinitialState(out TemplateStateMachine _stateMachine)
     {
         _stateMachine = idleState;
+    }
+
+    // ==================== INICIALIZACIÓN VISUAL ====================
+    private void InstantiateVisualSO()
+    {
+        if (personajeSO == null)
+        {
+            Debug.LogError("FSMManager: PersonajeSO no asignado.");
+            return;
+        }
+
+        if (personajeSO.visual == null)
+        {
+            Debug.LogWarning("FSMManager: El PersonajeSO no tiene modelo visual.");
+            return;
+        }
+
+
+        // Instanciar el modelo
+        GameObject visualInstance = Instantiate(personajeSO.visual, visual);
+        visualInstance.transform.localRotation = Quaternion.identity;
+        visualModel = visualInstance.transform;
+
+        // Limpiar listas actuales
+        driftParticles.Clear();
+        turboParticles.Clear();
+
+        // Buscar partículas de drift
+        Transform driftRoot = visualModel.Find(personajeSO.driftParticlesPath);
+        if (driftRoot != null)
+        {
+            for (int i = 0; i < driftRoot.childCount; i++)
+            {
+                Transform side = driftRoot.GetChild(i);
+                for (int j = 0; j < side.childCount; j++)
+                {
+                    ParticleSystem ps = side.GetChild(j).GetComponent<ParticleSystem>();
+                    if (ps != null) driftParticles.Add(ps);
+                }
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"No se encontró driftParticles en la ruta: {personajeSO.driftParticlesPath}");
+        }
+
+        // Buscar partículas de turbo
+        Transform turboRoot = visualModel.Find(personajeSO.turboParticlesPath);
+        if (turboRoot != null)
+        {
+            for (int i = 0; i < turboRoot.childCount; i++)
+            {
+                Transform side = turboRoot.GetChild(i);
+                for (int j = 0; j < side.childCount; j++)
+                {
+                    ParticleSystem ps = side.GetChild(j).GetComponent<ParticleSystem>();
+                    if (ps != null) turboParticles.Add(ps);
+                }
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"No se encontró turboParticles en la ruta: {personajeSO.turboParticlesPath}");
+        }
+
+    }
+
+    // ==================== MULTIPLICADORES ====================
+    private void ApplyMultipliersFromSO()
+    {
+        if (personajeSO == null)
+        {
+            maxSpeed = baseMaxSpeed;
+            accelerationPower = baseAcceleration;
+            brakePower = baseBrakePower;
+            steerPower = baseSteerPower;
+            frictionPower = baseFriction;
+            gravityForce = baseGravity;
+
+            driftFrictionPower = baseDriftFriction;
+            driftPower = baseDriftPower;
+            driftSideForce = baseDriftSideForce;
+            driftAngle = baseDriftAngle;
+            driftEntrySpeed = baseDriftEntrySpeed;
+
+            boostDurationMultiplier = baseBoostDurationMultiplier;
+            return;
+        }
+
+        maxSpeed = baseMaxSpeed * personajeSO.maxSpeedMultiplier;
+        accelerationPower = baseAcceleration * personajeSO.accelerationMultiplier;
+        brakePower = baseBrakePower;
+        steerPower = baseSteerPower * personajeSO.steeringMultiplier;
+
+        frictionPower = baseFriction * personajeSO.weightMultiplier;
+        gravityForce = baseGravity * personajeSO.weightMultiplier;
+
+        driftPower = baseDriftPower * personajeSO.driftControlMultiplier;
+        driftSideForce = baseDriftSideForce * personajeSO.driftControlMultiplier;
+        driftFrictionPower = baseDriftFriction;
+        driftAngle = baseDriftAngle;
+        driftEntrySpeed = baseDriftEntrySpeed;
+
+        boostDurationMultiplier = baseBoostDurationMultiplier * personajeSO.turboMultiplier;
+    }
+
+    public void SetPersonajeSO(PersonajeSO so)
+    {
+        personajeSO = so;
+        ApplyMultipliersFromSO();
     }
 
     // ==================== INPUTS ====================
@@ -149,50 +284,46 @@ public class FSMManager : StateMachineFlow {
         Vector3 sum = Vector3.zero;
         foreach (Vector3 n in normals) sum += n;
         Vector3 avg = sum / normals.Count;
-        // Forzar componente Y a 1 para evitar inclinaciones extremas
         return new Vector3(avg.x, 1f, avg.z).normalized;
     }
 
     // ==================== MOVIMIENTO ====================
-    public void ApplyAcceleration(float power = -1f)//Accelerating
+    public void ApplyAcceleration(float power = -1f)
     {
         if (power < 0) power = accelerationPower;
         if (rb.linearVelocity.magnitude < maxSpeed)
             rb.AddForce(hitBox.transform.forward * power, ForceMode.Acceleration);
     }
 
-    public void ApplyBrake(float power = -1f)//Braking
+    public void ApplyBrake(float power = -1f)
     {
         if (power < 0) power = brakePower;
         if (rb.linearVelocity.magnitude < maxSpeed)
             rb.AddForce(-hitBox.transform.forward * power, ForceMode.Acceleration);
-
     }
 
-
-    public void ApplySlowDown(float slowDown = 2f)//Idle
+    public void ApplySlowDown(float slowDown = 2f)
     {
         if (rb.linearVelocity.magnitude > 0.1f)
             rb.AddForce(-rb.linearVelocity.normalized * slowDown, ForceMode.Acceleration);
     }
 
-    public void ApplyGravity()//Falling y Boosting
+    public void ApplyGravity()
     {
         rb.AddForce(gravityForce * Vector3.down, ForceMode.Acceleration);
     }
 
-    public void ApplyLateralFriction(float strength)//Normal y Drift
+    public void ApplyLateralFriction(float strength)
     {
         Vector3 forward = hitBox.transform.forward;
-
         Vector3 lateralVel = Vector3.ProjectOnPlane(rb.linearVelocity, forward);
         rb.AddForce(-lateralVel * strength, ForceMode.Acceleration);
     }
-    public void ApplySteer()//Normal
+
+    public void ApplySteer()
     {
         if (Mathf.Abs(horizontalInput) > Mathf.Epsilon && rb.linearVelocity != Vector3.zero)
         {
-            //1 = adelante, -1 = atrás
             float direction = Vector3.Dot(rb.linearVelocity, hitBox.transform.forward) >= 0f ? 1f : -1f;
             float targetAngle = horizontalInput * steerPower * direction;
             Quaternion targetRot = Quaternion.LookRotation(
@@ -206,11 +337,8 @@ public class FSMManager : StateMachineFlow {
         ApplyLateralFriction(frictionPower);
     }
 
-
-
-    public void RotateHitbox()//General 
+    public void RotateHitbox()
     {
-
         Vector3 avgNormal = GetAverageGroundNormals();
         if (avgNormal == Vector3.zero) avgNormal = Vector3.up;
 
@@ -221,9 +349,8 @@ public class FSMManager : StateMachineFlow {
     }
 
     // ==================== DRIFT ====================
-    public void StartDrift()//Drifting
+    public void StartDrift()
     {
-
         driftFlag = true;
         driftTimer = 0f;
 
@@ -233,13 +360,9 @@ public class FSMManager : StateMachineFlow {
         driftBaseRotation = hitBox.transform.rotation;
         currentDriftAngle = 0f;
         SetDriftParticlesColor(driftFirstColor);
-
     }
 
-
-
-
-    public void ApplyDriftMovement()//Drifting
+    public void ApplyDriftMovement()
     {
         driftTimer += Time.deltaTime;
         if (currentDriftAngle < driftAngle)
@@ -247,81 +370,64 @@ public class FSMManager : StateMachineFlow {
             currentDriftAngle += driftEntrySpeed * Time.deltaTime;
             if (currentDriftAngle > driftAngle) currentDriftAngle = driftAngle;
         }
-        float adjustAngle = horizontalInput * driftPower;
-        Quaternion adjustRot = Quaternion.Euler(0, adjustAngle, 0);
-        float spin = driftDirection * driftPower * driftTimer *2;
-        Quaternion spinRot = Quaternion.Euler(0, spin, 0);
 
+        float adjustAngle = horizontalInput * driftPower;
+        float spin = driftDirection * driftPower * driftTimer * 2;
         Quaternion targetRot = driftBaseRotation
             * Quaternion.Euler(0, currentDriftAngle * driftDirection, 0)
-            * adjustRot
-            * spinRot;
-        hitBox.transform.transform.rotation = Quaternion.Slerp(
-            hitBox.transform.transform.rotation,
-            targetRot,
-            Time.deltaTime * 8f
-        );
+            * Quaternion.Euler(0, adjustAngle, 0)
+            * Quaternion.Euler(0, spin, 0);
 
-        //movimiento
+        hitBox.transform.rotation = Quaternion.Slerp(hitBox.transform.rotation, targetRot, Time.deltaTime * 8f);
+
         Vector3 accelForce = Vector3.zero;
         if (accelerateInput)
-        {
             accelForce = hitBox.transform.forward * accelerationPower * 0.8f;
-        }
+
         rb.AddForce(accelForce + (hitBox.transform.right * -driftDirection * driftSideForce), ForceMode.Acceleration);
         ApplyLateralFriction(driftFrictionPower);
     }
 
-
-
-
-    public void EndDrift()//Drifting
+    public void EndDrift()
     {
         driftFlag = false;
         first = second = third = false;
         StopDriftParticles();
         ClearDriftParticles();
+    }
 
-    }
-    public bool CanBoost() //Drifting
-    {
-        return isGrounded && first;
-    }
-    public void RotateHitboxDrift() //Drifting
+    public bool CanBoost() => isGrounded && first;
+
+    public void RotateHitboxDrift()
     {
         Vector3 avgNormal = GetAverageGroundNormals();
         if (avgNormal == Vector3.zero) avgNormal = Vector3.up;
 
         Vector3 forward = hitBox.transform.forward;
-
         Vector3 projectedForward = Vector3.ProjectOnPlane(forward, avgNormal).normalized;
-
         Quaternion groundRotation = Quaternion.LookRotation(projectedForward, avgNormal);
 
-        hitBox.transform.rotation = Quaternion.Slerp(
-            hitBox.transform.rotation,
-            groundRotation,
-            Time.deltaTime * 10f
-        );
+        hitBox.transform.rotation = Quaternion.Slerp(hitBox.transform.rotation, groundRotation, Time.deltaTime * 10f);
     }
-    public void UpdateDriftLevel()//Drifting
+
+    public void UpdateDriftLevel()
     {
         bool colorChanged = false;
         Color newColor = Color.clear;
 
-        if (!first && driftTimer > 0.5)
+        if (!first && driftTimer > 0.5f)
         {
             newColor = driftFirstColor;
             first = true;
             colorChanged = true;
         }
-        else if (first && !second && driftTimer > 3)
+        else if (first && !second && driftTimer > 3f)
         {
             newColor = driftSecondColor;
             second = true;
             colorChanged = true;
         }
-        else if (first && second && !third && driftTimer > 5)
+        else if (first && second && !third && driftTimer > 5f)
         {
             newColor = driftThirdColor;
             third = true;
@@ -334,41 +440,42 @@ public class FSMManager : StateMachineFlow {
             PlayDriftParticles();
         }
     }
-    // ==================== BOOST ====================
 
+    // ==================== BOOST ====================
     public float GetBoostDurationAfterDrift()
     {
-        if (third) return 1f;
-        if (second) return 0.75f;
-        if (first) return 0.5f;
+        float baseDuration = 0f;
+        if (third) baseDuration = 1f;
+        else if (second) baseDuration = 0.75f;
+        else if (first) baseDuration = 0.5f;
 
-        return 0f;
+        return baseDuration * boostDurationMultiplier;
     }
+
     public void ApplyBoostSpeed()
     {
         Vector3 v = rb.linearVelocity;
         Vector3 forward = hitBox.transform.forward * maxSpeed;
-
         rb.linearVelocity = new Vector3(forward.x, v.y, forward.z);
     }
-    //TRICKS
+
     // ==================== PARTÍCULAS ====================
-    public void PlayDriftParticles()//Drifting
+    public void PlayDriftParticles()
     {
         foreach (var p in driftParticles) p.Play();
     }
 
-    public void StopDriftParticles()//Drifting
+    public void StopDriftParticles()
     {
         foreach (var p in driftParticles) p.Stop();
     }
 
-    public void ClearDriftParticles()//Drifting
+    public void ClearDriftParticles()
     {
         foreach (var p in driftParticles) p.Clear();
     }
 
-    public void SetDriftParticlesColor(Color color)//Drifting
+    public void SetDriftParticlesColor(Color color)
     {
         foreach (var p in driftParticles)
         {
@@ -377,49 +484,17 @@ public class FSMManager : StateMachineFlow {
         }
     }
 
-    public void PlayTurboParticles()//Boosting
+    public void PlayTurboParticles()
     {
         foreach (var p in turboParticles) p.Play();
     }
 
-    public void StopTurboParticles()//Boosting
+    public void StopTurboParticles()
     {
         foreach (var p in turboParticles) p.Stop();
     }
-    public void SetDriftParticles(List<ParticleSystem> particles) => driftParticles = particles;//Drifting
-    public void SetTurboParticles(List<ParticleSystem> particles) => turboParticles = particles;//Boosting
-    public void InstanceParticles()
-    {
-        // Buscar partículas
-        Transform driftParticles = hitBox.transform.Find("Visual/RanaCoche/driftParticles");
-        Transform turboParticles = hitBox.transform.Find("Visual/RanaCoche/turboParticles");
 
-        List<ParticleSystem> driftList = new List<ParticleSystem>();
-        List<ParticleSystem> turboList = new List<ParticleSystem>();
-
-        if (driftParticles != null)
-        {
-            for (int i = 0; i < driftParticles.GetChild(0).childCount; i++)
-                driftList.Add(driftParticles.GetChild(0).GetChild(i).GetComponent<ParticleSystem>());
-            for (int i = 0; i < driftParticles.GetChild(1).childCount; i++)
-                driftList.Add(driftParticles.GetChild(1).GetChild(i).GetComponent<ParticleSystem>());
-        }
-
-        if (turboParticles != null)
-        {
-            for (int i = 0; i < turboParticles.GetChild(0).childCount; i++)
-                turboList.Add(turboParticles.GetChild(0).GetChild(i).GetComponent<ParticleSystem>());
-            for (int i = 0; i < turboParticles.GetChild(1).childCount; i++)
-                turboList.Add(turboParticles.GetChild(1).GetChild(i).GetComponent<ParticleSystem>());
-        }
-
-        SetDriftParticles(driftList);
-        SetTurboParticles(turboList);
-    }
-    
-
-
-    // ==================== ????? ====================
+    // ==================== UTILIDADES ====================
     private float Remap(float val, float from1, float to1, float from2, float to2)
     {
         return (val - from1) / (to1 - from1) * (to2 - from2) + from2;
