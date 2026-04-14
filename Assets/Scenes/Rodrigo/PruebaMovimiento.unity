@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 28842145}
   - component: {fileID: 28842144}
   - component: {fileID: 28842143}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1393,7 +1393,7 @@ GameObject:
   - component: {fileID: 1323874953}
   - component: {fileID: 1323874952}
   - component: {fileID: 1323874951}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1714,13 +1714,8 @@ PrefabInstance:
       propertyPath: personajeSO
       value: 
       objectReference: {fileID: 11400000, guid: 511fc3b0ece607e44b88013484da2037, type: 2}
-    - target: {fileID: 9002019786373921149, guid: 7fb065129d356644782395ff78cd1468, type: 3}
-      propertyPath: m_IncludeLayers.m_Bits
-      value: 4294967295
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 2147175696990873809, guid: 7fb065129d356644782395ff78cd1468, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fb065129d356644782395ff78cd1468, type: 3}

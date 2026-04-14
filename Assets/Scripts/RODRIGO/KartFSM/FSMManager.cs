@@ -24,8 +24,8 @@ public class FSMManager : StateMachineFlow {
     private CapsuleCollider hitBox;
 
     [Header("Configuración Base (sin multiplicadores)")]
-    private float baseMaxSpeed = 50f;
-    private float baseAcceleration = 20f;
+    private float baseMaxSpeed = 80f;
+    private float baseAcceleration = 40f;
     private float baseBrakePower = 25f;
     private float baseSteerPower = 10f;
     private float baseFriction = 10f;
