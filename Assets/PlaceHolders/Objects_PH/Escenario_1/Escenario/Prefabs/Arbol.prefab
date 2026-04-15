@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: -251.9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -9.34
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 549.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_LocalRotation.y
@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: aea1c8175b8ed96449d6f94e5cf835af, type: 2}
     - target: {fileID: 919132149155446097, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_Name
       value: Arbol
@@ -63,5 +67,39 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5185455605985609505}
   m_SourcePrefab: {fileID: 100100000, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
+--- !u!1 &923370497883041158 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
+  m_PrefabInstance: {fileID: 4804052964200663}
+  m_PrefabAsset: {fileID: 0}
+--- !u!205 &-5185455605985609505
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923370497883041158}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 1
+  m_AnimateCrossFading: 1
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.6
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 0}
+  - screenRelativeHeight: 0.3
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 0}
+  - screenRelativeHeight: 0.1
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 1
