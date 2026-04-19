@@ -85,7 +85,7 @@ PrefabInstance:
     - target: {fileID: -7635826562936255635, guid: 9e8721dd59ca3fa45b2c1ce538de4b89, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: e6979b26bc46caa499682842b048c7de, type: 2}
+      objectReference: {fileID: 2100000, guid: c6b23a7bc6d8bac47a6f8b017dc436b6, type: 2}
     - target: {fileID: 919132149155446097, guid: 9e8721dd59ca3fa45b2c1ce538de4b89, type: 3}
       propertyPath: m_Name
       value: Tela_Mercadillo_1
@@ -156,6 +156,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: f4fe70a20a9dcdb4db1f5f925a2f464c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6d4e5478e3829644aabf687562d9c768, type: 2}
     - target: {fileID: 919132149155446097, guid: f4fe70a20a9dcdb4db1f5f925a2f464c, type: 3}
       propertyPath: m_Name
       value: Caja
@@ -226,6 +230,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 45e2c3584e4ac114a8f8e4b1f2ab6ba1, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: bcf44d13ae0470942b03b503d2b0c83f, type: 2}
     - target: {fileID: 919132149155446097, guid: 45e2c3584e4ac114a8f8e4b1f2ab6ba1, type: 3}
       propertyPath: m_Name
       value: Mercadillo_1
