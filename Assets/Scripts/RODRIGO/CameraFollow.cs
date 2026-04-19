@@ -14,14 +14,17 @@ public class CameraFollow : MonoBehaviour
         rotationOffset= new Vector3 (10,0,0);
 
     }
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         if (target == null) return;
 
-        transform.position = target.position + target.rotation * offset;
-        Vector3 forward = target.forward;
-        Quaternion baseRotation = Quaternion.LookRotation(forward, Vector3.up);
+        Vector3 desiredPosition = target.position + target.rotation * offset; 
 
-        transform.rotation = baseRotation * Quaternion.Euler(rotationOffset);
+ 
+        Quaternion baseRotation = Quaternion.LookRotation(target.forward, Vector3.up);
+        Quaternion desiredRotation = baseRotation * Quaternion.Euler(rotationOffset);
+
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, moveSmooth * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, rotSmooth * Time.deltaTime );
     }
 }

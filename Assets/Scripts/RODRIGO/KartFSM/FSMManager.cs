@@ -14,7 +14,6 @@ public class FSMManager : StateMachineFlow {
     public Tricking trickingState;
 
     [Header("Referencias")]
-    [SerializeField] private Transform cameraFollow;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform visual; // Contenedor del modelo visual (asignar en Inspector)
 
@@ -109,8 +108,6 @@ public class FSMManager : StateMachineFlow {
         rb = GetComponent<Rigidbody>();
         hitBox = GetComponentInChildren<CapsuleCollider>();
 
-        if (cameraFollow == null && Camera.main != null)
-            cameraFollow = Camera.main.transform;
 
         // Aplicar multiplicadores desde el SO
         ApplyMultipliersFromSO();
