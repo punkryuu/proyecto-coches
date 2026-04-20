@@ -424,6 +424,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5927852565404853547}
     m_Modifications:
+    - target: {fileID: 2963554704428568585, guid: 531766563751d9a4f98b7b9e21ed6b45, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 656ce1facac7d5f4ab9c2880d8a0057f, type: 2}
     - target: {fileID: 3740759208222221877, guid: 531766563751d9a4f98b7b9e21ed6b45, type: 3}
       propertyPath: m_Name
       value: Rampa (1)
@@ -796,6 +800,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5927852565404853547}
     m_Modifications:
+    - target: {fileID: 2963554704428568585, guid: 531766563751d9a4f98b7b9e21ed6b45, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 656ce1facac7d5f4ab9c2880d8a0057f, type: 2}
     - target: {fileID: 3740759208222221877, guid: 531766563751d9a4f98b7b9e21ed6b45, type: 3}
       propertyPath: m_Name
       value: Rampa
