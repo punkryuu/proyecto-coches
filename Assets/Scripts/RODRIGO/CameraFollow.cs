@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering;
+using static UnityEngine.UI.Image;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -8,23 +9,40 @@ public class CameraFollow : MonoBehaviour
     Vector3 rotationOffset;
     float rotSmooth = 10f;
     float moveSmooth = 20f;
-    private void Start()
+    private void Awake()
     {
         offset = new Vector3(0,5,-11);
         rotationOffset= new Vector3 (10,0,0);
+        Vector3 desiredPosition = target.position + target.rotation * offset;
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, moveSmooth * Time.deltaTime);
 
     }
+    [SerializeField] float collisionRadius = 0.3f;
+    [SerializeField] LayerMask collisionMask;
+
     private void LateUpdate()
     {
         if (target == null) return;
 
-        Vector3 desiredPosition = target.position + target.rotation * offset; 
+        Vector3 desiredPosition = target.position + target.rotation * offset;
 
- 
+        Vector3 direction = (desiredPosition - target.position).normalized;
+        float distance = Vector3.Distance(target.position, desiredPosition);
+
+        RaycastHit hit;
+
+        if (Physics.SphereCast(target.position, collisionRadius, direction, out hit, distance, collisionMask))
+        {
+            desiredPosition = target.position + direction * hit.distance;
+        }
+
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, moveSmooth * Time.deltaTime);
+
         Quaternion baseRotation = Quaternion.LookRotation(target.forward, Vector3.up);
         Quaternion desiredRotation = baseRotation * Quaternion.Euler(rotationOffset);
 
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, moveSmooth * Time.deltaTime);
-        transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, rotSmooth * Time.deltaTime );
+        transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, rotSmooth * Time.deltaTime);
+        Debug.DrawLine(target.position, desiredPosition, Color.red);
     }
+    
 }
