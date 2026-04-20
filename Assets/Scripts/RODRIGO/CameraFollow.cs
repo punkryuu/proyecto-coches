@@ -42,7 +42,7 @@ public class CameraFollow : MonoBehaviour
         Quaternion desiredRotation = baseRotation * Quaternion.Euler(rotationOffset);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, rotSmooth * Time.deltaTime);
-        Debug.DrawLine(target.position, desiredPosition, Color.red);
+        Debug.DrawLine(target.position , desiredPosition, Color.red);
     }
     
 }
