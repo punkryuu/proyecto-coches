@@ -194,7 +194,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 67213bb2e47be724abfccec76de38077, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9716524
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 67213bb2e47be724abfccec76de38077, type: 3}
       propertyPath: m_LocalRotation.x
@@ -202,7 +202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 67213bb2e47be724abfccec76de38077, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.23641422
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 67213bb2e47be724abfccec76de38077, type: 3}
       propertyPath: m_LocalRotation.z
@@ -214,7 +214,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 67213bb2e47be724abfccec76de38077, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 27.35
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 67213bb2e47be724abfccec76de38077, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -282,11 +282,11 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.08
+  - screenRelativeHeight: 0.12
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 847224231650701380}
-  - screenRelativeHeight: 0.05
+  - screenRelativeHeight: 0.08
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 1953613187521140049}
