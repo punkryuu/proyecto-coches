@@ -9,16 +9,33 @@ public class CameraFollow : MonoBehaviour
     Vector3 rotationOffset;
     float rotSmooth = 10f;
     float moveSmooth = 20f;
-    private void Awake()
-    {
-        offset = new Vector3(0,5,-11);
-        rotationOffset= new Vector3 (10,0,0);
-        Vector3 desiredPosition = target.position + target.rotation * offset;
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, moveSmooth * Time.deltaTime);
-
-    }
     [SerializeField] float collisionRadius = 0.3f;
     [SerializeField] LayerMask collisionMask;
+    private void Awake()
+    {
+
+        if (target == null)
+        {
+            FSMManager fsm = FindAnyObjectByType<FSMManager>();
+
+            if (fsm != null)
+            {
+                target = fsm.GetComponentInChildren<CapsuleCollider>().transform;
+            }
+        }
+
+        offset = new Vector3(0, 5, -11);
+        rotationOffset = new Vector3(10, 0, 0);
+
+        if (target != null)
+        {
+            Vector3 desiredPosition = target.position + target.rotation * offset;
+            transform.position = desiredPosition;
+        }
+    
+
+}
+
 
     private void LateUpdate()
     {
