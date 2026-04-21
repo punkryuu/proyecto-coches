@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3569530093913949848
 Transform:
@@ -102,7 +102,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1678777347803777633
 Transform:
@@ -188,7 +188,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5854918831514099019
 Transform:
@@ -268,43 +268,43 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -769.24
+      value: -341.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 23.7
+      value: -22.09
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -170.32
+      value: -372.15
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.98736084
+      value: 0.835942
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.016372576
+      value: 0.008752
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.15761933
+      value: -0.5483513
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.002613669
+      value: 0.020865764
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 1.9
+      value: 2.15
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 18.14
+      value: -66.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 1.45
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -320,7 +320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 0
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8164078558771037576, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_Name
@@ -328,7 +328,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8164078558771037576, guid: d49e0be37f5cdc945af04bf20b086b9a, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 0
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -375,11 +375,11 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 1592314320897219514}
-  - screenRelativeHeight: 0.3
+  - screenRelativeHeight: 0.35
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 8497000520288071111}
-  - screenRelativeHeight: 0.15
+  - screenRelativeHeight: 0.2
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 5727864716542869264}
