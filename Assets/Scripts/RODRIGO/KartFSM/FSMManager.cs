@@ -14,7 +14,6 @@ public class FSMManager : StateMachineFlow {
     public Tricking trickingState;
 
     [Header("Referencias")]
-    [SerializeField] private Transform cameraFollow;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform visual; // Contenedor del modelo visual (asignar en Inspector)
 
@@ -67,6 +66,8 @@ public class FSMManager : StateMachineFlow {
     private Quaternion driftBaseRotation;
     private float currentDriftAngle;
     bool first, second, third;
+    public int driftLevel;// 0, 1, 2, 3
+    
     Color driftFirstColor = Color.yellow;
     Color driftSecondColor = Color.red;
     Color driftThirdColor = Color.cyan;
@@ -109,8 +110,6 @@ public class FSMManager : StateMachineFlow {
         rb = GetComponent<Rigidbody>();
         hitBox = GetComponentInChildren<CapsuleCollider>();
 
-        if (cameraFollow == null && Camera.main != null)
-            cameraFollow = Camera.main.transform;
 
         // Aplicar multiplicadores desde el SO
         ApplyMultipliersFromSO();
@@ -417,18 +416,21 @@ public class FSMManager : StateMachineFlow {
 
         if (!first && driftTimer > 0.5f)
         {
+            driftLevel = 1;
             newColor = driftFirstColor;
             first = true;
             colorChanged = true;
         }
         else if (first && !second && driftTimer > 3f)
         {
+            driftLevel = 2;
             newColor = driftSecondColor;
             second = true;
             colorChanged = true;
         }
         else if (first && second && !third && driftTimer > 5f)
         {
+            driftLevel = 3;
             newColor = driftThirdColor;
             third = true;
             colorChanged = true;
@@ -445,9 +447,13 @@ public class FSMManager : StateMachineFlow {
     public float GetBoostDurationAfterDrift()
     {
         float baseDuration = 0f;
-        if (third) baseDuration = 1f;
-        else if (second) baseDuration = 0.75f;
-        else if (first) baseDuration = 0.5f;
+
+        switch (driftLevel)
+        {
+            case 3: baseDuration = 1f; break;
+            case 2: baseDuration = 0.75f; break;
+            case 1: baseDuration = 0.5f; break;
+        }
 
         return baseDuration * boostDurationMultiplier;
     }
@@ -456,7 +462,7 @@ public class FSMManager : StateMachineFlow {
     {
         Vector3 v = rb.linearVelocity;
         Vector3 forward = hitBox.transform.forward * maxSpeed;
-        rb.linearVelocity = new Vector3(forward.x, v.y, forward.z);
+        rb.linearVelocity = Vector3.Lerp(rb.linearVelocity,new Vector3(forward.x, v.y, forward.z), Time.deltaTime * 10f);
     }
 
     // ==================== PARTÍCULAS ====================
@@ -495,11 +501,11 @@ public class FSMManager : StateMachineFlow {
     }
 
     // ==================== UTILIDADES ====================
-    private float Remap(float val, float from1, float to1, float from2, float to2)
+    public Transform GetHitboxTransform()
     {
-        return (val - from1) / (to1 - from1) * (to2 - from2) + from2;
+        return hitBox.transform;
     }
-
+    public float GetMaxSpeed() => maxSpeed;
     private void OnDrawGizmos()
     {
         if (hitBox == null) return;
