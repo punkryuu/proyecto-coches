@@ -4,6 +4,12 @@ using static UnityEngine.UI.Image;
 
 public class CameraFollow : MonoBehaviour
 {
+     float minFOV = 80f;
+     float maxFOV = 120f;
+     float fovSmooth = 5f;
+    Camera cam;
+    Rigidbody targetRb;
+    FSMManager fsm;
     [SerializeField]Transform target;
     Vector3 offset;
     Vector3 rotationOffset;
@@ -13,18 +19,19 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] LayerMask collisionMask;
     private void Start()
     {
-
+        cam = GetComponent<Camera>();
         if (target == null)
         {
-            FSMManager fsm = FindAnyObjectByType<FSMManager>();
+             fsm = FindAnyObjectByType<FSMManager>();
 
             if (fsm != null)
             {
                 target = GetComponentInParent<FSMManager>().GetHitboxTransform();
+                targetRb = target.GetComponentInParent<Rigidbody>();
             }
         }
 
-        offset = new Vector3(0, 5, -11);
+        offset = new Vector3(0, 4, -8.5f);
         rotationOffset = new Vector3(10, 0, 0);
 
         if (target != null)
@@ -60,6 +67,17 @@ public class CameraFollow : MonoBehaviour
 
         transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, rotSmooth * Time.deltaTime);
         Debug.DrawLine(target.position , desiredPosition, Color.red);
+        if (targetRb != null)
+        {
+            float speed = targetRb.linearVelocity.magnitude;
+
+            float maxSpeed = fsm.GetMaxSpeed();
+
+            float t = Mathf.InverseLerp(0, maxSpeed, speed);
+            float targetFOV = Mathf.Lerp(minFOV, maxFOV, t);
+
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, fovSmooth * Time.deltaTime);
+        }
     }
     
 }

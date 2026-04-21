@@ -505,6 +505,7 @@ public class FSMManager : StateMachineFlow {
     {
         return hitBox.transform;
     }
+    public float GetMaxSpeed() => maxSpeed;
     private void OnDrawGizmos()
     {
         if (hitBox == null) return;

@@ -1706,6 +1706,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2124746085376049315, guid: 7fb065129d356644782395ff78cd1468, type: 3}
+      propertyPath: m_Antialiasing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2124746085376049315, guid: 7fb065129d356644782395ff78cd1468, type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4126455363605797109, guid: 7fb065129d356644782395ff78cd1468, type: 3}
       propertyPath: m_Name
       value: Player.V2
