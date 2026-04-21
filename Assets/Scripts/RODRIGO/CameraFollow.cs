@@ -11,7 +11,7 @@ public class CameraFollow : MonoBehaviour
     float moveSmooth = 20f;
     [SerializeField] float collisionRadius = 0.3f;
     [SerializeField] LayerMask collisionMask;
-    private void Awake()
+    private void Start()
     {
 
         if (target == null)
@@ -20,7 +20,7 @@ public class CameraFollow : MonoBehaviour
 
             if (fsm != null)
             {
-                target = fsm.GetComponentInChildren<CapsuleCollider>().transform;
+                target = GetComponentInParent<FSMManager>().GetHitboxTransform();
             }
         }
 

@@ -501,11 +501,10 @@ public class FSMManager : StateMachineFlow {
     }
 
     // ==================== UTILIDADES ====================
-    private float Remap(float val, float from1, float to1, float from2, float to2)
+    public Transform GetHitboxTransform()
     {
-        return (val - from1) / (to1 - from1) * (to2 - from2) + from2;
+        return hitBox.transform;
     }
-
     private void OnDrawGizmos()
     {
         if (hitBox == null) return;
