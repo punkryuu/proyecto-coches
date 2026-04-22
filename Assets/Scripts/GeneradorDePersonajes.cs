@@ -13,8 +13,5 @@ public class GeneradorDePersonajes : MonoBehaviour
            
         }
     }
-    void Update()
-    {
-        
-    }
+  
 }

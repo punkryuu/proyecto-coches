@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using static UnityEngine.UI.GridLayoutGroup;
 
 public class ModoCarrera : MonoBehaviour
@@ -16,12 +17,18 @@ public class ModoCarrera : MonoBehaviour
     public int characterCount = 3;
     public int playerLapCounter = 0;
     public Dictionary<GameObject,int> npcLapCounter = new Dictionary<GameObject,int>();
-    int raceCounter = 0;
-
+    public int raceCounter = 0;
+    public Dictionary<PersonajeSO, GameObject> instances = new Dictionary<PersonajeSO, GameObject>();
     [SerializeField] TMP_Text countdownText;
     public float countdown = 3f;
-
+    public int totalLaps = 3;
     private GameObject[] spawnedNPC;
+    [SerializeField] Transform[] NPCpositions;
+    [SerializeField]UIManager ui;
+    
+
+ 
+   // GameObject npc = Instantiate(NPC, Vector3.zero, Quaternion.identity);
 
     public void Awake()
      {
@@ -35,36 +42,58 @@ public class ModoCarrera : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        if (selectedCharacters.Count == 0)
+        if (selectedCharacters.Count != characterCount || instances.Count != characterCount)
         {
+            selectedCharacters.Clear();
+            instances.Clear();
             SpawnEnemies();
         }
     }
     void Start()
     {
         StartCoroutine(StartCountdown());
+       
     }
 
     void SpawnEnemies()
     {
-       selectedCharacters.Clear();
+        Debug.Log("Spawning NPCs...");
+        selectedCharacters.Clear();
+       instances.Clear();
         for (int i = 0; i < characterCount; i++)
         {
             int randomIndex = Random.Range(0, SOOptions.Length);
             PersonajeSO chosen = SOOptions[randomIndex];
-            selectedCharacters.Add(chosen);                
+            selectedCharacters.Add(chosen);
+            Debug.Log("Instanciando: " + chosen.name);
+            Transform spawn = NPCpositions[i];
+
+            GameObject npcInstance = Instantiate(chosen.characterPrefab, spawn.position, spawn.rotation);
+            RegisterNPC(npcInstance);
+            instances[chosen] = npcInstance;
         }
 
     }
  
-    void NextRace()
+    public void FinishedRace()
     {
-        if(playerLapCounter > 3)
+        if(playerLapCounter >= totalLaps)
         {
+            Debug.Log("FinishedRace ejecutado");
+            List<PersonajeSO> posiciones = GetPositions();
+            string podio = "";
             raceCounter++;
-            UnityEngine.SceneManagement.SceneManager.LoadScene(raceCounter);//cambiar cuando esté el siguiente escenario
+            playerLapCounter = 0;
+            ui.contenedorFinalizar.SetActive(true);
+            for (int i = 0; i <posiciones.Count; i++)
+            {
+               podio += (i + 1) + posiciones[i].characterPrefab.name + "\n";
+                //ui.contenedorFinalizar.GetComponentInChildren<TMP_Text>().text = podio;
+            }
+            ui.contenedorFinalizar.GetComponentInChildren<TMP_Text>().text = podio;
         }
     }
+
 
     public void RegisterNPC(GameObject npc)
     {
@@ -95,29 +124,29 @@ public class ModoCarrera : MonoBehaviour
       
     public List <PersonajeSO> GetPositions() //Bubble sort para ordenar los personajes según su progreso en la carrera, el que tenga más progreso va primero
     {
-        List<PersonajeSO> order = new List<PersonajeSO>(selectedCharacters);
-        for (int i = 0; i < order.Count; i++)
+
+        for (int i = 0; i < selectedCharacters.Count; i++)
         {
-            for (int j = i + 1; j < order.Count; j++)
+            for (int j = i + 1; j < selectedCharacters.Count; j++)
             {
-                float progressI = CalculateProgress(order[i].characterPrefab);
-                float progressJ = CalculateProgress(order[j].characterPrefab);
+                float progressI = CalculateProgress(instances[selectedCharacters[i]]);
+                float progressJ = CalculateProgress(instances[selectedCharacters[j]]);
                 if (progressJ > progressI)
                 {
-                    PersonajeSO temp = order[i];
-                    order[i] = order[j];
-                    order[j] = temp;
+                    PersonajeSO temp = selectedCharacters[i];
+                    selectedCharacters[i] = selectedCharacters[j];
+                    selectedCharacters[j] = temp;
                 }
             }
         }
-        return order;
+        return selectedCharacters;
     }
     float CalculateProgress(GameObject car) //Calcula el progreso de un coche en la carrera, teniendo en cuenta las vueltas completadas, los waypoints y la distancia al siguiente waypoint
     {
       float progress = 0f;
      CarIdetifier data = car.GetComponent<CarIdetifier>();
      progress += data.currentLap * 100000f;
-     progress += data.currentLap * 1000f;
+     progress += data.currentWayPoint * 1000f;
      progress -=  data.distanceToNextWayPoint;
      return progress;
     }

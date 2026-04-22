@@ -18,5 +18,6 @@ public class PersonajeSO : ScriptableObject
     public float airControlMultiplier = 1f;
     public float verticalOffset = 0f;
     public float horizontalOffset = 0f;
+    public GameObject instance;
 
 }
