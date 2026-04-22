@@ -85,6 +85,9 @@ public class FSMManager : StateMachineFlow {
     public List<ParticleSystem> driftParticles = new List<ParticleSystem>();
     public List<ParticleSystem> turboParticles = new List<ParticleSystem>();
 
+    [Header ("Ruedas")]
+    Transform frontWheelsParent,backWheelsParent;
+    public List<Transform> frontWheelsList = new List<Transform>();
     // Inputs
     public bool accelerateInput;
     public bool brakeInput;
@@ -185,6 +188,23 @@ public class FSMManager : StateMachineFlow {
         {
             Debug.LogWarning($"No se encontró turboParticles en la ruta: {personajeSO.turboParticlesPath}");
         }
+
+        // Buscar ruedas delanteras
+        frontWheelsParent = visualModel.Find(personajeSO.frontWheelsPath);
+        if (frontWheelsParent != null)
+        {
+            for (int i = 0; i < frontWheelsParent.childCount; i++)
+            {
+                frontWheelsList.Add(frontWheelsParent.GetChild(i));
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"No se encontró frontWheels en la ruta: {personajeSO.frontWheelsPath}");
+        }
+        // Buscar ruedas traseras
+        backWheelsParent = visualModel.Find(personajeSO.backWheelsPath);
+        
 
     }
 
@@ -499,7 +519,26 @@ public class FSMManager : StateMachineFlow {
     {
         foreach (var p in turboParticles) p.Stop();
     }
+    //================RUEDAS=====================
+    public void RotateWheelParentsInX()
+    {
+        float speed = rb.linearVelocity.magnitude;
+        float rotationSpeed = speed * 5f;
 
+            frontWheelsParent.Rotate(Vector3.right * rotationSpeed * Time.deltaTime, Space.Self);
+
+            backWheelsParent.Rotate(Vector3.right * rotationSpeed * Time.deltaTime, Space.Self);
+        
+    }
+    public void SteerFrontWheels()
+    {
+        float steerAngle = horizontalInput * 45f;
+
+        foreach (Transform wheel in frontWheelsList)
+        {
+            wheel.localRotation = Quaternion.Lerp(wheel.localRotation, Quaternion.Euler(0f, steerAngle, 0f),Time.deltaTime*10f);
+        }
+    }
     // ==================== UTILIDADES ====================
     public Transform GetHitboxTransform()
     {

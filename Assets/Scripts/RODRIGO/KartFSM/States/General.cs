@@ -12,5 +12,7 @@ public class General: TemplateStateMachine
     {
         if (!_fsm.driftFlag) _fsm.RotateHitbox();
         else _fsm.RotateHitboxDrift();
+        _fsm.RotateWheelParentsInX();
+        _fsm.SteerFrontWheels();
     }
 }
