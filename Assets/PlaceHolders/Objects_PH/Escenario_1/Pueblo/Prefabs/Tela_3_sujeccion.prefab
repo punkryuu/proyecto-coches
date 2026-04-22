@@ -49,12 +49,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7635826562936255635, guid: d29c74b60bf73164db7b641d320176f7, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: d29c74b60bf73164db7b641d320176f7, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 6d7468c70fb8360429697b26a6dd03b5, type: 2}
     - target: {fileID: 919132149155446097, guid: d29c74b60bf73164db7b641d320176f7, type: 3}
       propertyPath: m_Name
       value: Tela_3_sujeccion
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d29c74b60bf73164db7b641d320176f7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 8164078558771037576, guid: d29c74b60bf73164db7b641d320176f7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
