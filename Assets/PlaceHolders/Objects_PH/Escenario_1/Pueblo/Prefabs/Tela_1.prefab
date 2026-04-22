@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &6983188235594898865
 Transform:
@@ -102,7 +102,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &895845713756773047
 Transform:
@@ -228,9 +228,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tela_1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 22146a35f8247e045b94f6fa9abeaade, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8164078558771037576, guid: 22146a35f8247e045b94f6fa9abeaade, type: 3}
       propertyPath: m_Name
       value: Tela_1_LOD00
+      objectReference: {fileID: 0}
+    - target: {fileID: 8164078558771037576, guid: 22146a35f8247e045b94f6fa9abeaade, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -275,11 +283,11 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.3
+  - screenRelativeHeight: 0.2
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 2417806401645339526}
-  - screenRelativeHeight: 0.2
+  - screenRelativeHeight: 0.1
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 2102407494514272763}

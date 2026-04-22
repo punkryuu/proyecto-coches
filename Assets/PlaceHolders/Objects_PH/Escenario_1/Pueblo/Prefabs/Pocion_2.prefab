@@ -181,16 +181,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 58e033ea2b37ce14f91b1d605c299457, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 58e033ea2b37ce14f91b1d605c299457, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 58e033ea2b37ce14f91b1d605c299457, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 58e033ea2b37ce14f91b1d605c299457, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1357.077
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 58e033ea2b37ce14f91b1d605c299457, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -906.653
+      value: -0.324
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 58e033ea2b37ce14f91b1d605c299457, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1945.88
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 58e033ea2b37ce14f91b1d605c299457, type: 3}
       propertyPath: m_LocalRotation.w
@@ -219,6 +231,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 58e033ea2b37ce14f91b1d605c299457, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 58e033ea2b37ce14f91b1d605c299457, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7635826562936255635, guid: 58e033ea2b37ce14f91b1d605c299457, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -281,7 +297,7 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 7582132670380683572}
-  - screenRelativeHeight: 0.02
+  - screenRelativeHeight: 0.015
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 5843196650762462275}
