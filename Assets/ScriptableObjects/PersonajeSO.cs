@@ -8,8 +8,8 @@ public class PersonajeSO : ScriptableObject
     public GameObject characterPrefab;
     public string driftParticlesPath = "driftParticles";
     public string turboParticlesPath = "turboParticles";
-    public string frontWheelsPath = "frontWheels";
-    public string backWheelsPath = "backWheels";
+    public string rotateXPath = "rotateX";
+    public string rotateYPath = "rotateY";
     public Sprite selectionImage;
     public float maxSpeedMultiplier = 1f;
     public float accelerationMultiplier = 1f;

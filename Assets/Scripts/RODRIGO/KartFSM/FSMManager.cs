@@ -85,9 +85,11 @@ public class FSMManager : StateMachineFlow {
     public List<ParticleSystem> driftParticles = new List<ParticleSystem>();
     public List<ParticleSystem> turboParticles = new List<ParticleSystem>();
 
-    [Header("Ruedas")]
-    Transform frontWheelsParent, backWheelsParent;
-    public List<Transform> frontWheelsList = new List<Transform>();
+    [Header("Ruedas (rotación X)")]
+    private List<Transform> wheels = new List<Transform>();
+
+    [Header("Pivotes (rotación Y)")]
+    private List<Transform> pivots = new List<Transform>();
     // Inputs
     public bool accelerateInput;
     public bool brakeInput;
@@ -189,23 +191,21 @@ public class FSMManager : StateMachineFlow {
             Debug.LogWarning($"No se encontró turboParticles en la ruta: {personajeSO.turboParticlesPath}");
         }
 
-        // Buscar ruedas delanteras
-        frontWheelsParent = visualModel.Find(personajeSO.frontWheelsPath);
-        if (frontWheelsParent != null)
+        wheels.Clear();
+        pivots.Clear();
+
+        foreach (Transform t in visualModel.GetComponentsInChildren<Transform>())
         {
-            for (int i = 0; i < frontWheelsParent.childCount; i++)
+            if (t.name.Contains("wheel") && !t.name.Contains("pivot"))
             {
-                frontWheelsList.Add(frontWheelsParent.GetChild(i));
+                wheels.Add(t);
+            }
+
+            if (t.name.Contains("pivot"))
+            {
+                pivots.Add(t);
             }
         }
-        else
-        {
-            Debug.LogWarning($"No se encontró frontWheels en la ruta: {personajeSO.frontWheelsPath}");
-        }
-        // Buscar ruedas traseras
-        backWheelsParent = visualModel.Find(personajeSO.backWheelsPath);
-
-
     }
 
     // ==================== MULTIPLICADORES ====================
@@ -520,23 +520,29 @@ public class FSMManager : StateMachineFlow {
         foreach (var p in turboParticles) p.Stop();
     }
     //================RUEDAS=====================
-    public void RotateWheelParentsInX()
+    public void RotateX()
     {
         float speed = rb.linearVelocity.magnitude;
-        float rotationSpeed = speed * 5f;
+        float rot = speed * 5f;
 
-        frontWheelsParent.Rotate(Vector3.right * rotationSpeed * Time.deltaTime, Space.Self);
-
-        backWheelsParent.Rotate(Vector3.right * rotationSpeed * Time.deltaTime, Space.Self);
-
-    }
-    public void SteerFrontWheels()
-    {
-        float steerAngle = horizontalInput * 45f;
-
-        foreach (Transform wheel in frontWheelsList)
+        foreach (Transform wheel in wheels)
         {
-            wheel.localRotation = Quaternion.Lerp(wheel.localRotation, Quaternion.Euler(0f, steerAngle, 0f), Time.deltaTime * 10f);
+            wheel.Rotate(Vector3.right * rot * Time.deltaTime, Space.Self);
+        }
+    }
+    public void RotateY()
+    {
+        float steer = horizontalInput * 30f;
+
+        foreach (Transform pivot in pivots)
+        {
+            Quaternion target = Quaternion.Euler(0f, steer, 0f);
+
+            pivot.localRotation = Quaternion.Slerp(
+                pivot.localRotation,
+                target,
+                Time.deltaTime * 10f
+            );
         }
     }
     // ==================== UTILIDADES ====================
