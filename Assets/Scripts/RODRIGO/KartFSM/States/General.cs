@@ -1,7 +1,6 @@
 using UnityEngine;
 
-public class General: TemplateStateMachine 
-    {
+public class General : TemplateStateMachine {
     private FSMManager _fsm;
 
     public General(string name, FSMManager _stateMachineFlow) : base(name, (StateMachineFlow)_stateMachineFlow)
@@ -12,5 +11,7 @@ public class General: TemplateStateMachine
     {
         if (!_fsm.driftFlag) _fsm.RotateHitbox();
         else _fsm.RotateHitboxDrift();
+        _fsm.RotateWheelParentsInX();
+        _fsm.SteerFrontWheels();
     }
 }
