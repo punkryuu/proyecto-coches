@@ -86,10 +86,10 @@ public class FSMManager : StateMachineFlow {
     public List<ParticleSystem> turboParticles = new List<ParticleSystem>();
 
     [Header("Ruedas (rotación X)")]
-    private List<Transform> wheels = new List<Transform>();
+    public List<Transform> wheels = new List<Transform>();
 
     [Header("Pivotes (rotación Y)")]
-    private List<Transform> pivots = new List<Transform>();
+    public List<Transform> pivots = new List<Transform>();
     // Inputs
     public bool accelerateInput;
     public bool brakeInput;
