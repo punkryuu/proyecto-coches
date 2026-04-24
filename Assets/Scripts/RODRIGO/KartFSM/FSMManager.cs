@@ -527,7 +527,7 @@ public class FSMManager : StateMachineFlow {
 
         foreach (Transform wheel in wheels)
         {
-            wheel.Rotate(Vector3.right * rot * Time.deltaTime, Space.Self);
+            wheel.Rotate(Vector3.right * rot * Time.deltaTime);
         }
     }
     public void RotateY()
