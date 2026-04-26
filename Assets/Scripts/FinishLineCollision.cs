@@ -11,7 +11,7 @@ public class FinishLineCollision : MonoBehaviour
         if (raceController.playerLapCounter < raceController.totalLaps)
         {
             Debug.Log("Trigger con: " + other.name);
-            CarIdetifier carIdetifier = other.GetComponentInParent<CarIdetifier>();
+            PlayerCar carIdetifier = other.GetComponentInParent<PlayerCar>();
             if (carIdetifier == null) return;
 
             if(carIdetifier.currentWayPoint >= carIdetifier.totalWaypoints)

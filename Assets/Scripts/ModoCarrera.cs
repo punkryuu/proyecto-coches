@@ -144,7 +144,7 @@ public class ModoCarrera : MonoBehaviour
     float CalculateProgress(GameObject car) //Calcula el progreso de un coche en la carrera, teniendo en cuenta las vueltas completadas, los waypoints y la distancia al siguiente waypoint
     {
       float progress = 0f;
-     CarIdetifier data = car.GetComponent<CarIdetifier>();
+     PlayerCar data = car.GetComponent<PlayerCar>();
      progress += data.currentLap * 100000f;
      progress += data.currentWayPoint * 1000f;
      progress -=  data.distanceToNextWayPoint;

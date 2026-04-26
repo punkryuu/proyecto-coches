@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class CarIdetifier : MonoBehaviour
+public class PlayerCar : MonoBehaviour
 {
     public bool isPlayer;
     public int currentLap = 0;
