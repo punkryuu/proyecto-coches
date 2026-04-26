@@ -3658,6 +3658,51 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1377782144
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1377782146}
+  - component: {fileID: 1377782145}
+  m_Layer: 0
+  m_Name: TrackCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1377782145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377782144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f26769037fff69d43adcb7815d044e10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circuit: {fileID: 28842147}
+--- !u!4 &1377782146
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377782144}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -33.451412, y: -22.588184, z: -57.41417}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1529266526
 GameObject:
   m_ObjectHideFlags: 0
@@ -3791,6 +3836,10 @@ PrefabInstance:
       propertyPath: circuit
       value: 
       objectReference: {fileID: 28842147}
+    - target: {fileID: 510331184969033781, guid: 78e45b8689149b64b87045c35d2795fc, type: 3}
+      propertyPath: circuitTrackCheck
+      value: 
+      objectReference: {fileID: 1377782145}
     - target: {fileID: 2378045524036532823, guid: 78e45b8689149b64b87045c35d2795fc, type: 3}
       propertyPath: m_Name
       value: waypoint (1)
@@ -4937,6 +4986,10 @@ PrefabInstance:
       propertyPath: circuit
       value: 
       objectReference: {fileID: 28842147}
+    - target: {fileID: 510331184969033781, guid: 78e45b8689149b64b87045c35d2795fc, type: 3}
+      propertyPath: circuitTrackCheck
+      value: 
+      objectReference: {fileID: 1377782145}
     - target: {fileID: 2378045524036532823, guid: 78e45b8689149b64b87045c35d2795fc, type: 3}
       propertyPath: m_Name
       value: waypoint (2)
@@ -5310,6 +5363,10 @@ PrefabInstance:
       propertyPath: circuit
       value: 
       objectReference: {fileID: 28842147}
+    - target: {fileID: 510331184969033781, guid: 78e45b8689149b64b87045c35d2795fc, type: 3}
+      propertyPath: circuitTrackCheck
+      value: 
+      objectReference: {fileID: 1377782145}
     - target: {fileID: 2378045524036532823, guid: 78e45b8689149b64b87045c35d2795fc, type: 3}
       propertyPath: m_Name
       value: waypoint
@@ -5378,3 +5435,4 @@ SceneRoots:
   - {fileID: 155596613}
   - {fileID: 1218645344}
   - {fileID: 1972649202}
+  - {fileID: 1377782146}

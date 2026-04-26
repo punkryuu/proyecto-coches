@@ -29,6 +29,22 @@ public class PlayerCar : MonoBehaviour
         Transform nextWayPoint = circuit.GetWayPoint(currentWayPoint);
         distanceToNextWayPoint = Vector3.Distance(transform.position, nextWayPoint.position);
     }
+    public void OnCorrectCheckpoint()
+    {
+        currentWayPoint++;
+
+    }
+
+    public void OnWrongCheckpoint()
+    {
+        Debug.Log("Checkpoint incorrecto");
+    }
+
+    public void ResetProgress()
+    {
+        currentWayPoint = 0;
+        currentLap = 0;
+    }
 }
     
 

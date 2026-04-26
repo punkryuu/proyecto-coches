@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine;
 using System;
 public class TrackCheck : MonoBehaviour
 
@@ -64,6 +63,17 @@ public class TrackCheck : MonoBehaviour
     {
         nextCheckpointIndex[car] = 0;
     }
+
+    public Vector3 GetStartPosition()
+    {
+        return circuit.GetWayPoint(0).position;
+    }
+    public Quaternion GetStartRotation()
+    {
+        return circuit.GetWayPoint(0).rotation;
+    }
+
+
     void Start()
     {
         
