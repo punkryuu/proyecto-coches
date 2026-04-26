@@ -38,7 +38,7 @@ public class FSMManager : StateMachineFlow {
     private float baseDriftEntrySpeed = 120f;
 
     [Header("Boost Base")]
-     private float baseBoostDurationMultiplier = 1f;
+    private float baseBoostDurationMultiplier = 1f;
 
     [Header("Referencia al SO de Personaje")]
     [SerializeField] private PersonajeSO personajeSO;
@@ -67,7 +67,7 @@ public class FSMManager : StateMachineFlow {
     private float currentDriftAngle;
     bool first, second, third;
     public int driftLevel;// 0, 1, 2, 3
-    
+
     Color driftFirstColor = Color.yellow;
     Color driftSecondColor = Color.red;
     Color driftThirdColor = Color.cyan;
@@ -85,6 +85,11 @@ public class FSMManager : StateMachineFlow {
     public List<ParticleSystem> driftParticles = new List<ParticleSystem>();
     public List<ParticleSystem> turboParticles = new List<ParticleSystem>();
 
+    [Header("Ruedas (rotación X)")]
+    public List<Transform> wheels = new List<Transform>();
+
+    [Header("Pivotes (rotación Y)")]
+    public List<Transform> pivots = new List<Transform>();
     // Inputs
     public bool accelerateInput;
     public bool brakeInput;
@@ -186,6 +191,21 @@ public class FSMManager : StateMachineFlow {
             Debug.LogWarning($"No se encontró turboParticles en la ruta: {personajeSO.turboParticlesPath}");
         }
 
+        wheels.Clear();
+        pivots.Clear();
+
+        foreach (Transform t in visualModel.GetComponentsInChildren<Transform>())
+        {
+            if (t.name.Contains("wheel") && !t.name.Contains("pivot"))
+            {
+                wheels.Add(t);
+            }
+
+            if (t.name.Contains("pivot"))
+            {
+                pivots.Add(t);
+            }
+        }
     }
 
     // ==================== MULTIPLICADORES ====================
@@ -462,7 +482,7 @@ public class FSMManager : StateMachineFlow {
     {
         Vector3 v = rb.linearVelocity;
         Vector3 forward = hitBox.transform.forward * maxSpeed;
-        rb.linearVelocity = Vector3.Lerp(rb.linearVelocity,new Vector3(forward.x, v.y, forward.z), Time.deltaTime * 10f);
+        rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, new Vector3(forward.x, v.y, forward.z), Time.deltaTime * 10f);
     }
 
     // ==================== PARTÍCULAS ====================
@@ -499,7 +519,32 @@ public class FSMManager : StateMachineFlow {
     {
         foreach (var p in turboParticles) p.Stop();
     }
+    //================RUEDAS=====================
+    public void RotateX()
+    {
+        float speed = rb.linearVelocity.magnitude;
+        float rot = speed * 5f;
 
+        foreach (Transform wheel in wheels)
+        {
+            wheel.Rotate(Vector3.right * rot * Time.deltaTime);
+        }
+    }
+    public void RotateY()
+    {
+        float steer = horizontalInput * 30f;
+
+        foreach (Transform pivot in pivots)
+        {
+            Quaternion target = Quaternion.Euler(0f, steer, 0f);
+
+            pivot.localRotation = Quaternion.Slerp(
+                pivot.localRotation,
+                target,
+                Time.deltaTime * 10f
+            );
+        }
+    }
     // ==================== UTILIDADES ====================
     public Transform GetHitboxTransform()
     {
