@@ -23,4 +23,20 @@ public class KartInput : MonoBehaviour {
         SteerAmount = steerInput.action.ReadValue<float>();
         IsDriftPressed = driftInput.action.IsPressed();
     }
+
+    private void OnEnable()
+    {
+        accelerateInput.action.Enable();
+        stopInput.action.Enable();
+        steerInput.action.Enable();
+        driftInput.action.Enable();
+    }
+
+    private void OnDisable()
+    {
+        accelerateInput.action.Disable();
+        stopInput.action.Disable();
+        steerInput.action.Disable();
+        driftInput.action.Disable();
+    }
 }

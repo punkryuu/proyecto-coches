@@ -45,6 +45,8 @@ public class PlayerCar : MonoBehaviour
         currentWayPoint = 0;
         currentLap = 0;
     }
+
+
 }
     
 

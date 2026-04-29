@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using Unity.MLAgents;
 
 public class UIManager : MonoBehaviour
 {
@@ -73,7 +74,9 @@ public class UIManager : MonoBehaviour
        
 
             UnityEngine.SceneManagement.SceneManager.LoadScene(modoCarrera.raceCounter);//cambiar cuando esté el siguiente escenario
-        
+            Academy.Instance.Dispose();
+            
+
     }
 
 }

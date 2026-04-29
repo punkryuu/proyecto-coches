@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.MLAgents;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -69,6 +70,13 @@ public class ModoCarrera : MonoBehaviour
             Transform spawn = NPCpositions[i];
 
             GameObject npcInstance = Instantiate(chosen.characterPrefab, spawn.position, spawn.rotation);
+
+            NPCAgent agent = npcInstance.GetComponent<NPCAgent>();
+            if(agent != null)
+            {
+                agent.SetTrackCheckpoints(FindObjectOfType<TrackCheck>());
+                agent.SetStartPosition(spawn);
+            }
             RegisterNPC(npcInstance);
             instances[chosen] = npcInstance;
         }
@@ -91,6 +99,7 @@ public class ModoCarrera : MonoBehaviour
                 //ui.contenedorFinalizar.GetComponentInChildren<TMP_Text>().text = podio;
             }
             ui.contenedorFinalizar.GetComponentInChildren<TMP_Text>().text = podio;
+        
         }
     }
 
@@ -129,7 +138,7 @@ public class ModoCarrera : MonoBehaviour
         {
             for (int j = i + 1; j < selectedCharacters.Count; j++)
             {
-                float progressI = CalculateProgress(instances[selectedCharacters[i]]);
+                float progressI = CalculateProgress(instances[selectedCharacters[i]].gameObject);
                 float progressJ = CalculateProgress(instances[selectedCharacters[j]]);
                 if (progressJ > progressI)
                 {
@@ -143,9 +152,13 @@ public class ModoCarrera : MonoBehaviour
     }
     float CalculateProgress(GameObject car) //Calcula el progreso de un coche en la carrera, teniendo en cuenta las vueltas completadas, los waypoints y la distancia al siguiente waypoint
     {
-      float progress = 0f;
-     PlayerCar data = car.GetComponent<PlayerCar>();
-     progress += data.currentLap * 100000f;
+     float progress = 0f;
+     PlayerCar data = car.GetComponentInParent<PlayerCar>();
+     if (data == null) 
+      {
+          return 0f;  
+      }
+     progress += data.currentLap * 100000f; // Cada vuelta completa vale 100000 puntos de progreso
      progress += data.currentWayPoint * 1000f;
      progress -=  data.distanceToNextWayPoint;
      return progress;
@@ -172,6 +185,7 @@ public class ModoCarrera : MonoBehaviour
             lastPositions[character.characterPrefab] = position;
 
         }
+
 
     }
 }

@@ -230,7 +230,6 @@ GameObject:
   - component: {fileID: -7330797900294987219}
   - component: {fileID: 6851937025454199880}
   - component: {fileID: 344032209352380069}
-  - component: {fileID: -4751458523067356019}
   m_Layer: 6
   m_Name: RanaNPC
   m_TagString: Untagged
@@ -419,7 +418,7 @@ MonoBehaviour:
   MaxStep: 0
   rb: {fileID: 6906419765089951152}
   npcPosition: {fileID: 0}
-  trackCheck: {fileID: -4751458523067356019}
+  trackCheck: {fileID: 0}
   raycastMask:
     serializedVersion: 2
     m_Bits: 0
@@ -428,19 +427,6 @@ MonoBehaviour:
   stuckTimeLimit: 4
   timeSinceLastProgress: 0
   turnSpeed: 100
---- !u!114 &-4751458523067356019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4126455363605797109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f26769037fff69d43adcb7815d044e10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  circuit: {fileID: 0}
 --- !u!1 &4906752903743187559
 GameObject:
   m_ObjectHideFlags: 0

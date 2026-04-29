@@ -18,6 +18,7 @@ public class Waypoints : MonoBehaviour
         if (player.currentWayPoint == index)
             {
             circuitTrackCheck.AgentThroughCheckPoint(player, index);
+            player.OnCorrectCheckpoint();
             return;
         }
     }
