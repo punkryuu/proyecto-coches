@@ -278,6 +278,14 @@ MonoBehaviour:
   canTrick: 0
   driftParticles: []
   turboParticles: []
+  drift1Start: {r: 1, g: 0.7486793, b: 0, a: 0}
+  drift1End: {r: 1, g: 0.20615105, b: 0, a: 0}
+  drift2Start: {r: 0.8867924, g: 0, b: 0.0034775643, a: 0}
+  drift2End: {r: 0.5434861, g: 0, b: 1, a: 0}
+  drift3Start: {r: 0, g: 0.76069474, b: 1, a: 0}
+  drift3End: {r: 0, g: 0.01243639, b: 1, a: 0}
+  wheels: []
+  pivots: []
   accelerateInput: 0
   brakeInput: 0
   horizontalInput: 0
