@@ -41,15 +41,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "Trick",
-                    "type": "Button",
-                    "id": "ce1f77c0-afeb-4cd1-8dac-c9cec4fb8f81",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -118,17 +109,6 @@
                     "action": "Steer",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "3c02e411-3ddd-422d-aabf-791b8371befa",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Trick",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         }

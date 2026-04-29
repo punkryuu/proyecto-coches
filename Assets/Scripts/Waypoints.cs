@@ -3,24 +3,22 @@ using UnityEngine;
 public class Waypoints : MonoBehaviour
 {
     public int index;
+    public TrackCheck circuitTrackCheck;
     public WayPointsCircuit circuit;
 
     private void OnTriggerEnter(Collider other)
     {
-        CarIdetifier car = other.GetComponentInParent<CarIdetifier>();
-        if (car == null)
+        NPCAgent ai = other.GetComponentInParent<NPCAgent>();
+        if (ai != null)
         {
-          return;
+            circuitTrackCheck.AgentThroughCheckPoint(ai, index);
+            return;
         }
-         if (car.currentWayPoint == index)
+        PlayerCar player = other.GetComponentInParent<PlayerCar>();
+        if (player.currentWayPoint == index)
             {
-            car.currentWayPoint++;
-                
-            /*if(car.currentWayPoint >= circuit.GetWayPointsCount())
-             {
-                car.currentWayPoint = 0;
-                car.currentLap++;
-            }*/
+            circuitTrackCheck.AgentThroughCheckPoint(player, index);
+            return;
         }
     }
 }

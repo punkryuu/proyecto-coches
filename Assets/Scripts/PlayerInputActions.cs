@@ -127,15 +127,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Trick"",
-                    ""type"": ""Button"",
-                    ""id"": ""ce1f77c0-afeb-4cd1-8dac-c9cec4fb8f81"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -204,17 +195,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Steer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3c02e411-3ddd-422d-aabf-791b8371befa"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Trick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -227,7 +207,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Driving_Stop = m_Driving.FindAction("Stop", throwIfNotFound: true);
         m_Driving_Drifting = m_Driving.FindAction("Drifting", throwIfNotFound: true);
         m_Driving_Steer = m_Driving.FindAction("Steer", throwIfNotFound: true);
-        m_Driving_Trick = m_Driving.FindAction("Trick", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -312,7 +291,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Driving_Stop;
     private readonly InputAction m_Driving_Drifting;
     private readonly InputAction m_Driving_Steer;
-    private readonly InputAction m_Driving_Trick;
     /// <summary>
     /// Provides access to input actions defined in input action map "Driving".
     /// </summary>
@@ -340,10 +318,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Driving/Steer".
         /// </summary>
         public InputAction @Steer => m_Wrapper.m_Driving_Steer;
-        /// <summary>
-        /// Provides access to the underlying input action "Driving/Trick".
-        /// </summary>
-        public InputAction @Trick => m_Wrapper.m_Driving_Trick;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -382,9 +356,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Steer.started += instance.OnSteer;
             @Steer.performed += instance.OnSteer;
             @Steer.canceled += instance.OnSteer;
-            @Trick.started += instance.OnTrick;
-            @Trick.performed += instance.OnTrick;
-            @Trick.canceled += instance.OnTrick;
         }
 
         /// <summary>
@@ -408,9 +379,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Steer.started -= instance.OnSteer;
             @Steer.performed -= instance.OnSteer;
             @Steer.canceled -= instance.OnSteer;
-            @Trick.started -= instance.OnTrick;
-            @Trick.performed -= instance.OnTrick;
-            @Trick.canceled -= instance.OnTrick;
         }
 
         /// <summary>
@@ -479,12 +447,5 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSteer(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Trick" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnTrick(InputAction.CallbackContext context);
     }
 }
