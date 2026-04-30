@@ -68,9 +68,7 @@ public class FSMManager : StateMachineFlow {
     bool first, second, third;
     public int driftLevel;// 0, 1, 2, 3
 
-    Color driftFirstColor = Color.yellow;
-    Color driftSecondColor = Color.red;
-    Color driftThirdColor = Color.cyan;
+
 
     [Header("Boost")]
     public BoostType currentBoostType;
@@ -84,6 +82,9 @@ public class FSMManager : StateMachineFlow {
     [Header("Partículas")]
     public List<ParticleSystem> driftParticles = new List<ParticleSystem>();
     public List<ParticleSystem> turboParticles = new List<ParticleSystem>();
+    [SerializeField]private Color drift1Start, drift1End;
+    [SerializeField] private Color drift2Start, drift2End;
+    [SerializeField] private Color drift3Start, drift3End;
 
     [Header("Ruedas (rotación X)")]
     public List<Transform> wheels = new List<Transform>();
@@ -378,7 +379,7 @@ public class FSMManager : StateMachineFlow {
 
         driftBaseRotation = hitBox.transform.rotation;
         currentDriftAngle = 0f;
-        SetDriftParticlesColor(driftFirstColor);
+        SetDriftParticlesColor(drift1Start,drift1End);
     }
 
     public void ApplyDriftMovement()
@@ -432,34 +433,46 @@ public class FSMManager : StateMachineFlow {
     public void UpdateDriftLevel()
     {
         bool colorChanged = false;
-        Color newColor = Color.clear;
+        Color newColorStart = Color.clear;
+        Color newColorEnd = Color.clear;
+
 
         if (!first && driftTimer > 0.5f)
         {
             driftLevel = 1;
-            newColor = driftFirstColor;
+            newColorStart = drift1Start;
+            newColorEnd= drift1End;
             first = true;
             colorChanged = true;
         }
         else if (first && !second && driftTimer > 3f)
         {
             driftLevel = 2;
-            newColor = driftSecondColor;
+            newColorStart = drift2Start;
+            newColorEnd = drift2End;
             second = true;
             colorChanged = true;
         }
         else if (first && second && !third && driftTimer > 5f)
         {
             driftLevel = 3;
-            newColor = driftThirdColor;
+            newColorStart = drift3Start;
+
+            newColorEnd = drift3End;
+
             third = true;
             colorChanged = true;
         }
 
         if (colorChanged)
         {
-            SetDriftParticlesColor(newColor);
-            PlayDriftParticles();
+                StopDriftParticles();
+                ClearDriftParticles(); 
+
+                SetDriftParticlesColor(newColorStart, newColorEnd);
+
+                PlayDriftParticles();
+            
         }
     }
 
@@ -501,12 +514,32 @@ public class FSMManager : StateMachineFlow {
         foreach (var p in driftParticles) p.Clear();
     }
 
-    public void SetDriftParticlesColor(Color color)
+    public void SetDriftParticlesColor(Color startColor, Color endColor)
     {
         foreach (var p in driftParticles)
         {
+            var col = p.colorOverLifetime;
+            col.enabled = true;
+
+            Gradient gradient = new Gradient();
+
+            gradient.SetKeys(
+                new GradientColorKey[]
+                {
+                new GradientColorKey(startColor, 0f),
+                new GradientColorKey(endColor, 1f)
+                },
+                new GradientAlphaKey[]
+                {
+                new GradientAlphaKey(1f, 0f),
+                new GradientAlphaKey(0f, 1f)
+                }
+            );
+
+            col.color = new ParticleSystem.MinMaxGradient(gradient);
+
             var main = p.main;
-            main.startColor = color;
+            main.startColor = Color.white;
         }
     }
 
