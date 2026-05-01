@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        menuUIManager = FindObjectOfType<MenuUIManager>();
+        menuUIManager = FindAnyObjectByType<MenuUIManager>();
         contenedorPausa.SetActive(false);
         contenedorFinalizar.SetActive(false);
         countdownText.gameObject.SetActive(false);

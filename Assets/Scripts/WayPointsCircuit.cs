@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class WayPointsCircuit : MonoBehaviour
@@ -11,4 +12,5 @@ public class WayPointsCircuit : MonoBehaviour
     {
         return waypoints.Length;
     }
+
 }

@@ -42,19 +42,33 @@ public class TimeTrialMode : MonoBehaviour
         raceActive = true;
 
     }
-    private void Update() 
+    void Update()
     {
-        if (raceActive) raceTimer += Time.deltaTime;
+        if (raceActive)
+        {
+            raceTimer += Time.deltaTime;
+            raceTimerText.text = raceTimer.ToString("F2");
+            //Debug.Log(raceTimer);
+        }
     }
     public void OnPlayerLapCompleted() // calcula el tiempo de la vuelta, lo compara con el mejor tiempo, actualiza el contador de vueltas y verifica si se ha completado la carrera
     {
-        float lapTime = raceTimer - currentLapStartTime;
-        if (lapTime < bestLapTime) bestLapTime = lapTime;
+            float lapTime = raceTimer - currentLapStartTime;
+
+        if (lapTime < bestLapTime)
+            bestLapTime = lapTime;
+
         lastLapTime = lapTime;
         currentLapStartTime = raceTimer;
         playerLapCounter++;
-        if (playerLapCounter >= totalLaps) FinishTrial();
+
+        lastLapTimeText.text = lastLapTime.ToString("F2");
+        bestLapTimeText.text = bestLapTime.ToString("F2");
+
+        if (playerLapCounter >= totalLaps)
+            FinishTrial();
     }
+
     void FinishTrial()//detiene la carrera, muestra los resultados
     { 
         raceActive = false;
