@@ -1658,6 +1658,10 @@ PrefabInstance:
       propertyPath: circuit
       value: 
       objectReference: {fileID: 1766556052}
+    - target: {fileID: 510331184969033781, guid: 78e45b8689149b64b87045c35d2795fc, type: 3}
+      propertyPath: circuitTrackCheck
+      value: 
+      objectReference: {fileID: 2116866006}
     - target: {fileID: 2378045524036532823, guid: 78e45b8689149b64b87045c35d2795fc, type: 3}
       propertyPath: m_Name
       value: waypoint
@@ -1889,6 +1893,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 32.248}
+--- !u!1 &2116866005
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2116866007}
+  - component: {fileID: 2116866006}
+  m_Layer: 0
+  m_Name: Track Check
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2116866006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2116866005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f26769037fff69d43adcb7815d044e10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circuit: {fileID: 1766556052}
+--- !u!4 &2116866007
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2116866005}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -50.351208, y: -10.079597, z: -65.37247}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1903,4 +1952,5 @@ SceneRoots:
   - {fileID: 213541618}
   - {fileID: 2110752754}
   - {fileID: 1977873046}
+  - {fileID: 2116866007}
   - {fileID: 1766556053}
