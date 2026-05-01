@@ -1,7 +1,6 @@
 using UnityEngine;
 
-public class Waypoints : MonoBehaviour
-{
+public class Waypoints : MonoBehaviour {
     public int index;
     public TrackCheck circuitTrackCheck;
     public WayPointsCircuit circuit;
@@ -14,12 +13,13 @@ public class Waypoints : MonoBehaviour
             circuitTrackCheck.AgentThroughCheckPoint(ai, index);
             return;
         }
+
         PlayerCar player = other.GetComponentInParent<PlayerCar>();
         if (player.currentWayPoint == index)
-            {
+        {
             circuitTrackCheck.AgentThroughCheckPoint(player, index);
+            player.OnCorrectCheckpoint();
             return;
         }
     }
 }
-
