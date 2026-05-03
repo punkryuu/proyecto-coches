@@ -445,4 +445,10 @@ public class FSMManager : StateMachineFlow {
             }
         }
     }
+
+    void OnDisable()
+    {
+        if (inputActions != null)
+            inputActions.Disable();
+    }
 }
