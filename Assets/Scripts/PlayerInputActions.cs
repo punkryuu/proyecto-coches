@@ -131,7 +131,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Trick"",
                     ""type"": ""Button"",
-                    ""id"": ""ce1f77c0-afeb-4cd1-8dac-c9cec4fb8f81"",
+                    ""id"": ""9131c4ba-344c-4b7b-a3d9-64adde4235a5"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -207,7 +207,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""3c02e411-3ddd-422d-aabf-791b8371befa"",
+                    ""id"": ""a94a89bf-b092-4e74-b9cc-2fce8bf0bb3f"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",

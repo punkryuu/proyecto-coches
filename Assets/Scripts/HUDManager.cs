@@ -11,9 +11,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] KartMovement car; 
     [SerializeField] TextMeshProUGUI textoVelocidad;
     [SerializeField] GameObject contenedorPausa;
+    [SerializeField] public GameObject contenedorFinalizar;
     [SerializeField] TMP_Text countdownText;
     [SerializeField] AudioMixer audioMixer;
     MenuUIManager menuUIManager;
+    public ModoCarrera modoCarrera;
 
     public float progreso = 10;   //prueba, cambiar el public a un get set
     float speed = 0;
@@ -21,8 +23,9 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        menuUIManager = FindObjectOfType<MenuUIManager>();
+        menuUIManager = FindAnyObjectByType<MenuUIManager>();
         contenedorPausa.SetActive(false);
+        contenedorFinalizar.SetActive(false);
         countdownText.gameObject.SetActive(false);
     }
     private void Update()
@@ -64,6 +67,14 @@ public class UIManager : MonoBehaviour
     {
             UnityEngine.SceneManagement.SceneManager.LoadScene(1); 
     }
-   
+
+    public void NextRace()
+    {
+       
+
+            UnityEngine.SceneManagement.SceneManager.LoadScene(modoCarrera.raceCounter);//cambiar cuando esté el siguiente escenario
+        
+    }
+
 }
 
