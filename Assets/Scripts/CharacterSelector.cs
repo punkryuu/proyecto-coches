@@ -27,7 +27,7 @@ public class CharacterSelector : MonoBehaviour
             GameManager.Instance.SetCharacter(personajes[buttonIndex]);
         }
         else {
-            Debug.LogError("GameManager instance is null. Make sure a GameManager object exists in the scene.");
+            Debug.LogError("GAMEMANAGER INSTANCE IS NULL. Make sure a GameManager object exists in the scene.");
         }
     }
 
