@@ -128,7 +128,20 @@ public class FSMManager : StateMachineFlow {
     {
         _stateMachine = idleState;
     }
+    //
+    public void SetCharacterSO() 
+    {
+        if (GameManager.Instance != null)
+        {
+            PersonajeSO selectedCharacter = GameManager.Instance.selectedCharacter;
+            if (selectedCharacter != null) { personajeSO = selectedCharacter; }
+        }
+        else
+        {
+            Debug.LogError("GAMEMANAGER INSTANCE IS NULL. Make sure a GameManager object exists in the scene.");
+        }
 
+    }
     // ==================== INICIALIZACIÓN VISUAL ====================
     private void InstantiateVisualSO()
     {
