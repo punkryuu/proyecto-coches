@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4bc3b433391d7a41bdbb8d5844e55b5, type: 3}
   m_Name: Mosquetero
   m_EditorClassIdentifier: 
-  visual: {fileID: 6978054336334186180, guid: ec52c321b6ba2c1469ec07ef1ad0a1c2, type: 3}
+  visual: {fileID: 2613718824486627978, guid: aad2c3df23d2b2a40b2458b7edb1f6be, type: 3}
   characterPrefab: {fileID: 4126455363605797109, guid: dbb74b839020afa4db65ecd78370ab26, type: 3}
-  driftParticlesPath: driftParticles
-  turboParticlesPath: turboParticles
+  driftParticlesPath: rotate_x/driftParticles
+  turboParticlesPath: rotate_x/turboParticles
   rotateXPath: rotateX
   rotateYPath: rotateY
   selectionImage: {fileID: 0}

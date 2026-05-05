@@ -13,5 +13,6 @@ public class General : TemplateStateMachine {
         else _fsm.RotateHitboxDrift();
         _fsm.RotateX();
         _fsm.RotateY();
+        _fsm.RotateZ();
     }
 }

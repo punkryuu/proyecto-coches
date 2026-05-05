@@ -91,6 +91,9 @@ public class FSMManager : StateMachineFlow {
 
     [Header("Pivotes (rotación Y)")]
     public List<Transform> pivots = new List<Transform>();
+
+    [Header("Moto (rotación z)")]
+    public List<Transform> moto = new List<Transform>();
     // Inputs
     public bool accelerateInput;
     public bool brakeInput;
@@ -205,6 +208,10 @@ public class FSMManager : StateMachineFlow {
             if (t.name.Contains("pivot"))
             {
                 pivots.Add(t);
+            }
+            if (t.name.Contains("moto"))
+            {
+                moto.Add(t);
             }
         }
     }
@@ -573,6 +580,21 @@ public class FSMManager : StateMachineFlow {
 
             pivot.localRotation = Quaternion.Slerp(
                 pivot.localRotation,
+                target,
+                Time.deltaTime * 10f
+            );
+        }
+    }
+    public void RotateZ()
+    {
+        float steer = horizontalInput * 20f;
+
+        foreach (Transform moto in moto)
+        {
+            Quaternion target = Quaternion.Euler(0f, 0f, -steer);
+
+            moto.localRotation = Quaternion.Slerp(
+                moto.localRotation,
                 target,
                 Time.deltaTime * 10f
             );
