@@ -22,6 +22,13 @@ public class CharacterSelector : MonoBehaviour
         selectedChar = personajes[buttonIndex].characterPrefab;
         selectedImage.sprite = personajes[buttonIndex].selectionImage;
         continueButton.interactable = true;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SetCharacter(personajes[buttonIndex]);
+        }
+        else {
+            Debug.LogError("GameManager instance is null. Make sure a GameManager object exists in the scene.");
+        }
     }
 
     public void Continue()
