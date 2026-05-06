@@ -18,5 +18,6 @@ public class PersonajeSO : ScriptableObject
     public float airControlMultiplier = 1f;
     public float verticalOffset = 0f;
     public float horizontalOffset = 0f;
+    public AudioClip[] audios; //0: selección, 1: Derrota, 2: Poder, 3: Golpe, 4: Truco, 5: Victoria, 6: Turbo
 
 }

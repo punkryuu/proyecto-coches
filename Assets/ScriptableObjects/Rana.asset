@@ -16,8 +16,6 @@ MonoBehaviour:
   characterPrefab: {fileID: 4126455363605797109, guid: dbb74b839020afa4db65ecd78370ab26, type: 3}
   driftParticlesPath: driftParticles
   turboParticlesPath: turboParticles
-  rotateXPath: rotateX
-  rotateYPath: rotateX/rotateY
   selectionImage: {fileID: 21300000, guid: 2beb075740fcd304e9667a8d5dd0b6cd, type: 3}
   maxSpeedMultiplier: 1
   accelerationMultiplier: 1
@@ -28,3 +26,11 @@ MonoBehaviour:
   airControlMultiplier: 1
   verticalOffset: 0.8
   horizontalOffset: 0
+  audios:
+  - {fileID: 8300000, guid: 5b05a3af24cecf24492771272106e99f, type: 3}
+  - {fileID: 8300000, guid: 18a4a4e2dc2359648b004369d23ecfb3, type: 3}
+  - {fileID: 8300000, guid: 39bdd8a5d31db164f9fa8339b5ba8c07, type: 3}
+  - {fileID: 8300000, guid: b3e27da81008c1a41b825165c84fe669, type: 3}
+  - {fileID: 8300000, guid: fca0074f2f63cb942b07237837633b8b, type: 3}
+  - {fileID: 8300000, guid: a398828d9a18d5f42a27febaa76b04e0, type: 3}
+  - {fileID: 8300000, guid: eb0cab7a2c68c974ea27db3f3f45b0b1, type: 3}
