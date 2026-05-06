@@ -11,6 +11,7 @@ public class HitboxCollision : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Collision detected with: " + collision.gameObject.name);
         if (fsm != null)
         {
             Debug.Log("Collision detected with: " + collision.gameObject.name);
