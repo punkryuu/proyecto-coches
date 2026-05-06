@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 6942431811437918486}
   - component: {fileID: 6906419765089951152}
   - component: {fileID: 5067736895779759968}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Player.V2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,7 +282,7 @@ MonoBehaviour:
   drift1Start: {r: 1, g: 0.7486793, b: 0, a: 0}
   drift1End: {r: 1, g: 0.20615105, b: 0, a: 0}
   drift2Start: {r: 0.8867924, g: 0, b: 0.0034775643, a: 0}
-  drift2End: {r: 0.5434861, g: 0, b: 1, a: 0}
+  drift2End: {r: 0.4716981, g: 0, b: 0.09989873, a: 0}
   drift3Start: {r: 0, g: 0.76069474, b: 1, a: 0}
   drift3End: {r: 0, g: 0.01243639, b: 1, a: 0}
   wheels: []
@@ -449,7 +449,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4445134920326946967}
   - component: {fileID: 9002019786373921149}
-  - component: {fileID: 5149168060401736062}
   m_Layer: 7
   m_Name: HitBox
   m_TagString: Untagged
@@ -496,18 +495,6 @@ CapsuleCollider:
   m_Height: 4.5
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5149168060401736062
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5555443707811750602}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 425123fbf91f09942b45a6a63f04dd95, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6281987217537393359
 GameObject:
   m_ObjectHideFlags: 0

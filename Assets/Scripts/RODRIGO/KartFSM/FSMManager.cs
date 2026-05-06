@@ -328,7 +328,17 @@ public class FSMManager : StateMachineFlow {
         Vector3 avg = sum / normals.Count;
         return new Vector3(avg.x, 1f, avg.z).normalized;
     }
+    // ==================== COLISIONES ====================
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        int groundLayerIndex = LayerMask.NameToLayer("Ground");
+
+        if (collision.gameObject.layer != groundLayerIndex)
+        {
+            SetAndPlayAudioClip(3);
+        }
+    }
     // ==================== MOVIMIENTO ====================
     public void ApplyAcceleration(float power = -1f)
     {
