@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Tricking : TemplateStateMachine {
     private FSMManager _fsm;
@@ -11,6 +12,7 @@ public class Tricking : TemplateStateMachine {
     {
         base.Enter();
         _fsm.stateName.text = name;//animacion de truco
+        _fsm.SetAndPlayAudioClip(4);
     }
     public override void UpdateLogic()
     {

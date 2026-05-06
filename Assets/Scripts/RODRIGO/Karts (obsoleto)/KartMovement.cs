@@ -55,8 +55,7 @@ public class KartMovement : MonoBehaviour
         driftControlMultiplier = so.driftControlMultiplier;
         airControlMultiplier = so.airControlMultiplier;
 
-        verticalOffset = so.verticalOffset;
-        horizontalOffset = so.horizontalOffset;
+
 
 }
 private void Update()
