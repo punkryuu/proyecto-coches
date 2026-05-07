@@ -13,7 +13,7 @@ public class MenuUIManager: MonoBehaviour
     [SerializeField] AudioMixer audioMixer;
     [SerializeField] TMP_Dropdown resolutionDropdown;
     [SerializeField] private Slider volumenGeneral, volumenMusica, volumenSFX;
-    [SerializeField] private SceneAsset playerSelectionScene ;
+    [SerializeField] private int characterSelectorSceneIndex;
 
     Resolution[] resolutions;
     List<string> options = new List<string>();
@@ -49,7 +49,7 @@ public class MenuUIManager: MonoBehaviour
     }
     public void PlayButton()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(playerSelectionScene.name);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(characterSelectorSceneIndex);
     }
     public void OptionButton()
     {

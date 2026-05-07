@@ -12,8 +12,7 @@ public class CharacterSelector : MonoBehaviour
     [SerializeField] List<PersonajeSO> personajes = new List<PersonajeSO>();
     GameObject selectedChar;
     [SerializeField] Button continueButton;
-    [SerializeField] private SceneAsset playScene;//temporal
-
+    [SerializeField] private int playSceneIndex;
     public void Start()
     {
         continueButton.interactable = false;
@@ -36,7 +35,7 @@ public class CharacterSelector : MonoBehaviour
     {         
         if (selectedChar != null)
         {
-            SceneManager.LoadScene(playScene.name);
+            SceneManager.LoadScene(playSceneIndex);
         }
     }
 }
