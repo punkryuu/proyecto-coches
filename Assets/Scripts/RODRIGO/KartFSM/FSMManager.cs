@@ -75,7 +75,11 @@ public class FSMManager : StateMachineFlow {
     public BoostType currentBoostType;
     public float boostDuration;
     public float trickBoostDuration = 0.5f;
-    public enum BoostType { Drift, Trick }
+    public enum BoostType { Drift, Trick, Trigger }
+
+    public bool triggerBoost;
+    public float triggerBoostDuration;
+    public bool isBoosting;
 
     [Header("Tricks")]
     public bool canTrick;
