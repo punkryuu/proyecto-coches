@@ -3,7 +3,17 @@ guid: 81f2c57c8a30da1469883915ea07d14a
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Circuito_castillo.009_Castillo_interior2Mat
+    second: {fileID: 2100000, guid: 445ff646fd666b04fa684bcb9f2c4fec, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Circuito_castillo.009_Castillo_interiorMat
+    second: {fileID: 2100000, guid: 9179d170be64d9744845e09ad858e5e5, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -3,7 +3,12 @@ guid: 598bcbcbe7d387244953ff3a6c3c88a4
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Circuito_pueblo_cimiento.004_CarreteraMat
+    second: {fileID: 2100000, guid: 91898f9434afec64681042c2789f2828, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
