@@ -75,8 +75,12 @@ public class FSMManager : StateMachineFlow {
     public BoostType currentBoostType;
     public float boostDuration;
     public float trickBoostDuration = 0.5f;
-    public enum BoostType { Drift, Trick }
+    public enum BoostType { Drift, Trick, Trigger }
 
+    public bool triggerBoost;
+    public float triggerBoostDuration;
+    public bool isBoosting;
+    public float gravityMultiplier = 1f;
     [Header("Tricks")]
     public bool canTrick;
 
@@ -362,7 +366,7 @@ public class FSMManager : StateMachineFlow {
 
     public void ApplyGravity()
     {
-        rb.AddForce(gravityForce * Vector3.down, ForceMode.Acceleration);
+        rb.AddForce(gravityForce * gravityMultiplier * Vector3.down, ForceMode.Acceleration);
     }
 
     public void ApplyLateralFriction(float strength)
