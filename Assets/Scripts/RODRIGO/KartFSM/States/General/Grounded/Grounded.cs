@@ -14,18 +14,6 @@ public class Grounded : General
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        if (_fsm.triggerBoost)
-        {
-            _fsm.triggerBoost = false;
-
-            _fsm.currentBoostType = FSMManager.BoostType.Trigger;
-
-            // usar la duración enviada por el trigger
-            _fsm.boostDuration = _fsm.triggerBoostDuration;
-
-            stateMachineFlow.ChangeState(_fsm.boostingState);
-            return;
-        }
         _fsm.trickInput = _fsm.GetInputActions().Driving.Trick.IsPressed();
         if (!_fsm.CheckGrounded())
         {

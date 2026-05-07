@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -12,7 +11,6 @@ public class MenuUIManager: MonoBehaviour
     [SerializeField] AudioMixer audioMixer;
     [SerializeField] TMP_Dropdown resolutionDropdown;
     [SerializeField] private Slider volumenGeneral, volumenMusica, volumenSFX;
-    [SerializeField] private int characterSelectorSceneIndex;
 
     Resolution[] resolutions;
     List<string> options = new List<string>();
@@ -48,7 +46,7 @@ public class MenuUIManager: MonoBehaviour
     }
     public void PlayButton()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(characterSelectorSceneIndex);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(2);
     }
     public void OptionButton()
     {
