@@ -136,6 +136,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Power"",
+                    ""type"": ""Button"",
+                    ""id"": ""bdae3b27-4018-436f-a2db-1a2b818303c8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -215,6 +224,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Trick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a07d2716-4e17-48ea-8aa3-e6f807d4a0f6"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Power"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -228,6 +248,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Driving_Drifting = m_Driving.FindAction("Drifting", throwIfNotFound: true);
         m_Driving_Steer = m_Driving.FindAction("Steer", throwIfNotFound: true);
         m_Driving_Trick = m_Driving.FindAction("Trick", throwIfNotFound: true);
+        m_Driving_Power = m_Driving.FindAction("Power", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -313,6 +334,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Driving_Drifting;
     private readonly InputAction m_Driving_Steer;
     private readonly InputAction m_Driving_Trick;
+    private readonly InputAction m_Driving_Power;
     /// <summary>
     /// Provides access to input actions defined in input action map "Driving".
     /// </summary>
@@ -344,6 +366,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Driving/Trick".
         /// </summary>
         public InputAction @Trick => m_Wrapper.m_Driving_Trick;
+        /// <summary>
+        /// Provides access to the underlying input action "Driving/Power".
+        /// </summary>
+        public InputAction @Power => m_Wrapper.m_Driving_Power;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -385,6 +411,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Trick.started += instance.OnTrick;
             @Trick.performed += instance.OnTrick;
             @Trick.canceled += instance.OnTrick;
+            @Power.started += instance.OnPower;
+            @Power.performed += instance.OnPower;
+            @Power.canceled += instance.OnPower;
         }
 
         /// <summary>
@@ -411,6 +440,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Trick.started -= instance.OnTrick;
             @Trick.performed -= instance.OnTrick;
             @Trick.canceled -= instance.OnTrick;
+            @Power.started -= instance.OnPower;
+            @Power.performed -= instance.OnPower;
+            @Power.canceled -= instance.OnPower;
         }
 
         /// <summary>
@@ -486,5 +518,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTrick(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Power" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPower(InputAction.CallbackContext context);
     }
 }

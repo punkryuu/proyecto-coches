@@ -16,7 +16,7 @@ public class PersonajeSO : ScriptableObject
     public float driftControlMultiplier = 1f;
     public float turboMultiplier = 1f;
     public float airControlMultiplier = 1f;
-    public float verticalOffset = 0f;
-    public float horizontalOffset = 0f;
+    public float HitBoxRadius = 1.5f;//por defecto
+    public AudioClip[] audios; //0: selección, 1: Derrota, 2: Poder, 3: Golpe, 4: Truco, 5: Victoria, 6: Turbo
 
 }

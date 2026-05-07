@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 
 public class FSMManager : StateMachineFlow {
@@ -16,7 +17,7 @@ public class FSMManager : StateMachineFlow {
     [Header("Referencias")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform visual; // Contenedor del modelo visual (asignar en Inspector)
-
+    private AudioSource audioSource; // Fuente de audio para efectos y música
     private Transform visualModel;
     private PlayerInputActions inputActions;
     private Rigidbody rb;
@@ -94,10 +95,12 @@ public class FSMManager : StateMachineFlow {
     // Inputs
     public bool accelerateInput;
     public bool brakeInput;
+
     public float horizontalInput;
     public bool driftInput;
     public bool isGrounded;
     public bool trickInput;
+    public bool powerInput;
 
     private void Awake()
     {
@@ -115,7 +118,7 @@ public class FSMManager : StateMachineFlow {
         inputActions.Enable();
         rb = GetComponent<Rigidbody>();
         hitBox = GetComponentInChildren<CapsuleCollider>();
-
+        audioSource = GetComponent<AudioSource>();
 
         // Aplicar multiplicadores desde el SO
         ApplyMultipliersFromSO();
@@ -259,6 +262,12 @@ public class FSMManager : StateMachineFlow {
         driftEntrySpeed = baseDriftEntrySpeed;
 
         boostDurationMultiplier = baseBoostDurationMultiplier * personajeSO.turboMultiplier;
+
+    if (hitBox != null )
+    {
+         if (hitBox.radius != personajeSO.HitBoxRadius)
+            hitBox.radius = personajeSO.HitBoxRadius;
+    }
     }
 
     public void SetPersonajeSO(PersonajeSO so)
@@ -319,7 +328,17 @@ public class FSMManager : StateMachineFlow {
         Vector3 avg = sum / normals.Count;
         return new Vector3(avg.x, 1f, avg.z).normalized;
     }
+    // ==================== COLISIONES ====================
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        int groundLayerIndex = LayerMask.NameToLayer("Ground");
+
+        if (collision.gameObject.layer != groundLayerIndex)
+        {
+            SetAndPlayAudioClip(3);
+        }
+    }
     // ==================== MOVIMIENTO ====================
     public void ApplyAcceleration(float power = -1f)
     {
@@ -510,7 +529,11 @@ public class FSMManager : StateMachineFlow {
         Vector3 forward = hitBox.transform.forward * maxSpeed;
         rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, new Vector3(forward.x, v.y, forward.z), Time.deltaTime * 10f);
     }
-
+    // ==================== PODERES ====================
+    public void UsePower() 
+    {
+         SetAndPlayAudioClip(2);
+    }
     // ==================== PARTÍCULAS ====================
     public void PlayDriftParticles()
     {
@@ -597,6 +620,16 @@ public class FSMManager : StateMachineFlow {
         return hitBox.transform;
     }
     public float GetMaxSpeed() => maxSpeed;
+    public void SetAndPlayAudioClip(int index) 
+    {
+        if (personajeSO == null || personajeSO.audios == null || index < 0 || index >= personajeSO.audios.Length)
+        {
+            Debug.LogError("FSMManager: Audio clip index out of range or PersonajeSO/audios not assigned.");
+            return;
+        }
+        audioSource.clip = personajeSO.audios[index];
+        audioSource.Play();
+    }
     private void OnDrawGizmos()
     {
         if (hitBox == null) return;

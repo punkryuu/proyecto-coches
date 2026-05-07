@@ -7,6 +7,14 @@ public class General : TemplateStateMachine {
     {
         _fsm = _stateMachineFlow;
     }
+    public override void UpdateLogic()
+    {
+        _fsm.powerInput = _fsm.GetInputActions().Driving.Power.IsPressed();
+        if (_fsm.powerInput) 
+        {
+            _fsm.UsePower();
+        }
+    }
     public override void UpdatePhysics()
     {
         if (!_fsm.driftFlag) _fsm.RotateHitbox();
