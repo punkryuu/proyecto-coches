@@ -276,10 +276,6 @@ MonoBehaviour:
   currentBoostType: 0
   boostDuration: 0
   trickBoostDuration: 0.5
-  triggerBoost: 0
-  triggerBoostDuration: 0
-  isBoosting: 0
-  gravityMultiplier: 1
   canTrick: 0
   driftParticles: []
   turboParticles: []
@@ -517,7 +513,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7552497246826747953
 RectTransform:
   m_ObjectHideFlags: 0
