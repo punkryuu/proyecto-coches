@@ -29,12 +29,13 @@ public class Drifting : Grounded
             if (_fsm.CanBoost())
             {
                 _fsm.currentBoostType = BoostType.Drift;
-                _fsm.EndDrift();
                 stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).boostingState);
             }
             else
-                stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).idleState);
+            {
 
+                stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).idleState);
+            }
             
         }
     }
@@ -46,8 +47,9 @@ public class Drifting : Grounded
     public override void Exit()
     {
         base.Exit();
+        _fsm.EndDrift();
 
-       
+
     }
 
 }

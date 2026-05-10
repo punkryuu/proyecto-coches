@@ -33,7 +33,7 @@ public class FSMManager : StateMachineFlow {
 
     [Header("Drift Base")]
     private float baseDriftFriction = 2f;
-    private float baseDriftPower = 20f;
+    private float baseDriftPower = 10f;
     private float baseDriftSideForce = 10f;
     private float baseDriftAngle = 40f;
     private float baseDriftEntrySpeed = 120f;
@@ -421,20 +421,42 @@ public class FSMManager : StateMachineFlow {
     public void ApplyDriftMovement()
     {
         driftTimer += Time.deltaTime;
+
         if (currentDriftAngle < driftAngle)
         {
             currentDriftAngle += driftEntrySpeed * Time.deltaTime;
             if (currentDriftAngle > driftAngle) currentDriftAngle = driftAngle;
         }
 
-        float adjustAngle = horizontalInput * driftPower;
-        float spin = driftDirection * driftPower * driftTimer * 2;
+        float maxSpin = driftAngle * 0.5f; 
+        float rawSpin = driftDirection * driftPower * driftTimer * 2;
+        float spin = Mathf.Clamp(rawSpin, -maxSpin, maxSpin);
+
+
+        float inputAlongDrift = horizontalInput * driftDirection; // positivo = amplía, negativo = corrige
+
+        float correctionStrength = driftPower * 1.5f;
+        float amplifyStrength = driftPower * 0.5f; 
+
+        float adjustAngle;
+        if (inputAlongDrift < 0f)
+            adjustAngle = horizontalInput * correctionStrength;
+        else
+            adjustAngle = horizontalInput * amplifyStrength;
+
         Quaternion targetRot = driftBaseRotation
             * Quaternion.Euler(0, currentDriftAngle * driftDirection, 0)
             * Quaternion.Euler(0, adjustAngle, 0)
             * Quaternion.Euler(0, spin, 0);
 
         hitBox.transform.rotation = Quaternion.Slerp(hitBox.transform.rotation, targetRot, Time.deltaTime * 8f);
+
+
+        if (Mathf.Abs(horizontalInput) > Mathf.Epsilon)
+        {
+            Quaternion adjustedBase = Quaternion.Euler(0, adjustAngle * 0.1f, 0) * driftBaseRotation;
+            driftBaseRotation = Quaternion.Slerp(driftBaseRotation, adjustedBase, Time.deltaTime * 2f);
+        }
 
         Vector3 accelForce = Vector3.zero;
         if (accelerateInput)
