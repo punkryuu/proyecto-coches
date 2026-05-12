@@ -26,15 +26,9 @@ public class Grounded : General
             stateMachineFlow.ChangeState(_fsm.boostingState);
             return;
         }
-        _fsm.trickInput = _fsm.GetInputActions().Driving.Trick.IsPressed();
         if (!_fsm.CheckGrounded())
         {
-            if (_fsm.canTrick&&_fsm.trickInput)
-            {
-                stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).trickingState);
-            }
-            else { stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).fallingState); }
-        }
+            stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).fallingState);         }
     }
 
 }

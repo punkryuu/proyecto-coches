@@ -1,7 +1,7 @@
 using UnityEngine;
 using static FSMManager;
 
-public class Drifting : Grounded 
+public class Drifting : General 
     {
     private FSMManager _fsm;
 
@@ -22,31 +22,35 @@ public class Drifting : Grounded
         _fsm.UpdateDriftLevel();
 
         _fsm.driftInput = _fsm.GetInputActions().Driving.Drifting.IsPressed();
+        _fsm.horizontalInput = _fsm.GetInputActions().Driving.Steer.ReadValue<float>();
 
         if (!_fsm.driftInput)
         {
             if (_fsm.CanBoost())
             {
                 _fsm.currentBoostType = BoostType.Drift;
-                _fsm.EndDrift();
                 stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).boostingState);
             }
             else
-                stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).idleState);
+            {
 
-            _fsm.horizontalInput = _fsm.GetInputActions().Driving.Steer.ReadValue<float>();
+                stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).idleState);
+            }
+            
         }
     }
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
         _fsm.ApplyDriftMovement();
+        if (!_fsm.CheckGrounded()) _fsm.ApplyGravity();
     }
     public override void Exit()
     {
         base.Exit();
+        _fsm.EndDrift();
 
-       
+
     }
 
 }

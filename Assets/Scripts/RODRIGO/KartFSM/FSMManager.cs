@@ -12,7 +12,6 @@ public class FSMManager : StateMachineFlow {
     public Falling fallingState;
     public Drifting driftingState;
     public Boosting boostingState;
-    public Tricking trickingState;
 
     [Header("Referencias")]
     [SerializeField] private LayerMask groundLayer;
@@ -32,9 +31,9 @@ public class FSMManager : StateMachineFlow {
     private float baseGravity = 100f;
 
     [Header("Drift Base")]
-    private float baseDriftFriction = 2f;
+    private float baseDriftFriction = 8f;
     private float baseDriftPower = 20f;
-    private float baseDriftSideForce = 10f;
+    private float baseDriftSideForce = 3f;
     private float baseDriftAngle = 40f;
     private float baseDriftEntrySpeed = 120f;
 
@@ -83,6 +82,7 @@ public class FSMManager : StateMachineFlow {
     public float gravityMultiplier = 1f;
     [Header("Tricks")]
     public bool canTrick;
+    public bool isTricking;
 
     [Header("Partículas")]
     public List<ParticleSystem> driftParticles = new List<ParticleSystem>();
@@ -103,6 +103,7 @@ public class FSMManager : StateMachineFlow {
     public float horizontalInput;
     public bool driftInput;
     public bool isGrounded;
+    public float rayDistance = 4f;
     public bool trickInput;
     public bool powerInput;
 
@@ -115,7 +116,6 @@ public class FSMManager : StateMachineFlow {
         fallingState = new Falling(this);
         driftingState = new Drifting(this);
         boostingState = new Boosting(this);
-        trickingState = new Tricking(this);
 
         // Componentes
         inputActions = new PlayerInputActions();
@@ -299,7 +299,6 @@ public class FSMManager : StateMachineFlow {
 
     public bool CheckGrounded()
     {
-        float rayDistance = 2f;
         foreach (Vector3 offset in GroundRaycasts())
         {
             Vector3 origin = hitBox.transform.TransformPoint(offset);
@@ -330,7 +329,7 @@ public class FSMManager : StateMachineFlow {
         Vector3 sum = Vector3.zero;
         foreach (Vector3 n in normals) sum += n;
         Vector3 avg = sum / normals.Count;
-        return new Vector3(avg.x, 1f, avg.z).normalized;
+        return avg.normalized;
     }
     // ==================== COLISIONES ====================
 
@@ -421,28 +420,30 @@ public class FSMManager : StateMachineFlow {
     public void ApplyDriftMovement()
     {
         driftTimer += Time.deltaTime;
-        if (currentDriftAngle < driftAngle)
+
+        currentDriftAngle = Mathf.Lerp(currentDriftAngle,driftAngle, Time.deltaTime * 8f );
+
+        float steerInfluence = horizontalInput * driftPower;
+
+        Quaternion targetRot = driftBaseRotation * Quaternion.Euler(0, currentDriftAngle * driftDirection, 0) *Quaternion.Euler(0, steerInfluence, 0);
+
+        hitBox.transform.rotation = Quaternion.Slerp(hitBox.transform.rotation,targetRot, Time.deltaTime * 10f );
+
+        Vector3 forwardVel = hitBox.transform.forward * rb.linearVelocity.magnitude;
+
+        rb.linearVelocity = Vector3.Lerp( rb.linearVelocity,forwardVel,Time.deltaTime * 3f );
+
+        if (accelerateInput)
         {
-            currentDriftAngle += driftEntrySpeed * Time.deltaTime;
-            if (currentDriftAngle > driftAngle) currentDriftAngle = driftAngle;
+            rb.AddForce(hitBox.transform.forward * accelerationPower * 0.7f,ForceMode.Acceleration);
         }
 
-        float adjustAngle = horizontalInput * driftPower;
-        float spin = driftDirection * driftPower * driftTimer * 2;
-        Quaternion targetRot = driftBaseRotation
-            * Quaternion.Euler(0, currentDriftAngle * driftDirection, 0)
-            * Quaternion.Euler(0, adjustAngle, 0)
-            * Quaternion.Euler(0, spin, 0);
+        rb.AddForce(-hitBox.transform.right * driftDirection * driftSideForce,ForceMode.Acceleration );
 
-        hitBox.transform.rotation = Quaternion.Slerp(hitBox.transform.rotation, targetRot, Time.deltaTime * 8f);
-
-        Vector3 accelForce = Vector3.zero;
-        if (accelerateInput)
-            accelForce = hitBox.transform.forward * accelerationPower * 0.8f;
-
-        rb.AddForce(accelForce + (hitBox.transform.right * -driftDirection * driftSideForce), ForceMode.Acceleration);
-        ApplyLateralFriction(driftFrictionPower);
+        ApplyLateralFriction(driftFrictionPower * 2f);
+        RotateHitboxDrift();
     }
+
 
     public void EndDrift()
     {
@@ -639,8 +640,7 @@ public class FSMManager : StateMachineFlow {
         if (hitBox == null) return;
 
         Gizmos.color = Color.yellow;
-        float rayDistance = 5f;
-        foreach (Vector3 offset in GroundRaycasts())
+                foreach (Vector3 offset in GroundRaycasts())
         {
             Vector3 origin = hitBox.transform.TransformPoint(offset);
             Gizmos.DrawSphere(origin, 0.1f);

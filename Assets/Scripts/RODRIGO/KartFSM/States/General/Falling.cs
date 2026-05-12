@@ -14,14 +14,31 @@ public class Falling: TemplateStateMachine {
     }
     public override void UpdateLogic()
     {
-
         base.UpdateLogic();
-        if (_fsm.CheckGrounded())
+
+        // Si está en el aire y puede hacer truco, activa el flag
+        if (_fsm.canTrick && _fsm.GetInputActions().Driving.Trick.IsPressed())
         {
-            stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).idleState);
+            _fsm.isTricking = true;
+            _fsm.canTrick = false;               
+            _fsm.SetAndPlayAudioClip(4);         
         }
 
-
+        if (_fsm.CheckGrounded())
+        {
+            // Si estaba haciendo un truco, aplica boost al aterrizar
+            if (_fsm.isTricking)
+            {
+                _fsm.currentBoostType = FSMManager.BoostType.Trick;
+                _fsm.boostDuration = _fsm.trickBoostDuration;  
+                _fsm.isTricking = false;
+                stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).boostingState);
+            }
+            else
+            {
+                stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).idleState);
+            }
+        }
     }
     public override void UpdatePhysics()
     {
