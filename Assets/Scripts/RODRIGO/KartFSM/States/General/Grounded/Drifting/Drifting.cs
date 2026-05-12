@@ -1,7 +1,7 @@
 using UnityEngine;
 using static FSMManager;
 
-public class Drifting : Grounded 
+public class Drifting : General 
     {
     private FSMManager _fsm;
 
@@ -43,6 +43,7 @@ public class Drifting : Grounded
     {
         base.UpdatePhysics();
         _fsm.ApplyDriftMovement();
+        if (!_fsm.CheckGrounded()) _fsm.ApplyGravity();
     }
     public override void Exit()
     {
