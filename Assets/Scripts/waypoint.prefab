@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 8683370880256900849}
   - component: {fileID: 510331184969033781}
   - component: {fileID: 7614685052875155128}
+  - component: {fileID: 1459572134985372923}
   m_Layer: 0
   m_Name: waypoint
-  m_TagString: Untagged
+  m_TagString: CheckPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -69,3 +70,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 10, y: 40, z: 40}
   m_Center: {x: 0, y: 20, z: 0}
+--- !u!114 &1459572134985372923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2378045524036532823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e25f465183218746ae5421cf48dcc69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Activated: 0
