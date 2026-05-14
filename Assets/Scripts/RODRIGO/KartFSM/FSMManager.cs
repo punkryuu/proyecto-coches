@@ -60,13 +60,13 @@ public class FSMManager : StateMachineFlow {
     private float boostDurationMultiplier;
 
     [Header("Drift")]
-    public float driftTimer;
-    public sbyte driftDirection;
+    private float driftTimer;
+    private sbyte driftDirection;
     public bool driftFlag = false;
     private Quaternion driftBaseRotation;
     private float currentDriftAngle;
     bool first, second, third;
-    public int driftLevel;// 0, 1, 2, 3
+    private int driftLevel;// 0, 1, 2, 3
 
 
 
@@ -78,15 +78,15 @@ public class FSMManager : StateMachineFlow {
 
     public bool triggerBoost;
     public float triggerBoostDuration;
-    public bool isBoosting;
+    private bool isBoosting;
     public float gravityMultiplier = 1f;
     [Header("Tricks")]
     public bool canTrick;
     public bool isTricking;
 
     [Header("Partículas")]
-    public List<ParticleSystem> driftParticles = new List<ParticleSystem>();
-    public List<ParticleSystem> turboParticles = new List<ParticleSystem>();
+    private List<ParticleSystem> driftParticles = new List<ParticleSystem>();
+    private List<ParticleSystem> turboParticles = new List<ParticleSystem>();
     [SerializeField]private Color drift1Start, drift1End;
     [SerializeField] private Color drift2Start, drift2End;
     [SerializeField] private Color drift3Start, drift3End;
@@ -102,8 +102,7 @@ public class FSMManager : StateMachineFlow {
 
     public float horizontalInput;
     public bool driftInput;
-    public bool isGrounded;
-    public float rayDistance = 4f;
+    private float rayDistance = 2f;
     public bool trickInput;
     public bool powerInput;
 
@@ -304,11 +303,9 @@ public class FSMManager : StateMachineFlow {
             Vector3 origin = hitBox.transform.TransformPoint(offset);
             if (Physics.Raycast(origin, -hitBox.transform.up, rayDistance, groundLayer))
             {
-                isGrounded = true;
                 return true;
             }
         }
-        isGrounded = false;
         return false;
     }
 
@@ -342,6 +339,14 @@ public class FSMManager : StateMachineFlow {
             SetAndPlayAudioClip(3);
         }
     }
+    // ==================== RESPAWN ====================
+    public void Respawn() 
+    {
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        this.transform.position = CheckPoints.GetActiveCheckPointPosition();
+    }
+
     // ==================== MOVIMIENTO ====================
     public void ApplyAcceleration(float power = -1f)
     {
@@ -453,7 +458,7 @@ public class FSMManager : StateMachineFlow {
         ClearDriftParticles();
     }
 
-    public bool CanBoost() => isGrounded && first;
+    public bool CanBoost() => CheckGrounded() && first;
 
     public void RotateHitboxDrift()
     {
