@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Stunned : General
 {
@@ -12,12 +13,18 @@ public class Stunned : General
     public override void Enter()
     {
         base.Enter();
+
+        timer = 0f;
+
         _fsm.stateName.text = name;
+        _fsm.StartStun();
+        _fsm.SetStars(true);
     }
     public override void UpdateLogic()
     {
         base.UpdateLogic();
         timer += Time.deltaTime;
+        _fsm.StayStunned();
 
         if (timer >= _fsm.stunDuration)
         {
@@ -29,5 +36,16 @@ public class Stunned : General
     {
         base.UpdatePhysics();
         _fsm.ApplySlowDown();
+        if (!_fsm.CheckGrounded()) _fsm.ApplyGravity();
+    }
+    public override void Exit()
+    {
+        base.Exit();
+        _fsm.SetStars(false);
+
+        _fsm.StartRestoreRotation();
+
+
+
     }
 }

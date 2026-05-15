@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -17,6 +18,7 @@ public class FSMManager : StateMachineFlow {
     [Header("Referencias")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform visual; // Contenedor del modelo visual (asignar en Inspector)
+    [SerializeField] private Transform stunStars;
     private AudioSource audioSource; // Fuente de audio para efectos y música
     private Transform visualModel;
     private PlayerInputActions inputActions;
@@ -94,7 +96,7 @@ public class FSMManager : StateMachineFlow {
 
     private Quaternion originalVisualRotation;
     private bool restoringRotation;
-
+    private Coroutine restoreCoroutine;
     [Header("Partículas")]
     private List<ParticleSystem> driftParticles = new List<ParticleSystem>();
     private List<ParticleSystem> turboParticles = new List<ParticleSystem>();
@@ -134,6 +136,7 @@ public class FSMManager : StateMachineFlow {
         rb = GetComponent<Rigidbody>();
         hitBox = GetComponentInChildren<CapsuleCollider>();
         audioSource = GetComponent<AudioSource>();
+        SetStars(false);
 
         // Aplicar multiplicadores desde el SO
         ApplyMultipliersFromSO();
@@ -554,11 +557,59 @@ public class FSMManager : StateMachineFlow {
     // ==================== PODERES ====================
     public void UsePower() 
     {
-         SetAndPlayAudioClip(2);
+        SetAndPlayAudioClip(2);
     }
-    public void StayStunned() 
+    // ==================== STUN ====================
+    public void StartStun()
     {
-        visualModel.localRotation = Quaternion.Euler(0, 0, Mathf.Sin(Time.time * 20f) * 30f);
+        originalVisualRotation = visualModel.localRotation;
+    }
+
+    public void StayStunned()
+    {
+        visualModel.parent.Rotate(
+            0f,
+            stunSpinSpeed * Time.deltaTime,
+            0f,
+            Space.Self
+        );
+    }
+    public void StartRestoreRotation()
+    {
+        if (restoreCoroutine != null)
+        {
+            StopCoroutine(restoreCoroutine);
+        }
+
+        restoreCoroutine = StartCoroutine(RestoreRotationCoroutine());
+    }
+    public IEnumerator RestoreRotationCoroutine()
+    {
+        Quaternion startRot = visualModel.parent.localRotation;
+
+        Quaternion targetRot = Quaternion.identity;
+
+        float time = 0f;
+        float duration = 0.25f;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+
+            visualModel.parent.localRotation = Quaternion.Slerp(
+                startRot,
+                targetRot,
+                time / duration
+            );
+
+            yield return null;
+        }
+
+        visualModel.parent.localRotation = Quaternion.identity;
+    }
+    public void SetStars(bool active)
+    {
+        stunStars.gameObject.SetActive(active);
     }
     // ==================== PARTÍCULAS ====================
     public void PlayDriftParticles()
