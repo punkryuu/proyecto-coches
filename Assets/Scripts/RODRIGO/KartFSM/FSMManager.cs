@@ -12,6 +12,7 @@ public class FSMManager : StateMachineFlow {
     public Falling fallingState;
     public Drifting driftingState;
     public Boosting boostingState;
+    public Stunned stunnedState;
 
     [Header("Referencias")]
     [SerializeField] private LayerMask groundLayer;
@@ -80,9 +81,16 @@ public class FSMManager : StateMachineFlow {
     public float triggerBoostDuration;
     private bool isBoosting;
     public float gravityMultiplier = 1f;
+
     [Header("Tricks")]
     public bool canTrick;
     public bool isTricking;
+
+    [Header("Stun")]
+    public bool stunned;
+    public float stunDuration = 1f;
+    public float triggerStunDuration;
+
 
     [Header("Partículas")]
     private List<ParticleSystem> driftParticles = new List<ParticleSystem>();
@@ -115,6 +123,7 @@ public class FSMManager : StateMachineFlow {
         fallingState = new Falling(this);
         driftingState = new Drifting(this);
         boostingState = new Boosting(this);
+        stunnedState = new Stunned(this);
 
         // Componentes
         inputActions = new PlayerInputActions();
