@@ -90,7 +90,10 @@ public class FSMManager : StateMachineFlow {
     public bool stunned;
     public float stunDuration = 1f;
     public float triggerStunDuration;
+    private float stunSpinSpeed = 720f;
 
+    private Quaternion originalVisualRotation;
+    private bool restoringRotation;
 
     [Header("Partículas")]
     private List<ParticleSystem> driftParticles = new List<ParticleSystem>();
@@ -552,6 +555,10 @@ public class FSMManager : StateMachineFlow {
     public void UsePower() 
     {
          SetAndPlayAudioClip(2);
+    }
+    public void StayStunned() 
+    {
+        visualModel.localRotation = Quaternion.Euler(0, 0, Mathf.Sin(Time.time * 20f) * 30f);
     }
     // ==================== PARTÍCULAS ====================
     public void PlayDriftParticles()
