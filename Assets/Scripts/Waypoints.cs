@@ -7,6 +7,8 @@ public class Waypoints : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.LogWarning(other);
+
         NPCAgent ai = other.GetComponentInParent<NPCAgent>();
         if (ai != null)
         {
@@ -14,7 +16,9 @@ public class Waypoints : MonoBehaviour {
             return;
         }
 
-        PlayerCar player = other.GetComponentInParent<PlayerCar>();
+        PlayerCar player = other.gameObject.GetComponent<PlayerCar>();
+        Debug.LogWarning(index + "/" + player);
+
         if (player.currentWayPoint == index)
         {
             Debug.Log("player ha toqueteado Waypoint: " + index);
