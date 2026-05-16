@@ -93,11 +93,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 766812198476f89489df17d30c6eac34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minWaitTime: 1
-  maxWaitTime: 4
-  minRespawnTime: 2
-  maxRespawnTime: 5
-  fallSpeed: 20
   fallDistance: 40
 --- !u!114 &2327645098809218464
 MonoBehaviour:
@@ -131,8 +126,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 50, y: 50, z: 50}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 10, y: 30, z: 10}
+  m_Center: {x: 0, y: 15, z: 0}
 --- !u!33 &257880726281562023
 MeshFilter:
   m_ObjectHideFlags: 0
