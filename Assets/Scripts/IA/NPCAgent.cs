@@ -8,7 +8,7 @@ public class NPCAgent:Agent
     [SerializeField] Rigidbody rb;
     [SerializeField] Transform npcPosition;
     //[SerializeField] Waypoints waypoints;
-    [SerializeField] TrackCheck trackCheck;
+    [SerializeField] public TrackCheck trackCheck;
     [SerializeField] LayerMask raycastMask;
 
     float maxSpeed = 20f;

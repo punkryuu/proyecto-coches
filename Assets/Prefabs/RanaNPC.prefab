@@ -230,6 +230,7 @@ GameObject:
   - component: {fileID: -7330797900294987219}
   - component: {fileID: 6851937025454199880}
   - component: {fileID: 344032209352380069}
+  - component: {fileID: 5573368835382039467}
   m_Layer: 6
   m_Name: RanaNPC
   m_TagString: Untagged
@@ -268,27 +269,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateName: {fileID: 2702613700133972365}
-  cameraFollow: {fileID: 6598501947968177138}
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
-  driftFrictionPower: 2
-  driftPower: 20
+  visual: {fileID: 0}
+  personajeSO: {fileID: 0}
   driftTimer: 0
-  driftSideForce: 10
-  driftAngle: 40
-  driftEntrySpeed: 120
   driftDirection: 0
   driftFlag: 0
+  driftLevel: 0
   currentBoostType: 0
   boostDuration: 0
+  trickBoostDuration: 0.5
+  triggerBoost: 0
+  triggerBoostDuration: 0
+  isBoosting: 0
+  gravityMultiplier: 1
+  canTrick: 0
   driftParticles: []
   turboParticles: []
+  drift1Start: {r: 0, g: 0, b: 0, a: 0}
+  drift1End: {r: 0, g: 0, b: 0, a: 0}
+  drift2Start: {r: 0, g: 0, b: 0, a: 0}
+  drift2End: {r: 0, g: 0, b: 0, a: 0}
+  drift3Start: {r: 0, g: 0, b: 0, a: 0}
+  drift3End: {r: 0, g: 0, b: 0, a: 0}
+  wheels: []
+  pivots: []
   accelerateInput: 0
   brakeInput: 0
   horizontalInput: 0
   driftInput: 0
   isGrounded: 1
+  trickInput: 0
+  powerInput: 0
 --- !u!135 &6942431811437918486
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -417,8 +431,8 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
   rb: {fileID: 6906419765089951152}
+  npcPosition: {fileID: 0}
   trackCheck: {fileID: 0}
-  startPosition: {fileID: 0}
   raycastMask:
     serializedVersion: 2
     m_Bits: 0
@@ -427,6 +441,24 @@ MonoBehaviour:
   stuckTimeLimit: 4
   timeSinceLastProgress: 0
   turnSpeed: 100
+--- !u!114 &5573368835382039467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126455363605797109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcfef279f543bd54c90ec97d7b12d7c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayer: 0
+  currentLap: 0
+  currentWayPoint: 0
+  totalWaypoints: 0
+  distanceToNextWayPoint: 0
+  circuit: {fileID: 0}
 --- !u!1 &4906752903743187559
 GameObject:
   m_ObjectHideFlags: 0

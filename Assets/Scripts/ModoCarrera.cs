@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.MLAgents;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -69,6 +70,7 @@ public class ModoCarrera : MonoBehaviour
             Transform spawn = NPCpositions[i];
 
             GameObject npcInstance = Instantiate(chosen.characterPrefab, spawn.position, spawn.rotation);
+            
             RegisterNPC(npcInstance);
             instances[chosen] = npcInstance;
         }
