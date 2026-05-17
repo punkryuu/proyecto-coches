@@ -70,7 +70,7 @@ public class ModoCarrera : MonoBehaviour
             Transform spawn = NPCpositions[i];
 
             GameObject npcInstance = Instantiate(chosen.characterPrefab, spawn.position, spawn.rotation);
-            
+            npcInstance.GetComponent<PlayerCar>().circuit = FindObjectOfType<WayPointsCircuit>();
             RegisterNPC(npcInstance);
             instances[chosen] = npcInstance;
         }

@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class MiniMap : MonoBehaviour
 {
-   [SerializeField] private LineRenderer line;
+   //[SerializeField] private LineRenderer line;
    [SerializeField] private GameObject trackPath;
    [SerializeField] public GameObject localPlayer;
    [SerializeField] public GameObject miniMapCam;
    [SerializeField] public GameObject playerPositionSphere;
     void Start()
     {
-        line = GetComponent<LineRenderer>();
+       /* line = GetComponent<LineRenderer>();
         trackPath = this.gameObject;
 
         int numPoints = trackPath.transform.childCount;
@@ -20,7 +20,7 @@ public class MiniMap : MonoBehaviour
         }
         //line.SetPosition(numPoints, line.GetPosition(1));
         line.startWidth = 15f;
-        line.endWidth = 15f;
+        line.endWidth = 15f;*/
     }
 
     // Update is called once per frame

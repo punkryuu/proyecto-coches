@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 6942431811437918486}
   - component: {fileID: 6906419765089951152}
   - component: {fileID: 5067736895779759968}
+  - component: {fileID: -5827388204412166198}
   m_Layer: 8
   m_Name: NPC2
   m_TagString: Player
@@ -442,6 +443,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-5827388204412166198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126455363605797109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcfef279f543bd54c90ec97d7b12d7c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayer: 0
+  currentLap: 0
+  currentWayPoint: 0
+  totalWaypoints: 0
+  distanceToNextWayPoint: 0
+  circuit: {fileID: 0}
 --- !u!1 &5555443707811750602
 GameObject:
   m_ObjectHideFlags: 0

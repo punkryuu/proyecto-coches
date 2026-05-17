@@ -7,7 +7,7 @@ public class NPCAgent:Agent
 {
     [SerializeField] Rigidbody rb;
     [SerializeField] Transform npcPosition;
-    //[SerializeField] Waypoints waypoints;
+    [SerializeField] PlayerCar playerCar;
     [SerializeField] public TrackCheck trackCheck;
     [SerializeField] LayerMask raycastMask;
 
