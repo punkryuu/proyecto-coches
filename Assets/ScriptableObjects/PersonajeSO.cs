@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "PersonajeSO", menuName = "Scriptable Objects/PersonajeSO")]
-public class PersonajeSO : ScriptableObject
+public abstract class PersonajeSO : ScriptableObject
 {
     public GameObject visual;
     public GameObject characterPrefab;
@@ -20,6 +20,9 @@ public class PersonajeSO : ScriptableObject
 
     [Header("0: selección, 1: Derrota, 2: Poder, 3: Golpe, 4: Truco, 5: Victoria, 6: Turbo")]
 
-    public AudioClip[] audios; 
+    public AudioClip[] audios;
+
+    abstract public void UsePower();
+    
 
 }

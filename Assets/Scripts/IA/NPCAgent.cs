@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
+using Unity.VisualScripting;
 
 public class NPCAgent:Agent
 {
@@ -22,6 +23,9 @@ public class NPCAgent:Agent
     public float timeSinceLastProgress = 0f;
     public float turnSpeed = 100f;
     private Vector3 lastPosition;
+
+    public float power = 0f;
+    public float maxPower = 100f;
 
     private Transform currentCheckPoint;
 
@@ -86,10 +90,18 @@ public class NPCAgent:Agent
     {
         int movementAction = actions.DiscreteActions[0]; // 0: adelante, 1: atrás
         int turnAction = actions.DiscreteActions[1]; // 0: sin acción, 1: izquierda, 2: derecha
+        int usePowerAction = actions.DiscreteActions[2]; // 0: no usar, 1: usar
 
         Vector3 movement = Vector3.zero;
 
-        if(movementAction == 1)
+        if (usePowerAction == 1 && power >= maxPower)
+        {
+            playerCar.personajeData.UsePower();
+            power = 0f;
+            AddReward(0.2f); // Recompensa por usarlo bien
+        }
+
+        if (movementAction == 1)
             movement += npcPosition.forward * accelerationForce;
         else if(movementAction == 2)
             movement -= npcPosition.forward * brakeForce;

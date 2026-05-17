@@ -8,12 +8,14 @@ public class PlayerCar : MonoBehaviour
     public int currentWayPoint = 0;
     public int totalWaypoints;
     public float distanceToNextWayPoint = 0f;
+    public PersonajeSO personajeData;
 
     public WayPointsCircuit circuit;
 
     void Start()
     {
         totalWaypoints = circuit.GetWayPointsCount();
+        personajeData = GetComponent<PersonajeSO>();
     }
     void Update()
     {
