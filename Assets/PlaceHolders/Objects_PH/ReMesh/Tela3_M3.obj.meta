@@ -3,7 +3,22 @@ guid: 7edce7115d9231c478cb9d23e764cef9
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tela_3_3_LOD00_Tela.001Mat
+    second: {fileID: 2100000, guid: 617075d77827c054582dd4c148273d91, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tela_3_3_LOD01_Tela.001Mat
+    second: {fileID: 2100000, guid: 617075d77827c054582dd4c148273d91, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tela_3_3_LOD02_Tela.001Mat
+    second: {fileID: 2100000, guid: 617075d77827c054582dd4c148273d91, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

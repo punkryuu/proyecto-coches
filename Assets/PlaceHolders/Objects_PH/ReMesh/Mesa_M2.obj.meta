@@ -3,7 +3,22 @@ guid: 23468de9f84f41643933afb834319b43
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mesa_LOD00_MaderaMat
+    second: {fileID: 2100000, guid: 7c8bbde8318242f4ba0782118123f410, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mesa_LOD01_MaderaMat
+    second: {fileID: 2100000, guid: 7c8bbde8318242f4ba0782118123f410, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mesa_LOD02_MaderaMat
+    second: {fileID: 2100000, guid: 7c8bbde8318242f4ba0782118123f410, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

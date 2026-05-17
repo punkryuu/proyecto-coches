@@ -3,7 +3,12 @@ guid: 9bcee7c4cb97c874e8dcb61e0f9e761c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tela_2_LOD00_Orig_mercadillosMat
+    second: {fileID: 2100000, guid: 617075d77827c054582dd4c148273d91, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
