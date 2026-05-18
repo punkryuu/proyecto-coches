@@ -96,7 +96,7 @@ public class NPCAgent:Agent
 
         if (usePowerAction == 1 && power >= maxPower)
         {
-            playerCar.personajeData.UsePower();
+            playerCar.personajeData.UsePower(this);
             power = 0f;
             AddReward(0.2f); // Recompensa por usarlo bien
         }

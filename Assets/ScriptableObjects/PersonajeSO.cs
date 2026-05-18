@@ -17,12 +17,13 @@ public abstract class PersonajeSO : ScriptableObject
     public float turboMultiplier = 1f;
     public float airControlMultiplier = 1f;
     public float HitBoxRadius = 1.5f;//por defecto
+    public float poderDuracion = 10f; // Duración del poder
 
     [Header("0: selección, 1: Derrota, 2: Poder, 3: Golpe, 4: Truco, 5: Victoria, 6: Turbo")]
 
     public AudioClip[] audios;
 
-    abstract public void UsePower();
+    abstract public void UsePower(MonoBehaviour ejecutor);
     
 
 }

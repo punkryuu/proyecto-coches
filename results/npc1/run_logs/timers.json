@@ -1,0 +1,42 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1779104941",
+        "python_version": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\Nathan\\Documents\\GitHub\\projecto-coches\\pruebaia\\Scripts\\mlagents-learn C:\\Users\\Nathan\\Documents\\GitHub\\projecto-coches\\Assets\\Scripts\\IA\\NPC_Agent.yaml --run-id=npc1 --force",
+        "mlagents_version": "1.1.0",
+        "mlagents_envs_version": "1.1.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.12.0+cpu",
+        "numpy_version": "1.23.5",
+        "end_time_seconds": "1779105004"
+    },
+    "total": 62.67742130003171,
+    "count": 1,
+    "self": 0.008433900075033307,
+    "children": {
+        "run_training.setup": {
+            "total": 0.1441740999580361,
+            "count": 1,
+            "self": 0.1441740999580361
+        },
+        "TrainerController.start_learning": {
+            "total": 62.52481329999864,
+            "count": 1,
+            "self": 6.929994560778141e-05,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 62.52472560002934,
+                    "count": 1,
+                    "self": 62.52472560002934
+                },
+                "TrainerController._save_models": {
+                    "total": 1.8400023691356182e-05,
+                    "count": 1,
+                    "self": 1.8400023691356182e-05
+                }
+            }
+        }
+    }
+}

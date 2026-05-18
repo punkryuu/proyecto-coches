@@ -47,11 +47,13 @@ public class ModoCarrera : MonoBehaviour
         {
             selectedCharacters.Clear();
             instances.Clear();
-            SpawnEnemies();
+            //Debug.Log("Circuito encontrado en Awake: " + FindObjectOfType<WayPointsCircuit>());
+            //SpawnEnemies();
         }
     }
     void Start()
     {
+        SpawnEnemies();
         StartCoroutine(StartCountdown());
        
     }
@@ -70,7 +72,9 @@ public class ModoCarrera : MonoBehaviour
             Transform spawn = NPCpositions[i];
 
             GameObject npcInstance = Instantiate(chosen.characterPrefab, spawn.position, spawn.rotation);
-            npcInstance.GetComponent<PlayerCar>().circuit = FindObjectOfType<WayPointsCircuit>();
+            PlayerCar car = npcInstance.GetComponent<PlayerCar>();
+            car.circuit = FindObjectOfType<WayPointsCircuit>();
+            car.personajeData = chosen;
             RegisterNPC(npcInstance);
             instances[chosen] = npcInstance;
         }

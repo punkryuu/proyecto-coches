@@ -42,7 +42,7 @@ public class FSMManager : StateMachineFlow {
     private float baseBoostDurationMultiplier = 1f;
 
     [Header("Referencia al SO de Personaje")]
-    [SerializeField] private PersonajeSO personajeSO;
+    [SerializeField] public PlayerCar personajeSO;
 
     // Variables finales (base * multiplicador)
     private float maxSpeed;
@@ -141,7 +141,7 @@ public class FSMManager : StateMachineFlow {
         if (GameManager.Instance != null)
         {
             PersonajeSO selectedCharacter = GameManager.Instance.selectedCharacter;
-            if (selectedCharacter != null) { personajeSO = selectedCharacter; }
+            if (selectedCharacter != null) { personajeSO = selectedCharacter.characterPrefab.GetComponent<PlayerCar>(); }
         }
         else
         {
@@ -158,7 +158,7 @@ public class FSMManager : StateMachineFlow {
             return;
         }
 
-        if (personajeSO.visual == null)
+        if (personajeSO.personajeData.visual == null)
         {
             Debug.LogWarning("FSMManager: El PersonajeSO no tiene modelo visual.");
             return;
@@ -166,7 +166,7 @@ public class FSMManager : StateMachineFlow {
 
 
         // Instanciar el modelo
-        GameObject visualInstance = Instantiate(personajeSO.visual, visual);
+        GameObject visualInstance = Instantiate(personajeSO.personajeData.visual, visual);
         visualInstance.transform.localRotation = Quaternion.identity;
         visualModel = visualInstance.transform;
 
@@ -175,7 +175,7 @@ public class FSMManager : StateMachineFlow {
         turboParticles.Clear();
 
         // Buscar partículas de drift
-        Transform driftRoot = visualModel.Find(personajeSO.driftParticlesPath);
+        Transform driftRoot = visualModel.Find(personajeSO.personajeData.driftParticlesPath);
         if (driftRoot != null)
         {
             for (int i = 0; i < driftRoot.childCount; i++)
@@ -190,11 +190,11 @@ public class FSMManager : StateMachineFlow {
         }
         else
         {
-            Debug.LogWarning($"No se encontró driftParticles en la ruta: {personajeSO.driftParticlesPath}");
+            Debug.LogWarning($"No se encontró driftParticles en la ruta: {personajeSO.personajeData.driftParticlesPath}");
         }
 
         // Buscar partículas de turbo
-        Transform turboRoot = visualModel.Find(personajeSO.turboParticlesPath);
+        Transform turboRoot = visualModel.Find(personajeSO.personajeData.turboParticlesPath);
         if (turboRoot != null)
         {
             for (int i = 0; i < turboRoot.childCount; i++)
@@ -209,7 +209,7 @@ public class FSMManager : StateMachineFlow {
         }
         else
         {
-            Debug.LogWarning($"No se encontró turboParticles en la ruta: {personajeSO.turboParticlesPath}");
+            Debug.LogWarning($"No se encontró turboParticles en la ruta: {personajeSO.personajeData.turboParticlesPath}");
         }
 
         wheels.Clear();
@@ -251,32 +251,32 @@ public class FSMManager : StateMachineFlow {
             return;
         }
 
-        maxSpeed = baseMaxSpeed * personajeSO.maxSpeedMultiplier;
-        accelerationPower = baseAcceleration * personajeSO.accelerationMultiplier;
+        maxSpeed = baseMaxSpeed * personajeSO.personajeData.maxSpeedMultiplier;
+        accelerationPower = baseAcceleration * personajeSO.personajeData.accelerationMultiplier;
         brakePower = baseBrakePower;
-        steerPower = baseSteerPower * personajeSO.steeringMultiplier;
+        steerPower = baseSteerPower * personajeSO.personajeData.steeringMultiplier;
 
-        frictionPower = baseFriction * personajeSO.weightMultiplier;
-        gravityForce = baseGravity * personajeSO.weightMultiplier;
+        frictionPower = baseFriction * personajeSO.personajeData.weightMultiplier;
+        gravityForce = baseGravity * personajeSO.personajeData.weightMultiplier;
 
-        driftPower = baseDriftPower * personajeSO.driftControlMultiplier;
-        driftSideForce = baseDriftSideForce * personajeSO.driftControlMultiplier;
+        driftPower = baseDriftPower * personajeSO.personajeData.driftControlMultiplier;
+        driftSideForce = baseDriftSideForce * personajeSO.personajeData.driftControlMultiplier;
         driftFrictionPower = baseDriftFriction;
         driftAngle = baseDriftAngle;
         driftEntrySpeed = baseDriftEntrySpeed;
 
-        boostDurationMultiplier = baseBoostDurationMultiplier * personajeSO.turboMultiplier;
+        boostDurationMultiplier = baseBoostDurationMultiplier * personajeSO.personajeData.turboMultiplier;
 
     if (hitBox != null )
     {
-         if (hitBox.radius != personajeSO.HitBoxRadius)
-            hitBox.radius = personajeSO.HitBoxRadius;
+         if (hitBox.radius != personajeSO.personajeData.HitBoxRadius)
+            hitBox.radius = personajeSO.personajeData.HitBoxRadius;
     }
     }
 
     public void SetPersonajeSO(PersonajeSO so)
     {
-        personajeSO = so;
+        personajeSO.personajeData = so;
         ApplyMultipliersFromSO();
     }
 
@@ -626,12 +626,12 @@ public class FSMManager : StateMachineFlow {
     public float GetMaxSpeed() => maxSpeed;
     public void SetAndPlayAudioClip(int index) 
     {
-        if (personajeSO == null || personajeSO.audios == null || index < 0 || index >= personajeSO.audios.Length)
+        if (personajeSO == null || personajeSO.personajeData.audios == null || index < 0 || index >= personajeSO.personajeData.audios.Length)
         {
             Debug.LogError("FSMManager: Audio clip index out of range or PersonajeSO/audios not assigned.");
             return;
         }
-        audioSource.clip = personajeSO.audios[index];
+        audioSource.clip = personajeSO.personajeData.audios[index];
         audioSource.Play();
     }
     private void OnDrawGizmos()
