@@ -81,15 +81,4 @@ public class TrackCheck : MonoBehaviour
         return circuit.GetWayPoint(0).rotation;
     }
 
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

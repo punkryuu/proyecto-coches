@@ -1,13 +1,15 @@
-using UnityEngine;
+using System;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using Unity.VisualScripting;
+using UnityEngine;
 
 public class NPCAgent:Agent
 {
     [SerializeField] Rigidbody rb;
     Transform npcPosition;
+    public Transform spawnPoint;
     PlayerCar playerCar;
     [SerializeField] public TrackCheck trackCheck;
     [SerializeField] LayerMask raycastMask;
@@ -28,6 +30,7 @@ public class NPCAgent:Agent
     public float maxPower = 100f;
 
     private Transform currentCheckPoint;
+    public int spawnIndex;
 
     public override void Initialize()
     {
@@ -47,8 +50,8 @@ public class NPCAgent:Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        npcPosition.position = trackCheck.GetStartPosition();
-        npcPosition.rotation = trackCheck.GetStartRotation();
+        npcPosition.position = spawnPoint.position + Vector3.up * 0.5f;
+        npcPosition.rotation = spawnPoint.rotation;
 
         trackCheck.ResetCheckpoint(this);
         timeSinceLastProgress = 0f;

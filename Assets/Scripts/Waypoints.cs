@@ -5,6 +5,19 @@ public class Waypoints : MonoBehaviour {
     public TrackCheck circuitTrackCheck;
     public WayPointsCircuit circuit;
 
+    private void Awake()
+    {
+        if (circuitTrackCheck == null)
+        {
+            circuitTrackCheck = FindAnyObjectByType<TrackCheck>();
+        }
+       
+        if (circuit == null)
+        {
+            circuit = FindAnyObjectByType<WayPointsCircuit>();
+        }
+       
+    }
     private void OnTriggerEnter(Collider other)
     {
         NPCAgent ai = other.GetComponentInParent<NPCAgent>();
