@@ -15,8 +15,17 @@ public class PlayerCar : MonoBehaviour
 
     void Start()
     {
+        if (circuit == null)
+        {
+            circuit = FindFirstObjectByType<WayPointsCircuit>();
+            if (circuit == null)
+            {
+                Debug.LogError("PlayerCar: circuit no asignado");
+                return;
+            }
+        }
+
         totalWaypoints = circuit.GetWayPointsCount();
-       // modoCarrera = personajeData;
     }
     void Update()
     {

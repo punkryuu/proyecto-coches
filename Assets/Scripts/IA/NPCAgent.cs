@@ -7,8 +7,8 @@ using Unity.VisualScripting;
 public class NPCAgent:Agent
 {
     [SerializeField] Rigidbody rb;
-    [SerializeField] Transform npcPosition;
-    [SerializeField] PlayerCar playerCar;
+    Transform npcPosition;
+    PlayerCar playerCar;
     [SerializeField] public TrackCheck trackCheck;
     [SerializeField] LayerMask raycastMask;
 
@@ -31,9 +31,15 @@ public class NPCAgent:Agent
 
     public override void Initialize()
     {
-        if(rb == null) rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
+        npcPosition = transform;
+        playerCar = GetComponent<PlayerCar>();
+        trackCheck = FindFirstObjectByType<TrackCheck>();
+
         lastPosition = npcPosition.position;
-       
+
+
+
     }
 
     public override void OnEpisodeBegin()

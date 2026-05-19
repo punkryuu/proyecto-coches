@@ -75,6 +75,10 @@ public class ModoCarrera : MonoBehaviour
             PlayerCar car = npcInstance.GetComponent<PlayerCar>();
             car.circuit = FindObjectOfType<WayPointsCircuit>();
             car.personajeData = chosen;
+
+            FSMManager fsm = npcInstance.GetComponent<FSMManager>();
+            fsm.personajeSO = car;
+
             RegisterNPC(npcInstance);
             instances[chosen] = npcInstance;
         }

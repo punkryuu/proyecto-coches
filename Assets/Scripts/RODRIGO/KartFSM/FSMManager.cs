@@ -128,6 +128,11 @@ public class FSMManager : StateMachineFlow {
         ApplyMultipliersFromSO();
 
         // Instanciar modelo visual y partículas
+       // InstantiateVisualSO();
+    }
+
+    void Start()
+    {
         InstantiateVisualSO();
     }
 
