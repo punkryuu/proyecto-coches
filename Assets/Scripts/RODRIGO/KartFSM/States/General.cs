@@ -9,6 +9,17 @@ public class General : TemplateStateMachine {
     }
     public override void UpdateLogic()
     {
+        base.UpdateLogic();
+        if (_fsm.stunned)
+        {
+            _fsm.stunned = false;
+
+            // usar la duración enviada por el trigger
+            _fsm.stunDuration = _fsm.triggerStunDuration;
+
+            stateMachineFlow.ChangeState(_fsm.stunnedState);
+            return;
+        }
         _fsm.powerInput = _fsm.GetInputActions().Driving.Power.IsPressed();
         if (_fsm.powerInput) 
         {

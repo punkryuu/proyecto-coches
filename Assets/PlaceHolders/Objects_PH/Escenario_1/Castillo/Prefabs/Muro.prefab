@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2856192598527707701, guid: d42a631db4db880499c1d7980942e038, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -28.500008
+      value: -28.5
       objectReference: {fileID: 0}
     - target: {fileID: 2856192598527707701, guid: d42a631db4db880499c1d7980942e038, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2856192598527707701, guid: d42a631db4db880499c1d7980942e038, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.13000107
+      value: -0.07
       objectReference: {fileID: 0}
     - target: {fileID: 2856192598527707701, guid: d42a631db4db880499c1d7980942e038, type: 3}
       propertyPath: m_LocalRotation.w
@@ -52,6 +52,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Diamante (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3900571680117106355, guid: d42a631db4db880499c1d7980942e038, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3900571680117106355, guid: d42a631db4db880499c1d7980942e038, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fa9315df3ab80554189533707573a2fc, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -211,6 +219,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7843422719999164746, guid: 896301fcfdfa5ff4fbbff9577e01313b, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843422719999164746, guid: 896301fcfdfa5ff4fbbff9577e01313b, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fa9315df3ab80554189533707573a2fc, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

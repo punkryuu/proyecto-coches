@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1e327a2e58f7dbd468d25762402ff3f9, type: 2}
+  - {fileID: 2100000, guid: f2d0184bdb4492d4c8490521e4e7e93b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -150,7 +150,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1e327a2e58f7dbd468d25762402ff3f9, type: 2}
+  - {fileID: 2100000, guid: f2d0184bdb4492d4c8490521e4e7e93b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -337,7 +337,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1e327a2e58f7dbd468d25762402ff3f9, type: 2}
+  - {fileID: 2100000, guid: f2d0184bdb4492d4c8490521e4e7e93b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -589,6 +589,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3472118536639793776}
     m_Modifications:
+    - target: {fileID: 2084737367903277475, guid: 40847d8709637674cb48ecd9ff5ed6ff, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084737367903277475, guid: 40847d8709637674cb48ecd9ff5ed6ff, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f57ab53e0dfdd9a4a9c04fd36b7fe089, type: 2}
     - target: {fileID: 2765219572890008002, guid: 40847d8709637674cb48ecd9ff5ed6ff, type: 3}
       propertyPath: m_Name
       value: Coche_Rana_V5_1

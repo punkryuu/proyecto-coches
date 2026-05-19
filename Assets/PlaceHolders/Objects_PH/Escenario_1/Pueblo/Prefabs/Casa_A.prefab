@@ -48,6 +48,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3879745303285131902, guid: 3d8c312b43c48d74dba98f0555c8240c, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -3879745303285131902, guid: 3d8c312b43c48d74dba98f0555c8240c, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fa9315df3ab80554189533707573a2fc, type: 2}
+    - target: {fileID: 397393313510376149, guid: 3d8c312b43c48d74dba98f0555c8240c, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 397393313510376149, guid: 3d8c312b43c48d74dba98f0555c8240c, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fa9315df3ab80554189533707573a2fc, type: 2}
     - target: {fileID: 919132149155446097, guid: 3d8c312b43c48d74dba98f0555c8240c, type: 3}
       propertyPath: m_Name
       value: CasaA_Lod03
@@ -125,6 +141,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6107064206918671760, guid: 428e894b156aaea4ab75e0fc281a5a61, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -6107064206918671760, guid: 428e894b156aaea4ab75e0fc281a5a61, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fa9315df3ab80554189533707573a2fc, type: 2}
+    - target: {fileID: -1315338285699373288, guid: 428e894b156aaea4ab75e0fc281a5a61, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -1315338285699373288, guid: 428e894b156aaea4ab75e0fc281a5a61, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fa9315df3ab80554189533707573a2fc, type: 2}
     - target: {fileID: 919132149155446097, guid: 428e894b156aaea4ab75e0fc281a5a61, type: 3}
       propertyPath: m_Name
       value: CasaA_Lod01
@@ -348,6 +380,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: CasaA_Lod02
       objectReference: {fileID: 0}
+    - target: {fileID: 7434768069337142526, guid: 15bee348f6532a3438a8a1ce89ee5a99, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7434768069337142526, guid: 15bee348f6532a3438a8a1ce89ee5a99, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fa9315df3ab80554189533707573a2fc, type: 2}
+    - target: {fileID: 8828750890785682970, guid: 15bee348f6532a3438a8a1ce89ee5a99, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828750890785682970, guid: 15bee348f6532a3438a8a1ce89ee5a99, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fa9315df3ab80554189533707573a2fc, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -421,10 +469,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3800107163808027026, guid: e00a868432fe52e41bba0ec54b011b4e, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3800107163808027026, guid: e00a868432fe52e41bba0ec54b011b4e, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -1759235581969046101, guid: e00a868432fe52e41bba0ec54b011b4e, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -1759235581969046101, guid: e00a868432fe52e41bba0ec54b011b4e, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fa9315df3ab80554189533707573a2fc, type: 2}
     - target: {fileID: 919132149155446097, guid: e00a868432fe52e41bba0ec54b011b4e, type: 3}
       propertyPath: m_Name
       value: CasaA_Lod00
       objectReference: {fileID: 0}
+    - target: {fileID: 1411370701364461577, guid: e00a868432fe52e41bba0ec54b011b4e, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1411370701364461577, guid: e00a868432fe52e41bba0ec54b011b4e, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fa9315df3ab80554189533707573a2fc, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
