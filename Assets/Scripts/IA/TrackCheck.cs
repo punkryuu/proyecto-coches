@@ -13,7 +13,15 @@ public class TrackCheck : MonoBehaviour
     public event Action<PlayerCar> OnWrongCheckPointPlayer;
 
     public void AgentThroughCheckPoint(object car, int index)
-    {      
+    {
+        if (circuit == null)
+        {
+            Debug.LogError("TrackCheck.circuit ES NULL");
+        }
+        else
+        {
+            Debug.Log("TrackCheck.circuit OK");
+        }
         if (!nextCheckpointIndex.ContainsKey(car))
         {
             nextCheckpointIndex[car] = 0;

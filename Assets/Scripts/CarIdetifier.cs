@@ -8,11 +8,23 @@ public class PlayerCar : MonoBehaviour
     public int currentWayPoint = 0;
     public int totalWaypoints;
     public float distanceToNextWayPoint = 0f;
+    public PersonajeSO personajeData;
+    ModoCarrera modoCarrera;
 
     public WayPointsCircuit circuit;
 
     void Start()
     {
+        if (circuit == null)
+        {
+            circuit = FindFirstObjectByType<WayPointsCircuit>();
+            if (circuit == null)
+            {
+                Debug.LogError("PlayerCar: circuit no asignado");
+                return;
+            }
+        }
+
         totalWaypoints = circuit.GetWayPointsCount();
     }
     void Update()

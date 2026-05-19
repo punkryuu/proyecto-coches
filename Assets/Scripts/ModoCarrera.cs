@@ -67,8 +67,15 @@ public class ModoCarrera : MonoBehaviour
             selectedCharacters.Add(chosen);
             Debug.Log("Instanciando: " + chosen.name);
             Transform spawn = NPCpositions[i];
-
+            Debug.LogWarning("Spawn position for " + chosen.name + ": " + spawn.position);
             GameObject npcInstance = Instantiate(chosen.characterPrefab, spawn.position, spawn.rotation);
+            PlayerCar car = npcInstance.GetComponent<PlayerCar>();
+            car.circuit = FindAnyObjectByType<WayPointsCircuit>();
+            car.personajeData = chosen;
+
+            FSMManager fsm = npcInstance.GetComponent<FSMManager>();
+            fsm.playerCar = car;
+
             RegisterNPC(npcInstance);
             instances[chosen] = npcInstance;
         }

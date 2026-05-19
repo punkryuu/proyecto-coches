@@ -44,7 +44,8 @@ public class FSMManager : StateMachineFlow {
     private float baseBoostDurationMultiplier = 1f;
 
     [Header("Referencia al SO de Personaje")]
-    [SerializeField] private PersonajeSO personajeSO;
+    [SerializeField] public PlayerCar playerCar;
+    PersonajeSO personajeSO;
 
     // Variables finales (base * multiplicador)
     private float maxSpeed;
@@ -137,7 +138,7 @@ public class FSMManager : StateMachineFlow {
         hitBox = GetComponentInChildren<CapsuleCollider>();
         audioSource = GetComponent<AudioSource>();
         SetStars(false);
-
+        personajeSO = playerCar.personajeData;
         // Aplicar multiplicadores desde el SO
         ApplyMultipliersFromSO();
 
