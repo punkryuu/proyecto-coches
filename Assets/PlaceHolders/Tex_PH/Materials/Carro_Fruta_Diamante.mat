@@ -11,7 +11,8 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: cf69794c119d36e4eb4e6ed897ccfe06, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _UVS_BASE
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -130,6 +131,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _Tama_o_Puntos: 0.5
+    - _UVS: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
