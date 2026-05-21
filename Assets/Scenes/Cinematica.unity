@@ -231,9 +231,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 587696026}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 197b18bbc69a3a04e861ae85aba6d3e1, type: 3}
+  m_Script: {fileID: 11500000, guid: b0bf2876a24d8bb4286537ebf9a4c55e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 970559621}
+  nombreEscena: PantalladeInicio
   texto: {fileID: 1256804852}
   tiempoVisible: 2
 --- !u!1 &970559620
