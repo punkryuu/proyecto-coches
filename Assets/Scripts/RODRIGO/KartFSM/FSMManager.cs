@@ -94,7 +94,7 @@ public class FSMManager : StateMachineFlow {
     public float stunDuration = 1f;
     public float triggerStunDuration;
     private float stunSpinSpeed = 720f;
-
+    public bool canBeStunned = true;
     private Quaternion originalVisualRotation;
     private bool restoringRotation;
     private Coroutine restoreCoroutine;
@@ -559,6 +559,10 @@ public class FSMManager : StateMachineFlow {
     public void UsePower() 
     {
         SetAndPlayAudioClip(2);
+        if (personajeSO != null)
+        {
+            personajeSO.UsePower(this);
+        }
     }
     // ==================== STUN ====================
     public void StartStun()
