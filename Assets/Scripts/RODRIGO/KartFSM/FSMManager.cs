@@ -24,6 +24,7 @@ public class FSMManager : StateMachineFlow {
     private PlayerInputActions inputActions;
     private Rigidbody rb;
     private CapsuleCollider hitBox;
+    private UIManager uiManager;
 
     [Header("Configuración Base (sin multiplicadores)")]
     private float baseMaxSpeed = 80f;
@@ -94,7 +95,8 @@ public class FSMManager : StateMachineFlow {
     public float stunDuration = 1f;
     public float triggerStunDuration;
     private float stunSpinSpeed = 720f;
-
+    public bool canBeStunned = true;
+    public bool isCurrentlyStunned;
     private Quaternion originalVisualRotation;
     private bool restoringRotation;
     private Coroutine restoreCoroutine;
@@ -144,6 +146,7 @@ public class FSMManager : StateMachineFlow {
 
         // Instanciar modelo visual y partículas
         InstantiateVisualSO();
+        uiManager = FindAnyObjectByType<UIManager>();
     }
 
     protected override void GetinitialState(out TemplateStateMachine _stateMachine)
@@ -556,10 +559,21 @@ public class FSMManager : StateMachineFlow {
         rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, new Vector3(forward.x, v.y, forward.z), Time.deltaTime * 10f);
     }
     // ==================== PODERES ====================
-    public void UsePower() 
+    public void UsePower()
     {
+        if (!uiManager.PuedeUsarPoder())
+            return;
+
+        uiManager.ConsumirPoder();
+
         SetAndPlayAudioClip(2);
+
+        if (personajeSO != null)
+        {
+            personajeSO.UsePower(this);
+        }
     }
+
     // ==================== STUN ====================
     public void StartStun()
     {
@@ -693,6 +707,7 @@ public class FSMManager : StateMachineFlow {
         }
     }
     // ==================== UTILIDADES ====================
+    public float GetCurrentSpeed() => rb.linearVelocity.magnitude;
     public Transform GetHitboxTransform()
     {
         return hitBox.transform;
@@ -708,6 +723,7 @@ public class FSMManager : StateMachineFlow {
         audioSource.clip = personajeSO.audios[index];
         audioSource.Play();
     }
+    /*
     private void OnDrawGizmos()
     {
         if (hitBox == null) return;
@@ -733,5 +749,5 @@ public class FSMManager : StateMachineFlow {
                 Gizmos.color = Color.yellow;
             }
         }
-    }
+    }*/
 }

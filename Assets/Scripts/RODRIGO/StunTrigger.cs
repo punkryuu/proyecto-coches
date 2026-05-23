@@ -13,15 +13,14 @@ public class StunTrigger : MonoBehaviour
         triggerCollider = GetComponent<Collider>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         FSMManager fsm = other.GetComponentInParent<FSMManager>();
-
         if (fsm == null) return;
+        if (fsm.isCurrentlyStunned) return; 
 
         fsm.stunned = true;
         fsm.triggerStunDuration = stunDuration;
-
     }
 
 
