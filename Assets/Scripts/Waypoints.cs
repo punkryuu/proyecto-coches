@@ -28,7 +28,7 @@ public class Waypoints : MonoBehaviour {
         }
 
         PlayerCar player = other.GetComponentInParent<PlayerCar>();
-        if (player.currentWayPoint == index)
+        if (player!= null && player.currentWayPoint == index)
         {
             Debug.Log("player ha toqueteado Waypoint: " + index);
 

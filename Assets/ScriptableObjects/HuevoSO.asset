@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b669649b515e0c43beed5c277a76dba, type: 3}
+  m_Name: HuevoSO
+  m_EditorClassIdentifier: 
+  visual: {fileID: 2613718824486627978, guid: bae10d4a1e40ca241b251741395bf813, type: 3}
+  characterPrefab: {fileID: 4126455363605797109, guid: 7fb065129d356644782395ff78cd1468, type: 3}
+  driftParticlesPath: driftParticles
+  turboParticlesPath: turboParticles
+  selectionImage: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  maxSpeedMultiplier: 1
+  accelerationMultiplier: 1
+  steeringMultiplier: 1
+  weightMultiplier: 1
+  driftControlMultiplier: 1
+  turboMultiplier: 1
+  airControlMultiplier: 1
+  HitBoxRadius: 1.5
+  poderDuracion: 10
+  audios:
+  - {fileID: 8300000, guid: 2e7126816b635e2439e8bb07d8afd971, type: 3}
+  - {fileID: 8300000, guid: ac968cabb4cbb844ba6cfb13b7b115cf, type: 3}
+  - {fileID: 8300000, guid: e96932c67cc49784dbc2c5701f17c601, type: 3}
+  - {fileID: 8300000, guid: bc1d35f8417142147a594acce2c1e452, type: 3}
+  - {fileID: 8300000, guid: d56bd5de165104c4b9be485e855b9c86, type: 3}
+  - {fileID: 8300000, guid: fc73513f1cc71d9478662cba652b1bb1, type: 3}
+  - {fileID: 8300000, guid: 67b590795d0025e459bad941c241a78a, type: 3}
+  piruletaPrefab: {fileID: 3894176315272724598, guid: d4d50112320e9e64c9989005848bb65a, type: 3}

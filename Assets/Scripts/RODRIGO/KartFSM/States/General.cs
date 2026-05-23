@@ -10,7 +10,7 @@ public class General : TemplateStateMachine {
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        if (_fsm.stunned && _fsm.canBeStunned)
+        if (_fsm.stunned && _fsm.canBeStunned && !_fsm.isCurrentlyStunned)
         {
             _fsm.stunned = false;
 
