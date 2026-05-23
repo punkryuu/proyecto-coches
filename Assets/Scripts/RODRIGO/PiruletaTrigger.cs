@@ -2,11 +2,14 @@
 using UnityEngine;
 
 public class PiruletaTrigger : MonoBehaviour {
-    private float speed = 200f;
-     private float returnSpeed = 250f;
+    [Header("Movimiento")]
+private float forwardSpeed = 50f;        //(0 = usar solo jugador*1.2), hasta que la velocidad del jugador * 1.2 sea mayor a este valor la piruleta ira a esta velocidad
+    private float returnSpeed = 75f;      
+ private float timeBeforeReturn = 2f;
+private float destroyTime = 2f;
 
-    private float timeBeforeReturn = 2f;
-     private float destroyTime = 2f;
+    [Header("Ataque")]
+ private float stunDuration = 1.5f;
 
     private Rigidbody rb;
     private GameObject owner;
@@ -25,8 +28,6 @@ public class PiruletaTrigger : MonoBehaviour {
     public void SetOwner(GameObject newOwner)
     {
         owner = newOwner;
-        Debug.LogWarning(owner);
-
     }
 
     private IEnumerator PiruletaRoutine()
@@ -36,18 +37,16 @@ public class PiruletaTrigger : MonoBehaviour {
         FSMManager ownerFSM = owner.GetComponent<FSMManager>();
         if (ownerFSM == null) yield break;
 
-        // Avanza hacia delante
-        rb.linearVelocity = ownerFSM.GetHitboxTransform().forward * ownerFSM.GetCurrentSpeed()*1.5f;
+        float playerMinSpeed = ownerFSM.GetCurrentSpeed() * 1.2f;
 
-        // Espera antes de volver
+        float launchSpeed = Mathf.Max(forwardSpeed, playerMinSpeed);
+
+        rb.linearVelocity = ownerFSM.GetHitboxTransform().forward * launchSpeed;
+
         yield return new WaitForSeconds(timeBeforeReturn);
-
-        // Vuelve al dueño
         returning = true;
 
-        // Después de empezar a volver, se destruye al cabo de destroyTime
         yield return new WaitForSeconds(destroyTime);
-
         Destroy(gameObject);
     }
 
@@ -56,24 +55,35 @@ public class PiruletaTrigger : MonoBehaviour {
         if (!returning || owner == null) return;
 
         FSMManager ownerFSM = owner.GetComponent<FSMManager>();
-        //if (ownerFSM == null) return;
+        if (ownerFSM == null) return;
 
         Vector3 dir = (ownerFSM.GetHitboxTransform().position - transform.position).normalized;
-        transform.forward = dir;
-
-        // Usamos la velocidad de retorno definida
         rb.linearVelocity = dir * returnSpeed;
+        transform.forward = dir;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        // Ignoramos triggers
-        if (collision.collider.isTrigger) return;
+        if (other.isTrigger) return;
+        if (PerteneceAlDueño(other)) return;
 
-        // No nos destruimos al chocar con el dueño
-        if (collision.gameObject == owner) return;
-
-        // Cualquier otra colisión sólida → destrucción inmediata
+        StunTarget(other);
         Destroy(gameObject);
+    }
+
+    private bool PerteneceAlDueño(Collider other)
+    {
+        if (owner == null) return false;
+        return other.transform.IsChildOf(owner.transform) || other.gameObject == owner;
+    }
+
+    private void StunTarget(Collider other)
+    {
+        FSMManager fsm = other.GetComponentInParent<FSMManager>();
+        if (fsm == null) return;
+        if (fsm.isCurrentlyStunned) return;
+
+        fsm.stunned = true;
+        fsm.triggerStunDuration = stunDuration;
     }
 }
