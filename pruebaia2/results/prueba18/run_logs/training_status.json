@@ -1,0 +1,47 @@
+{
+    "NPCAgent": {
+        "checkpoints": [
+            {
+                "steps": 499949,
+                "file_path": "results\\prueba18\\NPCAgent\\NPCAgent-499949.onnx",
+                "reward": 61196.28417532785,
+                "creation_time": 1779460354.6968749,
+                "auxillary_file_paths": [
+                    "results\\prueba18\\NPCAgent\\NPCAgent-499949.pt"
+                ]
+            },
+            {
+                "steps": 999879,
+                "file_path": "results\\prueba18\\NPCAgent\\NPCAgent-999879.onnx",
+                "reward": 26686.42904543409,
+                "creation_time": 1779461273.6295905,
+                "auxillary_file_paths": [
+                    "results\\prueba18\\NPCAgent\\NPCAgent-999879.pt"
+                ]
+            },
+            {
+                "steps": 1003670,
+                "file_path": "results\\prueba18\\NPCAgent\\NPCAgent-1003670.onnx",
+                "reward": 24517.178225517273,
+                "creation_time": 1779461343.9827313,
+                "auxillary_file_paths": [
+                    "results\\prueba18\\NPCAgent\\NPCAgent-1003670.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1003670,
+            "file_path": "results\\prueba18\\NPCAgent.onnx",
+            "reward": 24517.178225517273,
+            "creation_time": 1779461343.9827313,
+            "auxillary_file_paths": [
+                "results\\prueba18\\NPCAgent\\NPCAgent-1003670.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "1.13.1+cpu"
+    }
+}

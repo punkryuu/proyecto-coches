@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 //Poner este script al charco, añadir la Tag enemigo 
 public class ColisionCharco : MonoBehaviour
@@ -7,9 +8,14 @@ public class ColisionCharco : MonoBehaviour
      float duracion = 10f;
      float factorReduccion = 0.5f;
     public GameObject owner;
+    private List<PersonajeSO> afectados = new List<PersonajeSO>();
 
     private void Start()
     {
+        if(owner == null)
+        {
+           owner = FindAnyObjectByType<PlayerCar>().gameObject;
+        }
         StartCoroutine(VidaCharco());
     }
     IEnumerator VidaCharco()
@@ -21,6 +27,7 @@ public class ColisionCharco : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == owner) return; // Ignora colisiones con el propietario del charco
+
 
            PersonajeSO enemigo = other.gameObject.GetComponent<PersonajeSO>();
             if (enemigo != null)

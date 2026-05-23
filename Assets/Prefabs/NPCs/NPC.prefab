@@ -347,11 +347,13 @@ GameObject:
   - component: {fileID: 6906419765089951152}
   - component: {fileID: 5067736895779759968}
   - component: {fileID: 5357099258456154793}
-  - component: {fileID: -2276008070518650341}
   - component: {fileID: 8808664538561090654}
+  - component: {fileID: -3753372288760294871}
+  - component: {fileID: -2807228706983401205}
+  - component: {fileID: -4090007705935859553}
   m_Layer: 8
   m_Name: NPC
-  m_TagString: Player
+  m_TagString: Enemigo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -392,7 +394,7 @@ MonoBehaviour:
   visual: {fileID: 1232648858020963825}
   stunStars: {fileID: 8838929380295551636}
   playerCar: {fileID: 8808664538561090654}
-  driftFlag: 0
+  driftFlag: 1
   currentBoostType: 0
   boostDuration: 0
   trickBoostDuration: 0.5
@@ -576,52 +578,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 1
+    VectorObservationSize: 6
     NumStackedVectorObservations: 1
     m_ActionSpec:
-      m_NumContinuousActions: 0
-      BranchSizes: 01000000
-    VectorActionSize: 01000000
+      m_NumContinuousActions: 2
+      BranchSizes: 
+    VectorActionSize: 02000000
     VectorActionDescriptions: []
-    VectorActionSpaceType: 0
+    VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: My Behavior
+  m_BehaviorName: NPCAgent
   TeamId: 0
   m_UseChildSensors: 1
   m_UseChildActuators: 1
   m_DeterministicInference: 0
   m_ObservableAttributeHandling: 0
---- !u!114 &-2276008070518650341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4126455363605797109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f081ac43b04cc2843a59196a120bc094, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agentParameters:
-    maxStep: 0
-  hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  rb: {fileID: 0}
-  trackCheck: {fileID: 0}
-  raycastMask:
-    serializedVersion: 2
-    m_Bits: 0
-  rayLength: 15
-  rayDirections: []
-  stuckTimeLimit: 4
-  timeSinceLastProgress: 0
-  turnSpeed: 100
-  power: 0
-  maxPower: 100
 --- !u!114 &8808664538561090654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,6 +615,79 @@ MonoBehaviour:
   distanceToNextWayPoint: 0
   personajeData: {fileID: 11400000, guid: 10aaee8df23bb7349b5d7dd5b6e2db00, type: 2}
   circuit: {fileID: 0}
+--- !u!114 &-3753372288760294871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126455363605797109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
+--- !u!114 &-2807228706983401205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126455363605797109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb6b867a41448888c1cd4f99643ad71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SensorName: RayPerceptionSensor
+  m_DetectableTags: []
+  m_RaysPerDirection: 4
+  m_MaxRayDegrees: 85.1
+  m_SphereCastRadius: 0.47
+  m_RayLength: 154
+  m_RayLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
+  m_ObservationStacks: 1
+  m_AlternatingRayOrder: 1
+  m_UseBatchedRaycasts: 0
+  rayHitColor: {r: 1, g: 0, b: 0, a: 1}
+  rayMissColor: {r: 1, g: 1, b: 1, a: 1}
+  m_StartVerticalOffset: 0
+  m_EndVerticalOffset: 0
+--- !u!114 &-4090007705935859553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126455363605797109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f081ac43b04cc2843a59196a120bc094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  rb: {fileID: 0}
+  spawnPoint: {fileID: 0}
+  trackCheck: {fileID: 0}
+  raycastMask:
+    serializedVersion: 2
+    m_Bits: 512
+  rayLength: 15
+  rayDirections: []
+  stuckTimeLimit: 10
+  timeSinceLastProgress: 0
+  turnSpeed: 80
+  power: 0
+  maxPower: 100
+  spawnIndex: 0
 --- !u!1 &5336917421892882631
 GameObject:
   m_ObjectHideFlags: 0

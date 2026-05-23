@@ -80,5 +80,17 @@ public class TrackCheck : MonoBehaviour
     {
         return circuit.GetWayPoint(0).rotation;
     }
+    public Transform GetNextNextCheckpoint(object car)
+    {
+        if (!nextCheckpointIndex.ContainsKey(car))
+            nextCheckpointIndex[car] = 0;
+
+        int nextIndex = nextCheckpointIndex[car] + 1;
+
+        if (nextIndex >= circuit.GetWayPointsCount())
+            nextIndex = 0;
+
+        return circuit.GetWayPoint(nextIndex);
+    }
 
 }

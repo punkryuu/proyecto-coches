@@ -1,0 +1,65 @@
+{
+    "NPCAgent": {
+        "checkpoints": [
+            {
+                "steps": 499989,
+                "file_path": "results\\prueba1\\NPCAgent\\NPCAgent-499989.onnx",
+                "reward": -1067.6739585219007,
+                "creation_time": 1779278370.5733142,
+                "auxillary_file_paths": [
+                    "results\\prueba1\\NPCAgent\\NPCAgent-499989.pt"
+                ]
+            },
+            {
+                "steps": 999913,
+                "file_path": "results\\prueba1\\NPCAgent\\NPCAgent-999913.onnx",
+                "reward": -2221.323411922563,
+                "creation_time": 1779279514.921441,
+                "auxillary_file_paths": [
+                    "results\\prueba1\\NPCAgent\\NPCAgent-999913.pt"
+                ]
+            },
+            {
+                "steps": 1499981,
+                "file_path": "results\\prueba1\\NPCAgent\\NPCAgent-1499981.onnx",
+                "reward": -3302.788695580666,
+                "creation_time": 1779280656.7481482,
+                "auxillary_file_paths": [
+                    "results\\prueba1\\NPCAgent\\NPCAgent-1499981.pt"
+                ]
+            },
+            {
+                "steps": 1999975,
+                "file_path": "results\\prueba1\\NPCAgent\\NPCAgent-1999975.onnx",
+                "reward": -4512.296876142365,
+                "creation_time": 1779281799.902851,
+                "auxillary_file_paths": [
+                    "results\\prueba1\\NPCAgent\\NPCAgent-1999975.pt"
+                ]
+            },
+            {
+                "steps": 2000041,
+                "file_path": "results\\prueba1\\NPCAgent\\NPCAgent-2000041.onnx",
+                "reward": -4607.613791474564,
+                "creation_time": 1779281799.9482799,
+                "auxillary_file_paths": [
+                    "results\\prueba1\\NPCAgent\\NPCAgent-2000041.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2000041,
+            "file_path": "results\\prueba1\\NPCAgent.onnx",
+            "reward": -4607.613791474564,
+            "creation_time": 1779281799.9482799,
+            "auxillary_file_paths": [
+                "results\\prueba1\\NPCAgent\\NPCAgent-2000041.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "1.13.1+cpu"
+    }
+}

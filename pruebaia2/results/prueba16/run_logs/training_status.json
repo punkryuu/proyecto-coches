@@ -1,0 +1,56 @@
+{
+    "NPCAgent": {
+        "checkpoints": [
+            {
+                "steps": 499922,
+                "file_path": "results\\prueba16\\NPCAgent\\NPCAgent-499922.onnx",
+                "reward": 92259.61504477721,
+                "creation_time": 1779454770.2003367,
+                "auxillary_file_paths": [
+                    "results\\prueba16\\NPCAgent\\NPCAgent-499922.pt"
+                ]
+            },
+            {
+                "steps": 999970,
+                "file_path": "results\\prueba16\\NPCAgent\\NPCAgent-999970.onnx",
+                "reward": 155999.41015081148,
+                "creation_time": 1779455578.855172,
+                "auxillary_file_paths": [
+                    "results\\prueba16\\NPCAgent\\NPCAgent-999970.pt"
+                ]
+            },
+            {
+                "steps": 1499944,
+                "file_path": "results\\prueba16\\NPCAgent\\NPCAgent-1499944.onnx",
+                "reward": 14735.964403109727,
+                "creation_time": 1779456384.0240557,
+                "auxillary_file_paths": [
+                    "results\\prueba16\\NPCAgent\\NPCAgent-1499944.pt"
+                ]
+            },
+            {
+                "steps": 1730261,
+                "file_path": "results\\prueba16\\NPCAgent\\NPCAgent-1730261.onnx",
+                "reward": 118472.64776611328,
+                "creation_time": 1779456823.554137,
+                "auxillary_file_paths": [
+                    "results\\prueba16\\NPCAgent\\NPCAgent-1730261.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1730261,
+            "file_path": "results\\prueba16\\NPCAgent.onnx",
+            "reward": 118472.64776611328,
+            "creation_time": 1779456823.554137,
+            "auxillary_file_paths": [
+                "results\\prueba16\\NPCAgent\\NPCAgent-1730261.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "1.13.1+cpu"
+    }
+}

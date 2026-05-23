@@ -1,0 +1,65 @@
+{
+    "NPCAgent": {
+        "checkpoints": [
+            {
+                "steps": 999906,
+                "file_path": "results\\pruebaRECTACURVA\\NPCAgent\\NPCAgent-999906.onnx",
+                "reward": -196.97816118597984,
+                "creation_time": 1779474825.067219,
+                "auxillary_file_paths": [
+                    "results\\pruebaRECTACURVA\\NPCAgent\\NPCAgent-999906.pt"
+                ]
+            },
+            {
+                "steps": 1180738,
+                "file_path": "results\\pruebaRECTACURVA\\NPCAgent\\NPCAgent-1180738.onnx",
+                "reward": null,
+                "creation_time": 1779475163.0206227,
+                "auxillary_file_paths": [
+                    "results\\pruebaRECTACURVA\\NPCAgent\\NPCAgent-1180738.pt"
+                ]
+            },
+            {
+                "steps": 1184639,
+                "file_path": "results\\pruebaRECTACURVA\\NPCAgent\\NPCAgent-1184639.onnx",
+                "reward": -11.074196560382843,
+                "creation_time": 1779475370.3656363,
+                "auxillary_file_paths": [
+                    "results\\pruebaRECTACURVA\\NPCAgent\\NPCAgent-1184639.pt"
+                ]
+            },
+            {
+                "steps": 1223601,
+                "file_path": "results\\pruebaRECTACURVA\\NPCAgent\\NPCAgent-1223601.onnx",
+                "reward": -150.76537658006717,
+                "creation_time": 1779475561.6765618,
+                "auxillary_file_paths": [
+                    "results\\pruebaRECTACURVA\\NPCAgent\\NPCAgent-1223601.pt"
+                ]
+            },
+            {
+                "steps": 1359870,
+                "file_path": "results\\pruebaRECTACURVA\\NPCAgent\\NPCAgent-1359870.onnx",
+                "reward": -270.8689446131388,
+                "creation_time": 1779475851.0706778,
+                "auxillary_file_paths": [
+                    "results\\pruebaRECTACURVA\\NPCAgent\\NPCAgent-1359870.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1359870,
+            "file_path": "results\\pruebaRECTACURVA\\NPCAgent.onnx",
+            "reward": -270.8689446131388,
+            "creation_time": 1779475851.0706778,
+            "auxillary_file_paths": [
+                "results\\pruebaRECTACURVA\\NPCAgent\\NPCAgent-1359870.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "1.13.1+cpu"
+    }
+}

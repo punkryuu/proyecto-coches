@@ -1,0 +1,29 @@
+{
+    "NPCAgent": {
+        "checkpoints": [
+            {
+                "steps": 32322,
+                "file_path": "results\\prueba3\\NPCAgent\\NPCAgent-32322.onnx",
+                "reward": -96.16702061758113,
+                "creation_time": 1779296894.3719163,
+                "auxillary_file_paths": [
+                    "results\\prueba3\\NPCAgent\\NPCAgent-32322.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 32322,
+            "file_path": "results\\prueba3\\NPCAgent.onnx",
+            "reward": -96.16702061758113,
+            "creation_time": 1779296894.3719163,
+            "auxillary_file_paths": [
+                "results\\prueba3\\NPCAgent\\NPCAgent-32322.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "1.13.1+cpu"
+    }
+}

@@ -559,6 +559,7 @@ public class FSMManager : StateMachineFlow {
     public void UsePower() 
     {
         SetAndPlayAudioClip(2);
+        personajeSO.UsePower(this);
     }
     // ==================== STUN ====================
     public void StartStun()
@@ -733,5 +734,10 @@ public class FSMManager : StateMachineFlow {
                 Gizmos.color = Color.yellow;
             }
         }
+    }
+    void OnDestroy()
+    {
+        if (inputActions != null)
+            inputActions.Disable();
     }
 }

@@ -14,7 +14,7 @@ public class Rana : PersonajeSO
     private IEnumerator SpawnCharco(MonoBehaviour ejecutor)
     {
         GameObject charco = Instantiate(
-            Resources.Load("CharcoRalentizador") as GameObject,
+            Resources.Load("Prefabs/CharcoRalentizador") as GameObject,
             ejecutor.transform.position,
             Quaternion.identity
         );

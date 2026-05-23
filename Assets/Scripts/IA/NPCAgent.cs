@@ -5,7 +5,7 @@ using Unity.MLAgents.Sensors;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class NPCAgent:Agent
+public class NPCAgent : Agent
 {
     [SerializeField] Rigidbody rb;
     Transform npcPosition;
@@ -15,16 +15,18 @@ public class NPCAgent:Agent
     [SerializeField] LayerMask raycastMask;
 
     float maxSpeed = 20f;
-    float accelerationForce = 20f;
+    float accelerationForce = 40f;
     float brakeForce = 20f;
 
     public float rayLength = 15f; //Distancia máxima de los rayos
     public Vector3[] rayDirections;
 
-    public float stuckTimeLimit = 4f;
+    public float stuckTimeLimit = 10f;
     public float timeSinceLastProgress = 0f;
-    public float turnSpeed = 100f;
+    public float turnSpeed = 80f;
     private Vector3 lastPosition;
+    private float previousDistanceToCheckpoint = 0f;
+    private Transform nextCheckPoint;
 
     public float power = 0f;
     public float maxPower = 100f;
@@ -36,12 +38,15 @@ public class NPCAgent:Agent
     {
         rb = GetComponent<Rigidbody>();
         npcPosition = transform;
+       // spawnPoint = npcPosition;
         playerCar = GetComponent<PlayerCar>();
         trackCheck = FindFirstObjectByType<TrackCheck>();
 
         lastPosition = npcPosition.position;
+        MaxStep = 5000;
 
-
+        trackCheck.OnCorrectCheckPointAI += OnPassedCheckpoint;
+        trackCheck.OnWrongCheckPointAI += OnWrongCheckpoint;
 
     }
 
@@ -50,97 +55,168 @@ public class NPCAgent:Agent
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        npcPosition.position = spawnPoint.position + Vector3.up * 0.5f;
-        npcPosition.rotation = spawnPoint.rotation;
+       npcPosition.position = spawnPoint.position + Vector3.up * 0.5f;
+       npcPosition.rotation = spawnPoint.rotation;
+
+       
+
 
         trackCheck.ResetCheckpoint(this);
         timeSinceLastProgress = 0f;
         lastPosition = npcPosition.position;
+        previousDistanceToCheckpoint = Vector3.Distance(
+        npcPosition.position,
+        trackCheck.GetNextCheckpoint(this).position);
+     
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // Agregar la dirección al próximo checkpoint
         currentCheckPoint = trackCheck.GetNextCheckpoint(this);
-        Vector3 directionToNextCheckpoint = (currentCheckPoint.position - npcPosition.position).normalized;
 
-        // Agregar la distancia al próximo checkpoint
-        float distanceToNextCheckpoint = Vector3.Distance(npcPosition.position, currentCheckPoint.position);
+        // Track direction in LOCAL SPACE
+        Vector3 dirToCheckpoint = (currentCheckPoint.position - transform.position).normalized;
 
-        float speed = rb.linearVelocity.magnitude;
-        float angularSpeed = rb.angularVelocity.magnitude;
+        Vector3 localTrackDir = transform.InverseTransformDirection(dirToCheckpoint);
 
-        float angelToCheckPoint = Vector3.SignedAngle(npcPosition.forward, directionToNextCheckpoint, Vector3.up) / 180f; // Normalizado entre -1 y 1
+        // Local velocity
+        Vector3 localVel = transform.InverseTransformDirection(rb.linearVelocity);
 
-        bool grounded = Physics.Raycast(npcPosition.position + Vector3.up, Vector3.down, 0.5f);
+        // Angular speed
+        float angularSpeed = rb.angularVelocity.y;
+
+        // Ground check
+        bool grounded = Physics.Raycast(transform.position + Vector3.up, Vector3.down, 1f);
+
+        rb.linearDamping = 0.5f;
+        rb.angularDamping = 3f;
+
+        // ===== RAYCASTS =====
 
         foreach (var direction in rayDirections)
         {
-            Vector3 worldDirecction = npcPosition.TransformDirection(direction.normalized);
-            if (Physics.Raycast(npcPosition.position, worldDirecction, out RaycastHit hit, rayLength, raycastMask))
+            Vector3 worldDir =
+                transform.TransformDirection(direction.normalized);
+
+            if (Physics.Raycast(transform.position,worldDir, out RaycastHit hit, rayLength,raycastMask))
             {
-                sensor.AddObservation(hit.distance / rayLength); // Normalizar la distancia
+                sensor.AddObservation(hit.distance / rayLength);
             }
             else
             {
-                sensor.AddObservation(1f); // No hay obstáculo, distancia máxima
+                sensor.AddObservation(1f);
             }
-
-            sensor.AddObservation(directionToNextCheckpoint); // Agregar la dirección del rayo
-            sensor.AddObservation(distanceToNextCheckpoint/100f);
-            sensor.AddObservation(speed/maxSpeed);
-            sensor.AddObservation(angularSpeed / maxSpeed);
-            sensor.AddObservation(angelToCheckPoint);
-            sensor.AddObservation(grounded ? 1f : 0f); // Agregar si el agente está en el suelo
         }
+
+        // ===== OBSERVATIONS =====
+
+        
+        sensor.AddObservation(localTrackDir);       // 3
+        sensor.AddObservation(localVel / maxSpeed); // 3
+        sensor.AddObservation(angularSpeed / 10f);  // 1
+        sensor.AddObservation(grounded ? 1f : 0f); // 1
     }
+
+
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        int movementAction = actions.DiscreteActions[0]; // 0: adelante, 1: atrás
-        int turnAction = actions.DiscreteActions[1]; // 0: sin acción, 1: izquierda, 2: derecha
-        int usePowerAction = actions.DiscreteActions[2]; // 0: no usar, 1: usar
+        AddReward(-0.0005f);
+        float accel = Mathf.Clamp(actions.ContinuousActions[0], 0f, 1f);
+        float steer = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
 
-        Vector3 movement = Vector3.zero;
+        currentCheckPoint = trackCheck.GetNextCheckpoint(this);
+        nextCheckPoint = trackCheck.GetNextNextCheckpoint(this);
 
-        if (usePowerAction == 1 && power >= maxPower)
+        Vector3 toNext = (currentCheckPoint.position - npcPosition.position).normalized;
+        Vector3 velocity = rb.linearVelocity;
+
+
+        // --- MOVIMIENTO ---
+        rb.AddForce(npcPosition.forward * accel * accelerationForce, ForceMode.Acceleration);
+        if (rb.linearVelocity.magnitude > maxSpeed)
         {
-            playerCar.personajeData.UsePower(this);
-            power = 0f;
-            AddReward(0.2f); // Recompensa por usarlo bien
+            rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
         }
 
-        if (movementAction == 1)
-            movement += npcPosition.forward * accelerationForce;
-        else if(movementAction == 2)
-            movement -= npcPosition.forward * brakeForce;
+        rb.MoveRotation(rb.rotation * Quaternion.Euler(0f, steer * turnSpeed * Time.fixedDeltaTime, 0f));
 
-        if(rb.linearVelocity.magnitude < maxSpeed)
-            rb.AddForce(movement, ForceMode.Acceleration);
-       
-        float turn = 0f;
-        if (turnAction == 1) turn = -1f;
-        else if (turnAction == 2) turn = 1f;
+        // ============================================================
+        // ===================== RECOMPENSAS ===========================
+        // ============================================================
 
-        npcPosition.Rotate(Vector3.up, turn * turnSpeed * Time.fixedDeltaTime);
+        Collider[] nearby = Physics.OverlapSphere(transform.position, 1.5f);
 
-        Vector3 directionToNextCheckpoint = (currentCheckPoint.position - npcPosition.position).normalized;
-        float aligment = Vector3.Dot(npcPosition.forward, directionToNextCheckpoint);
-        AddReward(aligment * 0.01f); // Recompensa por alineación con el próximo checkpoint
+        foreach (var c in nearby)
+        {
+            if (c.attachedRigidbody != null && c.attachedRigidbody != rb)
+            {
+                AddReward(-0.01f);
+            }
+        }
+        Vector3 trackForward = currentCheckPoint.forward;
 
-        if(rb.linearVelocity.magnitude < 1f)
-        AddReward(-0.005f); // Penalización por estar casi detenido
+        //float speedAlongTrack = Vector3.Dot(rb.linearVelocity, trackForward);
+
+       // float currentDistance = Vector3.Distance(npcPosition.position,currentCheckPoint.position);
 
         timeSinceLastProgress += Time.fixedDeltaTime;
-        if(Vector3.Distance(npcPosition.position, lastPosition) > 2f)
+
+
+        if (timeSinceLastProgress > stuckTimeLimit)
         {
-            timeSinceLastProgress = 0f;
-            lastPosition = npcPosition.position;
+            AddReward(-2f);
+            //EndEpisode();
+
         }
-        if(timeSinceLastProgress > stuckTimeLimit)
+
+        if (transform.position.y < -200f)
         {
-            AddReward(-1f); // Penalización por estar atascado
+
             EndEpisode();
+        }
+
+    }
+
+
+    public void OnPassedCheckpoint(NPCAgent agent)
+    {
+        // Resetear distancia para evitar recompensas negativas gigantes
+        previousDistanceToCheckpoint = Vector3.Distance(npcPosition.position, currentCheckPoint.position);
+        timeSinceLastProgress = 0f;
+        AddReward(7f); // recompensa fuerte por checkpoint
+       
+    }
+
+    public void OnWrongCheckpoint(NPCAgent agent)
+    {
+        AddReward(-1f); // penalización por checkpoint incorrecto
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (((1 << collision.gameObject.layer) & raycastMask) != 0)
+        {
+            Debug.Log("muro tocando2");
+            AddReward(-5f);
+            EndEpisode();
+
+        }
+
+        if (collision.gameObject.CompareTag("META"))
+        {
+            AddReward(3f);
+            EndEpisode();
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (((1 << collision.gameObject.layer) & raycastMask) != 0)
+        {
+            Debug.Log("muro tocando" + Time.fixedDeltaTime);
+            AddReward(-0.1f * Time.fixedDeltaTime);
+            
         }
     }
 }
