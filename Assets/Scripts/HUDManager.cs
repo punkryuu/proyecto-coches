@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour {
     MenuUIManager menuUIManager;
     public ModoCarrera modoCarrera;
 
-    public float progreso = 10;
+     float progreso = 0.2f;
     float speed = 0;
 
     private void Start()
@@ -90,5 +90,9 @@ public class UIManager : MonoBehaviour {
     public void NextRace()
     {
         SceneManager.LoadScene(modoCarrera.raceCounter);
+    }
+    public float GetProgreso()
+    {
+        return progreso;
     }
 }
