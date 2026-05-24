@@ -16,8 +16,8 @@ public class Animation_tentaculo : MonoBehaviour
 
 
 
-        animator.SetBool("golpea", true);
+      //  animator.SetBool("golpea", true);
 
-        animator.SetBool("golpea", false);
+        //animator.SetBool("golpea", false);
     }
 }
