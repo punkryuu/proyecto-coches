@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d259716acede14b499c9bf6ed112f399, type: 2}
+  - {fileID: 2100000, guid: a02254d185dc39f44aaa6564d50f6f42, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -150,7 +150,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d259716acede14b499c9bf6ed112f399, type: 2}
+  - {fileID: 2100000, guid: a02254d185dc39f44aaa6564d50f6f42, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -337,7 +337,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d259716acede14b499c9bf6ed112f399, type: 2}
+  - {fileID: 2100000, guid: a02254d185dc39f44aaa6564d50f6f42, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -690,7 +690,7 @@ PrefabInstance:
     - target: {fileID: -3944876722980995559, guid: a32b4c5b14115684288a7718e6351ae9, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: d259716acede14b499c9bf6ed112f399, type: 2}
+      objectReference: {fileID: 2100000, guid: a02254d185dc39f44aaa6564d50f6f42, type: 2}
     - target: {fileID: 919132149155446097, guid: a32b4c5b14115684288a7718e6351ae9, type: 3}
       propertyPath: m_Name
       value: Coche_Huevo
@@ -698,13 +698,58 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a32b4c5b14115684288a7718e6351ae9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8966741520508758571}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a32b4c5b14115684288a7718e6351ae9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2309094997944137574}
   m_SourcePrefab: {fileID: 100100000, guid: a32b4c5b14115684288a7718e6351ae9, type: 3}
 --- !u!4 &8211077077624913311 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a32b4c5b14115684288a7718e6351ae9, type: 3}
   m_PrefabInstance: {fileID: 8536892383387851380}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8842901111412041509 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a32b4c5b14115684288a7718e6351ae9, type: 3}
+  m_PrefabInstance: {fileID: 8536892383387851380}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &8966741520508758571
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8842901111412041509}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a652776d4afc52c4b88fc5763de56358, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2309094997944137574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8842901111412041509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e0a862fe1b24704588d62f3a3de869b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8829739775008519141
 PrefabInstance:
   m_ObjectHideFlags: 0
