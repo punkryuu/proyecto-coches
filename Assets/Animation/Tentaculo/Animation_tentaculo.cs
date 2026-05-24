@@ -1,23 +1,40 @@
+using System.Collections;
 using UnityEngine;
 
-public class Animation_tentaculo : MonoBehaviour
-{
+public class Animation_tentaculo : MonoBehaviour {
     Animator animator;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    [SerializeField] Collider golpeCollider;
+
     void Start()
     {
         animator = GetComponent<Animator>();
+        animator.SetBool("golpea", false);
+
+        golpeCollider.enabled = false;
+
+        StartCoroutine(AtaqueAutomatico());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator AtaqueAutomatico()
     {
+        while (true)
+        {
+            yield return new WaitForSeconds(5f);
+
+            animator.SetBool("golpea", true);
+            yield return new WaitForSeconds(4.25f);
+             golpeCollider.enabled = true;
+
+            yield return new WaitForSeconds(1.75f);
+            golpeCollider.enabled = false;
+
+            yield return new WaitForSeconds(2f);
+
+            animator.SetBool("golpea", false);
 
 
 
-
-      //  animator.SetBool("golpea", true);
-
-        //animator.SetBool("golpea", false);
+        }
     }
 }
