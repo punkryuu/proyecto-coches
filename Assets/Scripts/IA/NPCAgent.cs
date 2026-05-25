@@ -156,10 +156,6 @@ public class NPCAgent : Agent
         }
         Vector3 trackForward = currentCheckPoint.forward;
 
-        //float speedAlongTrack = Vector3.Dot(rb.linearVelocity, trackForward);
-
-       // float currentDistance = Vector3.Distance(npcPosition.position,currentCheckPoint.position);
-
         timeSinceLastProgress += Time.fixedDeltaTime;
 
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RotacionObjeto : MonoBehaviour
+public class ObjectRotation : MonoBehaviour
 {
     [SerializeField] Slider barraPoder;
     [SerializeField] UIManager uiManager;

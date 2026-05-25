@@ -7,9 +7,9 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static UnityEngine.UI.GridLayoutGroup;
 
-public class RaceManager : MonoBehaviour
+public class ModoCarrera : MonoBehaviour
 {
-    public static RaceManager Instance { get; private set; }
+    public static ModoCarrera Instance { get; private set; }
     public GameObject NPC;
     public PersonajeSO[] SOOptions;
     public  List <PersonajeSO> selectedCharacters = new List<PersonajeSO>();
@@ -174,7 +174,7 @@ public class RaceManager : MonoBehaviour
                 int oldPosition = lastPositions[character.characterPrefab];
                 if (position < oldPosition)
                 {
-                   
+                    // Aquí puedes actualizar la UI o realizar otras acciones basadas en el cambio de posición
                     Debug.Log(character.characterPrefab.name + " ha cambiado a la posición " + position);
                     lastPositions[character.characterPrefab] = position;
                 }
