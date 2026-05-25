@@ -10,7 +10,11 @@ public class Cinematica : MonoBehaviour
     [SerializeField] float tiempoVisible = 2f;
     private Vector3 ultimaPosicionMouse;
     private float temporizador;
-
+    void Awake()
+    {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+    }
     void Start()
     {
         ultimaPosicionMouse = Input.mousePosition;
