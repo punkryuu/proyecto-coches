@@ -349,6 +349,8 @@ GameObject:
   - component: {fileID: 5357099258456154793}
   - component: {fileID: -2276008070518650341}
   - component: {fileID: 8808664538561090654}
+  - component: {fileID: 4394049805851174484}
+  - component: {fileID: -4197860248769966224}
   m_Layer: 8
   m_Name: NPC
   m_TagString: Player
@@ -381,7 +383,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4126455363605797109}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 984f1e66af0f9a041b4cf2052feeeb1d, type: 3}
   m_Name: 
@@ -450,9 +452,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4126455363605797109}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Mass: 1200
+  m_Drag: 0.2
+  m_AngularDrag: 4
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -468,7 +470,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!82 &5067736895779759968
 AudioSource:
   m_ObjectHideFlags: 0
@@ -582,16 +584,16 @@ MonoBehaviour:
     VectorObservationSize: 1
     NumStackedVectorObservations: 1
     m_ActionSpec:
-      m_NumContinuousActions: 0
-      BranchSizes: 01000000
-    VectorActionSize: 01000000
+      m_NumContinuousActions: 1
+      BranchSizes: 04000000
+    VectorActionSize: 
     VectorActionDescriptions: []
-    VectorActionSpaceType: 0
+    VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 1
-  m_BehaviorName: My Behavior
+  m_BehaviorName: NPCAgent
   TeamId: 0
   m_UseChildSensors: 1
   m_UseChildActuators: 1
@@ -614,11 +616,22 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
   rb: {fileID: 0}
+  hitBox: {fileID: 0}
+  npcPosition: {fileID: 0}
   spawnPoint: {fileID: 0}
+  playerCar: {fileID: 0}
   trackCheck: {fileID: 0}
   raycastMask:
     serializedVersion: 2
     m_Bits: 0
+  maxSpeed: 80
+  accelerationForce: 40
+  brakeForce: 20
+  driftForce: 15
+  driftPower: 20
+  driftDirection: 1
+  driftSideForce: 15
+  driftFrictionPower: 2
   rayLength: 15
   rayDirections: []
   stuckTimeLimit: 4
@@ -626,7 +639,11 @@ MonoBehaviour:
   turnSpeed: 100
   power: 0
   maxPower: 100
+  currentCheckPoint: {fileID: 0}
   spawnIndex: 0
+  triggerBoost: 0
+  triggerBoostDuration: 0
+  gravityMultiplier: 1
 --- !u!114 &8808664538561090654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -646,6 +663,37 @@ MonoBehaviour:
   distanceToNextWayPoint: 0
   personajeData: {fileID: 11400000, guid: 10aaee8df23bb7349b5d7dd5b6e2db00, type: 2}
   circuit: {fileID: 0}
+--- !u!114 &4394049805851174484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126455363605797109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2902496c0120472b90269f94a0aec7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Record: 1
+  NumStepsToRecord: 0
+  DemonstrationName: Prueba
+  DemonstrationDirectory: C:\Users\Nathan\Documents\GitHub\projecto-coches\Demos
+--- !u!114 &-4197860248769966224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126455363605797109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
 --- !u!1 &5336917421892882631
 GameObject:
   m_ObjectHideFlags: 0

@@ -66,6 +66,15 @@ public class TrackCheck : MonoBehaviour
         }
         return circuit.GetWayPoint(nextCheckpointIndex[car]);
     }
+    public Transform GetLastCheckpoint(NPCAgent agent)
+    {
+        int index = nextCheckpointIndex[agent] - 1;
+
+        if (index < 0)
+            return null;
+
+        return circuit.GetWayPoint(index);
+    }
 
     public void ResetCheckpoint(object car)
     {

@@ -19,13 +19,23 @@ public class FloatTurboTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         FSMManager fsm = other.GetComponentInParent<FSMManager>();
+        NPCAgent npc = other.GetComponentInParent<NPCAgent>();
 
-        if (fsm == null) return;
-
-        fsm.triggerBoost = true;
-        fsm.triggerBoostDuration = boostDuration;
+        if (fsm == null && npc == null) return;
+        
+        if (fsm != null)
+        {
+            fsm.triggerBoost = true;
+            fsm.triggerBoostDuration = boostDuration;
 
         StartCoroutine(ApplyGravityEffect(fsm));
+        }
+        if (npc != null)
+        {
+            npc.triggerBoost = true;
+            npc.triggerBoostDuration = boostDuration;
+            StartCoroutine(ApplyGravityEffectNPC(npc));
+        }
 
         StartCoroutine(DisableTemporarily());
     }
@@ -41,6 +51,16 @@ public class FloatTurboTrigger : MonoBehaviour
         fsm.gravityMultiplier = original;
     }
 
+    private IEnumerator ApplyGravityEffectNPC(NPCAgent npc)
+    {
+        float original = npc.gravityMultiplier;
+        npc.gravityMultiplier = gravityMultiplier;
+
+        yield return new WaitForSeconds(gravityDuration);
+
+        npc.gravityMultiplier = original;
+    }
+
     private IEnumerator DisableTemporarily()
     {
         col.enabled = false;
@@ -49,4 +69,6 @@ public class FloatTurboTrigger : MonoBehaviour
 
         col.enabled = true;
     }
+
+
 }

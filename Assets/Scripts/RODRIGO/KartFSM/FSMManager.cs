@@ -363,7 +363,7 @@ public class FSMManager : StateMachineFlow {
     {
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-        this.transform.position = CheckPoints.GetActiveCheckPointPosition();
+        this.transform.position = new Vector3(CheckPoints.GetActiveCheckPointPosition().x, CheckPoints.GetActiveCheckPointPosition().y + 0.5f, CheckPoints.GetActiveCheckPointPosition().z);
     }
 
     // ==================== MOVIMIENTO ====================

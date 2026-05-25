@@ -9,7 +9,7 @@ public class PlayerCar : MonoBehaviour
     public int totalWaypoints;
     public float distanceToNextWayPoint = 0f;
     public PersonajeSO personajeData;
-    ModoCarrera modoCarrera;
+    RaceManager modoCarrera;
 
     public WayPointsCircuit circuit;
 
@@ -56,6 +56,13 @@ public class PlayerCar : MonoBehaviour
     {
         currentWayPoint = 0;
         currentLap = 0;
+    }
+
+   public void ResetFromFalling()
+        {
+        Transform spawnPoint = circuit.GetWayPoint(currentWayPoint);
+        transform.position = spawnPoint.position + Vector3.up * 0.5f;
+        transform.rotation = spawnPoint.rotation;
     }
 }
     

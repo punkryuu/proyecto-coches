@@ -5,46 +5,61 @@ using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class NPCAgent : Agent
 {
     [SerializeField] Rigidbody rb;
-    Transform npcPosition;
-    public Transform spawnPoint;
-    PlayerCar playerCar;
+    [SerializeField] CapsuleCollider hitBox;
+    [SerializeField] Transform npcPosition;
+    [SerializeField] public Transform spawnPoint;
+    [SerializeField] PlayerCar playerCar;
     [SerializeField] public TrackCheck trackCheck;
     [SerializeField] LayerMask raycastMask;
 
-    float maxSpeed = 80f;
-    float accelerationForce = 100f;
-    float brakeForce = 20f;
+
+    [SerializeField] float maxSpeed = 80f;
+    [SerializeField] float accelerationForce = 40f;
+    [SerializeField] float brakeForce = 20f;
+    [SerializeField] float  driftForce = 15f;
+    [SerializeField] float driftPower = 20f;
+    [SerializeField] float driftDirection = 1f;
+    [SerializeField] float driftSideForce = 15f;
+    [SerializeField] float driftFrictionPower = 2f;
+    bool accelerateInput = false;
+
 
     public float rayLength = 15f; //Distancia máxima de los rayos
     public Vector3[] rayDirections;
 
-    public float stuckTimeLimit = 10f;
+    public float stuckTimeLimit = 30f;
     public float timeSinceLastProgress = 0f;
     public float turnSpeed = 80f;
     private Vector3 lastPosition;
     private float previousDistanceToCheckpoint = 0f;
     private Transform nextCheckPoint;
 
-    public float power = 0f;
-    public float maxPower = 100f;
+    public float power = 0f; 
+    public float maxPower = 100f; 
 
-    private Transform currentCheckPoint;
+    public Transform currentCheckPoint;
     public int spawnIndex;
+
+    public bool triggerBoost;
+    public float triggerBoostDuration;
+    public float gravityMultiplier = 1f;
 
     public override void Initialize()
     {
         rb = GetComponent<Rigidbody>();
+        hitBox = GetComponentInChildren<CapsuleCollider>();
         npcPosition = transform;
        // spawnPoint = npcPosition;
         playerCar = GetComponent<PlayerCar>();
         trackCheck = FindFirstObjectByType<TrackCheck>();
 
         lastPosition = npcPosition.position;
-        MaxStep = 5000;
+        MaxStep = 100000;
 
         trackCheck.OnCorrectCheckPointAI += OnPassedCheckpoint;
         trackCheck.OnWrongCheckPointAI += OnWrongCheckpoint;
@@ -53,14 +68,14 @@ public class NPCAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        rb.linearVelocity = Vector3.zero;
+        rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
        npcPosition.position = spawnPoint.position + Vector3.up * 0.5f;
        npcPosition.rotation = spawnPoint.rotation;
 
-        rb.linearDamping = 0.5f;
-        rb.angularDamping = 3f;
+        rb.drag = 0.5f;
+        rb.angularDrag = 3f;
 
         trackCheck.ResetCheckpoint(this);
         timeSinceLastProgress = 0f;
@@ -68,10 +83,35 @@ public class NPCAgent : Agent
         previousDistanceToCheckpoint = Vector3.Distance(npcPosition.position,trackCheck.GetNextCheckpoint(this).position);
      
     }
+    public void Move(float steer, int movement)
+    {
+        // GIRO
+        transform.Rotate(0f, steer * turnSpeed * Time.fixedDeltaTime, 0f);
+
+        // MOVIMIENTO
+        switch (movement)
+        {
+            case 0:
+                break;
+
+            case 1:
+                ApplyAccelerationNPC();
+                break;
+
+            case 2:
+                ApplyBrakeNPC();
+                break;
+
+            case 3:
+                ApplyDrift(steer);
+                break;
+        }
+    }
 
     public override void CollectObservations(VectorSensor sensor)
     {
         currentCheckPoint = trackCheck.GetNextCheckpoint(this);
+     
 
         // Track direction in LOCAL SPACE
         Vector3 dirToCheckpoint = (currentCheckPoint.position - transform.position).normalized;
@@ -79,7 +119,7 @@ public class NPCAgent : Agent
         Vector3 localTrackDir = transform.InverseTransformDirection(dirToCheckpoint);
 
         // Local velocity
-        Vector3 localVel = transform.InverseTransformDirection(rb.linearVelocity);
+        Vector3 localVel = transform.InverseTransformDirection(rb.velocity);
 
         // Angular speed
         float angularSpeed = rb.angularVelocity.y;
@@ -118,26 +158,26 @@ public class NPCAgent : Agent
     public override void OnActionReceived(ActionBuffers actions)
     {
         AddReward(-0.0005f);
-        float accel = Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
-        float steer = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
+        float steer = actions.ContinuousActions[0];
+        int movementAction = actions.DiscreteActions[0];
+
+        accelerateInput = (movementAction == 1);
+
+        Move(steer, movementAction);
 
         currentCheckPoint = trackCheck.GetNextCheckpoint(this);
         nextCheckPoint = trackCheck.GetNextNextCheckpoint(this);
 
         Vector3 toNext = (currentCheckPoint.position - npcPosition.position).normalized;
-        Vector3 velocity = rb.linearVelocity;
+        Vector3 velocity = rb.velocity;
 
 
         // --- MOVIMIENTO ---
-        rb.AddForce(npcPosition.forward * accel * accelerationForce, ForceMode.VelocityChange);
 
-        if (rb.linearVelocity.magnitude > maxSpeed)
-        {
-            rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
-        }
 
-        Quaternion deltaRotation = Quaternion.Euler(0f, steer * turnSpeed * Time.fixedDeltaTime, 0f);
-        rb.MoveRotation(rb.rotation * deltaRotation);
+        accelerateInput = (movementAction == 1);
+
+        Move(steer, movementAction);
 
         // ============================================================
         // ===================== RECOMPENSAS ===========================
@@ -167,11 +207,15 @@ public class NPCAgent : Agent
 
     public void OnPassedCheckpoint(NPCAgent agent)
     {
-        // Resetear distancia para evitar recompensas negativas gigantes
-        previousDistanceToCheckpoint = Vector3.Distance(npcPosition.position, currentCheckPoint.position);
-        timeSinceLastProgress = 0f;
-        AddReward(7f); // recompensa fuerte por checkpoint
-       
+        agent.currentCheckPoint = agent.trackCheck.GetNextCheckpoint(agent);
+        agent.previousDistanceToCheckpoint = Vector3.Distance(
+        agent.npcPosition.position,
+        agent.currentCheckPoint.position
+    );
+
+        agent.timeSinceLastProgress = 0f;
+        agent.AddReward(7f);
+
     }
 
     public void OnWrongCheckpoint(NPCAgent agent)
@@ -189,7 +233,7 @@ public class NPCAgent : Agent
 
         }
 
-        if (collision.gameObject.CompareTag("META"))
+        if (collision.gameObject.CompareTag("META") && playerCar.currentLap >3)
         {
             AddReward(3f);
             EndEpisode();
@@ -208,23 +252,85 @@ public class NPCAgent : Agent
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var continuous = actionsOut.ContinuousActions;
+        var discrete = actionsOut.DiscreteActions;
 
-        float accel = 0f;
-        float steer = 0f;
+        // Igual que tu FSM
+        bool accelerate = Input.GetKey(KeyCode.W);
+        bool brake = Input.GetKey(KeyCode.S);
+        bool drift = Input.GetKey(KeyCode.LeftShift);
+        float steer = Input.GetAxis("Horizontal");
 
-        // ACELERAR
-        if (Input.GetKey(KeyCode.W))
-            accel = 1f;
-        else if (Input.GetKey(KeyCode.S))
-            accel = -1f;
+        // ACCIÓN CONTINUA: dirección
+        continuous[0] = steer;
 
-        // GIRO
-        if (Input.GetKey(KeyCode.A))
-            steer = -1f;
-        else if (Input.GetKey(KeyCode.D))
-            steer = 1f;
+        // ACCIÓN DISCRETA:
+        // 0 = idle
+        // 1 = accelerate
+        // 2 = brake
+        // 3 = drift
+        int movementAction = 0;
 
-        continuous[0] = accel;
-        continuous[1] = steer;
+        if (drift && Mathf.Abs(steer) > Mathf.Epsilon)
+            movementAction = 3;
+        else if (brake)
+            movementAction = 2;
+        else if (accelerate)
+            movementAction = 1;
+
+        discrete[0] = movementAction;
+    }
+    public void Respawn()
+    {
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        this.transform.position = new Vector3(CheckPoints.GetActiveCheckPointPosition().x, CheckPoints.GetActiveCheckPointPosition().y + 0.5f, CheckPoints.GetActiveCheckPointPosition().z);
+    }
+
+    private void ApplyAccelerationNPC(float power = -1f)
+    {
+        if (power < 0) power = maxPower;
+
+        if (rb.velocity.magnitude < maxSpeed)
+            rb.AddForce(hitBox.transform.forward * power, ForceMode.Acceleration);
+    }
+
+  
+    private void ApplyBrakeNPC(float power = -1f)
+    {
+        if (power < 0) power = brakeForce;
+
+        if (rb.velocity.magnitude < maxSpeed)
+            rb.AddForce(-hitBox.transform.forward * power, ForceMode.Acceleration);
+    }
+
+    private void ApplyDrift(float steer)
+    {
+        float driftRotation = steer * driftPower;
+        hitBox.transform.localRotation = Quaternion.Slerp(hitBox.transform.localRotation,Quaternion.Euler(0, driftRotation * driftDirection, 0),Time.deltaTime * 3f
+);
+        Vector3 forwardVel = hitBox.transform.forward * rb.velocity.magnitude;
+        rb.velocity = Vector3.Lerp(rb.velocity, forwardVel, Time.deltaTime * 2f);
+        if (accelerateInput)
+        {
+            rb.AddForce(hitBox.transform.forward * accelerationForce * 0.6f, ForceMode.Acceleration);
+        }
+        rb.AddForce(hitBox.transform.right * steer * driftSideForce, ForceMode.Acceleration);
+        ApplyLateralFriction(driftFrictionPower);
+        RotateHitboxDrift();
+    }
+    private void ApplyLateralFriction(float friction)
+    {
+        Vector3 lateral = Vector3.Project(rb.velocity, transform.right);
+        rb.velocity -= lateral * friction * Time.deltaTime;
+    }
+    private void RotateHitboxDrift()
+    {
+
+        hitBox.transform.localRotation = Quaternion.Lerp(
+            hitBox.transform.localRotation,
+            Quaternion.identity,
+            Time.deltaTime * 5f
+        );
     }
 }
+
