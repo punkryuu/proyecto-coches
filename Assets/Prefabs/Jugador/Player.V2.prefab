@@ -368,8 +368,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6873913562581235798}
-  - {fileID: 7552497246826747953}
   - {fileID: 4445134920326946967}
+  - {fileID: 7552497246826747953}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!114 &6201759470707482290
@@ -390,7 +390,7 @@ MonoBehaviour:
     m_Bits: 64
   visual: {fileID: 1232648858020963825}
   stunStars: {fileID: 8838929380295551636}
-  personajeSO: {fileID: 11400000, guid: 10aaee8df23bb7349b5d7dd5b6e2db00, type: 2}
+  playerCar: {fileID: 0}
   driftFlag: 0
   currentBoostType: 0
   boostDuration: 0
@@ -807,7 +807,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &6612458245605733615
 MonoBehaviour:
   m_ObjectHideFlags: 0

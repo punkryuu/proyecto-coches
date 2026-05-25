@@ -1,3 +1,4 @@
+using Mono.Cecil.Cil;
 using System;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
@@ -14,8 +15,8 @@ public class NPCAgent : Agent
     [SerializeField] public TrackCheck trackCheck;
     [SerializeField] LayerMask raycastMask;
 
-    float maxSpeed = 20f;
-    float accelerationForce = 40f;
+    float maxSpeed = 80f;
+    float accelerationForce = 100f;
     float brakeForce = 20f;
 
     public float rayLength = 15f; //Distancia máxima de los rayos
@@ -58,15 +59,13 @@ public class NPCAgent : Agent
        npcPosition.position = spawnPoint.position + Vector3.up * 0.5f;
        npcPosition.rotation = spawnPoint.rotation;
 
-       
-
+        rb.drag = 0.5f;
+        rb.angularDrag = 3f;
 
         trackCheck.ResetCheckpoint(this);
         timeSinceLastProgress = 0f;
         lastPosition = npcPosition.position;
-        previousDistanceToCheckpoint = Vector3.Distance(
-        npcPosition.position,
-        trackCheck.GetNextCheckpoint(this).position);
+        previousDistanceToCheckpoint = Vector3.Distance(npcPosition.position,trackCheck.GetNextCheckpoint(this).position);
      
     }
 
@@ -88,15 +87,12 @@ public class NPCAgent : Agent
         // Ground check
         bool grounded = Physics.Raycast(transform.position + Vector3.up, Vector3.down, 1f);
 
-        rb.linearDamping = 0.5f;
-        rb.angularDamping = 3f;
 
         // ===== RAYCASTS =====
 
         foreach (var direction in rayDirections)
         {
-            Vector3 worldDir =
-                transform.TransformDirection(direction.normalized);
+            Vector3 worldDir = transform.TransformDirection(direction.normalized);
 
             if (Physics.Raycast(transform.position,worldDir, out RaycastHit hit, rayLength,raycastMask))
             {
@@ -122,24 +118,26 @@ public class NPCAgent : Agent
     public override void OnActionReceived(ActionBuffers actions)
     {
         AddReward(-0.0005f);
-        float accel = Mathf.Clamp(actions.ContinuousActions[0], 0f, 1f);
+        float accel = Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
         float steer = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
 
         currentCheckPoint = trackCheck.GetNextCheckpoint(this);
         nextCheckPoint = trackCheck.GetNextNextCheckpoint(this);
 
         Vector3 toNext = (currentCheckPoint.position - npcPosition.position).normalized;
-        Vector3 velocity = rb.linearVelocity;
+        Vector3 velocity = rb.velocity;
 
 
         // --- MOVIMIENTO ---
-        rb.AddForce(npcPosition.forward * accel * accelerationForce, ForceMode.Acceleration);
-        if (rb.linearVelocity.magnitude > maxSpeed)
+        rb.AddForce(npcPosition.forward * accel * accelerationForce, ForceMode.VelocityChange);
+
+        if (rb.velocity.magnitude > maxSpeed)
         {
-            rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
+            rb.velocity = rb.velocity.normalized * maxSpeed;
         }
 
-        rb.MoveRotation(rb.rotation * Quaternion.Euler(0f, steer * turnSpeed * Time.fixedDeltaTime, 0f));
+        Quaternion deltaRotation = Quaternion.Euler(0f, steer * turnSpeed * Time.fixedDeltaTime, 0f);
+        rb.MoveRotation(rb.rotation * deltaRotation);
 
         // ============================================================
         // ===================== RECOMPENSAS ===========================
@@ -158,7 +156,6 @@ public class NPCAgent : Agent
 
         timeSinceLastProgress += Time.fixedDeltaTime;
 
-
         if (timeSinceLastProgress > stuckTimeLimit)
         {
             AddReward(-2f);
@@ -166,14 +163,7 @@ public class NPCAgent : Agent
 
         }
 
-        if (transform.position.y < -200f)
-        {
-
-            EndEpisode();
-        }
-
     }
-
 
     public void OnPassedCheckpoint(NPCAgent agent)
     {
@@ -195,7 +185,7 @@ public class NPCAgent : Agent
         {
             Debug.Log("muro tocando2");
             AddReward(-5f);
-            EndEpisode();
+           // EndEpisode();
 
         }
 
@@ -214,5 +204,27 @@ public class NPCAgent : Agent
             AddReward(-0.1f * Time.fixedDeltaTime);
             
         }
+    }
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        var continuous = actionsOut.ContinuousActions;
+
+        float accel = 0f;
+        float steer = 0f;
+
+        // ACELERAR
+        if (Input.GetKey(KeyCode.W))
+            accel = 1f;
+        else if (Input.GetKey(KeyCode.S))
+            accel = -1f;
+
+        // GIRO
+        if (Input.GetKey(KeyCode.A))
+            steer = -1f;
+        else if (Input.GetKey(KeyCode.D))
+            steer = 1f;
+
+        continuous[0] = accel;
+        continuous[1] = steer;
     }
 }
