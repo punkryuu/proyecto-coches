@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: fa9315df3ab80554189533707573a2fc, type: 2}
+    - target: {fileID: -3964270513191522359, guid: e393a73cdec8e474e9e1555c8b6d32b0, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
+      objectReference: {fileID: 0}
     - target: {fileID: -2434254986147949224, guid: e393a73cdec8e474e9e1555c8b6d32b0, type: 3}
       propertyPath: m_Materials.Array.size
       value: 2
@@ -72,9 +76,21 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: fa9315df3ab80554189533707573a2fc, type: 2}
+    - target: {fileID: -972228627738307802, guid: e393a73cdec8e474e9e1555c8b6d32b0, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e393a73cdec8e474e9e1555c8b6d32b0, type: 3}
       propertyPath: m_Name
       value: Caja
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e393a73cdec8e474e9e1555c8b6d32b0, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
+      objectReference: {fileID: 0}
+    - target: {fileID: 1066853759439015121, guid: e393a73cdec8e474e9e1555c8b6d32b0, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
       objectReference: {fileID: 0}
     - target: {fileID: 4742473837712756890, guid: e393a73cdec8e474e9e1555c8b6d32b0, type: 3}
       propertyPath: m_Size
@@ -215,7 +231,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f4fe70a20a9dcdb4db1f5f925a2f464c, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 83
       objectReference: {fileID: 0}
     - target: {fileID: 8164078558771037576, guid: f4fe70a20a9dcdb4db1f5f925a2f464c, type: 3}
       propertyPath: m_Name
