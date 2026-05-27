@@ -19,7 +19,7 @@ public class ModoCarrera : MonoBehaviour
     public Dictionary<GameObject,int> npcLapCounter = new Dictionary<GameObject,int>();
     public int raceCounter = 0;
     public Dictionary<PersonajeSO, GameObject> instances = new Dictionary<PersonajeSO, GameObject>();
-    [SerializeField] TMP_Text countdownText;
+     TMP_Text countdownText;
     public float countdown = 3f;
     public int totalLaps = 3;
     private GameObject[] spawnedNPC;
@@ -51,7 +51,7 @@ public class ModoCarrera : MonoBehaviour
     }
     void Start()
     {
-        StartCoroutine(StartCountdown());
+       // StartCoroutine(StartCountdown());
        
     }
 
@@ -72,12 +72,12 @@ public class ModoCarrera : MonoBehaviour
             NPCAgent agent = npcInstance.GetComponent<NPCAgent>();
             agent.spawnPoint = spawn;
 
-            PlayerCar car = npcInstance.GetComponent<PlayerCar>();
-            car.circuit = FindAnyObjectByType<WayPointsCircuit>();
-            car.personajeData = chosen;
+           // PlayerCar car = npcInstance.GetComponent<PlayerCar>();
+           // car.circuit = FindAnyObjectByType<WayPointsCircuit>();
+            //car.personajeData = chosen;
 
             FSMManager fsm = npcInstance.GetComponent<FSMManager>();
-            fsm.playerCar = car;
+            //fsm.playerCar = car;
 
             RegisterNPC(npcInstance);
             instances[chosen] = npcInstance;

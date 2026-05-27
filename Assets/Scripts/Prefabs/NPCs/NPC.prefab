@@ -349,6 +349,8 @@ GameObject:
   - component: {fileID: 5357099258456154793}
   - component: {fileID: -2276008070518650341}
   - component: {fileID: 8808664538561090654}
+  - component: {fileID: 8263861452363750769}
+  - component: {fileID: -7457821333018348543}
   m_Layer: 8
   m_Name: NPC
   m_TagString: Player
@@ -404,6 +406,8 @@ MonoBehaviour:
   stunned: 0
   stunDuration: 1
   triggerStunDuration: 0
+  canBeStunned: 1
+  isCurrentlyStunned: 0
   drift1Start: {r: 1, g: 0.7486793, b: 0, a: 0}
   drift1End: {r: 1, g: 0.20615105, b: 0, a: 0}
   drift2Start: {r: 0.8867924, g: 0, b: 0.0034775643, a: 0}
@@ -579,16 +583,16 @@ MonoBehaviour:
     VectorObservationSize: 1
     NumStackedVectorObservations: 1
     m_ActionSpec:
-      m_NumContinuousActions: 0
-      BranchSizes: 01000000
+      m_NumContinuousActions: 1
+      BranchSizes: 
     VectorActionSize: 01000000
     VectorActionDescriptions: []
-    VectorActionSpaceType: 0
+    VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: My Behavior
+  m_BehaviorName: NPCAgent
   TeamId: 0
   m_UseChildSensors: 1
   m_UseChildActuators: 1
@@ -611,6 +615,7 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
   rb: {fileID: 0}
+  spawnPoint: {fileID: 0}
   trackCheck: {fileID: 0}
   raycastMask:
     serializedVersion: 2
@@ -622,6 +627,7 @@ MonoBehaviour:
   turnSpeed: 100
   power: 0
   maxPower: 100
+  spawnIndex: 0
 --- !u!114 &8808664538561090654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,6 +647,50 @@ MonoBehaviour:
   distanceToNextWayPoint: 0
   personajeData: {fileID: 11400000, guid: 10aaee8df23bb7349b5d7dd5b6e2db00, type: 2}
   circuit: {fileID: 0}
+--- !u!114 &8263861452363750769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126455363605797109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bb6b867a41448888c1cd4f99643ad71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SensorName: RayPerceptionSensor
+  m_DetectableTags: []
+  m_RaysPerDirection: 3
+  m_MaxRayDegrees: 70
+  m_SphereCastRadius: 0.5
+  m_RayLength: 20
+  m_RayLayerMask:
+    serializedVersion: 2
+    m_Bits: 576
+  m_ObservationStacks: 1
+  m_AlternatingRayOrder: 1
+  m_UseBatchedRaycasts: 0
+  rayHitColor: {r: 1, g: 0, b: 0, a: 1}
+  rayMissColor: {r: 1, g: 1, b: 1, a: 1}
+  m_StartVerticalOffset: 0
+  m_EndVerticalOffset: 0
+--- !u!114 &-7457821333018348543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126455363605797109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2902496c0120472b90269f94a0aec7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Record: 0
+  NumStepsToRecord: 0
+  DemonstrationName: 
+  DemonstrationDirectory: 
 --- !u!1 &5336917421892882631
 GameObject:
   m_ObjectHideFlags: 0
