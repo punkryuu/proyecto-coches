@@ -10,7 +10,8 @@ public class PlayerCar : MonoBehaviour
     public float distanceToNextWayPoint = 0f;
     public PersonajeSO personajeData;
     RaceManager modoCarrera;
-
+    bool activated = false;
+    public Transform currentCheckpoint;
     public WayPointsCircuit circuit;
 
     void Start()
@@ -45,6 +46,16 @@ public class PlayerCar : MonoBehaviour
     {
         currentWayPoint++;
 
+        if (CompareTag("NPC"))
+        {
+            NPCAgent npc = GetComponent<NPCAgent>();
+
+            if (npc != null)
+            {
+                npc.OnPassedCheckpoint(npc);
+            }
+        }
+
     }
 
     public void OnWrongCheckpoint()
@@ -63,6 +74,12 @@ public class PlayerCar : MonoBehaviour
         Transform spawnPoint = circuit.GetWayPoint(currentWayPoint);
         transform.position = spawnPoint.position + Vector3.up * 0.5f;
         transform.rotation = spawnPoint.rotation;
+    }
+
+    public void OnLapCompleted()
+    {
+        currentLap++;
+        Debug.Log("Player completed lap " + currentLap);
     }
 }
     

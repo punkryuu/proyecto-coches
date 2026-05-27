@@ -102,4 +102,11 @@ public class TrackCheck : MonoBehaviour
         return circuit.GetWayPoint(nextIndex);
     }
 
+    public bool HasCompletedLap(Component car)
+    {
+        if (!nextCheckpointIndex.ContainsKey(car))
+            return false;
+
+        return nextCheckpointIndex[car] >= circuit.GetWayPointsCount();
+    }
 }

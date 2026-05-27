@@ -40,7 +40,6 @@ public class CheckPoints : MonoBehaviour {
                 if (cp.GetComponent<CheckPoints>().Activated)
                 {
                     result = cp.transform.position;
-                    break;
                 }
             }
         }
@@ -79,7 +78,7 @@ public class CheckPoints : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         // If the player passes through the checkpoint, we activate it
-        if (other.tag == "Player")
+        if (other.CompareTag("Player") || other.CompareTag("NPC"))
         {
             ActivateCheckPoint();
         }

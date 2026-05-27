@@ -6,6 +6,7 @@ public class FinishLineCollision : MonoBehaviour
     [SerializeField] private RaceManager raceController;
     [SerializeField] TMP_Text lapCounterText;
     [SerializeField] private bool isTimeTrialMode = false;
+   
     void OnTriggerEnter(Collider other)
     {
         // --- Modo contrarreloj ---
@@ -51,8 +52,10 @@ public class FinishLineCollision : MonoBehaviour
                 {
                     raceController.IncrementNPCLapCounter(other.gameObject);
                 }
+
                 carIdetifier.currentWayPoint = 0;
             }
         }
     }
+    
 }

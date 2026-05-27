@@ -20,22 +20,15 @@ public class Waypoints : MonoBehaviour {
     }
     private void OnTriggerEnter(Collider other)
     {
-        NPCAgent ai = other.GetComponentInParent<NPCAgent>();
-        if (ai != null)
-        {
-            circuitTrackCheck.AgentThroughCheckPoint(ai, index);
-            return;
-        }
+        PlayerCar car = other.GetComponentInParent<PlayerCar>();
 
-        PlayerCar player = other.GetComponentInParent<PlayerCar>();
-        if (player!= null && player.currentWayPoint == index)
-        {
-            Debug.Log("player ha toqueteado Waypoint: " + index);
-
-            circuitTrackCheck.AgentThroughCheckPoint(player, index);
-            player.OnCorrectCheckpoint();
+        if (car == null)
             return;
-        }
+
+        if (car.currentWayPoint != index)
+            return;
+
+        car.OnCorrectCheckpoint();
 
     }
 

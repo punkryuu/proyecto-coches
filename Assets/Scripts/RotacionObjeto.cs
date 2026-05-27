@@ -15,16 +15,23 @@ public class RotacionObjeto : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("NPC"))
         {
+            if(other.CompareTag("Player"))
+            { 
             barraPoder.value += uiManager.GetProgreso();
 
             if (barraPoder.value > barraPoder.maxValue)
                 barraPoder.value = barraPoder.maxValue;
 
             Debug.Log("Detectado!");
-
+            }
+            else
+            {
+                Debug.Log("NPC detectado!");
+            }
             StartCoroutine(Reaparecer());
+
         }
     }
 

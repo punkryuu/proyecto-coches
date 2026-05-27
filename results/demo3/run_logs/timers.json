@@ -1,0 +1,89 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1779779336",
+        "python_version": "3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\Nathan\\Documents\\GitHub\\projecto-coches\\pruebaia3\\Scripts\\mlagents-learn Assets\\Scripts\\IA\\NPC_Agent.yaml --run-id=demo3",
+        "mlagents_version": "1.1.0",
+        "mlagents_envs_version": "1.1.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.12.0+cpu",
+        "numpy_version": "1.23.5",
+        "end_time_seconds": "1779779362"
+    },
+    "total": 25.53121960000135,
+    "count": 1,
+    "self": 0.00874330010265112,
+    "children": {
+        "run_training.setup": {
+            "total": 0.11138619994744658,
+            "count": 1,
+            "self": 0.11138619994744658
+        },
+        "TrainerController.start_learning": {
+            "total": 25.411090099951252,
+            "count": 1,
+            "self": 6.679981015622616e-05,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 25.39330009999685,
+                    "count": 1,
+                    "self": 25.066164099844173,
+                    "children": {
+                        "demo_to_buffer": {
+                            "total": 0.3271360001526773,
+                            "count": 1,
+                            "self": 3.5800039768218994e-05,
+                            "children": {
+                                "load_demonstration": {
+                                    "total": 0.09469610010273755,
+                                    "count": 1,
+                                    "self": 0.09390159999020398,
+                                    "children": {
+                                        "read_file": {
+                                            "total": 0.0007945001125335693,
+                                            "count": 4,
+                                            "self": 0.0007945001125335693
+                                        }
+                                    }
+                                },
+                                "make_demo_buffer": {
+                                    "total": 0.23240410001017153,
+                                    "count": 1,
+                                    "self": 0.04800830059684813,
+                                    "children": {
+                                        "steps_from_proto": {
+                                            "total": 0.1843957994133234,
+                                            "count": 4148,
+                                            "self": 0.13529541017487645,
+                                            "children": {
+                                                "_process_rank_one_or_two_observation": {
+                                                    "total": 0.04910038923844695,
+                                                    "count": 8295,
+                                                    "self": 0.04910038923844695
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "TrainerController._save_models": {
+                    "total": 0.01772320014424622,
+                    "count": 1,
+                    "self": 0.00024470011703670025,
+                    "children": {
+                        "RLTrainer._checkpoint": {
+                            "total": 0.01747850002720952,
+                            "count": 1,
+                            "self": 0.01747850002720952
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
