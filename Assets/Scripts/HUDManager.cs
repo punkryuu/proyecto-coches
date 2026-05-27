@@ -17,7 +17,7 @@ public class UIManager : MonoBehaviour {
     [SerializeField] Slider barraPoder;
 
     MenuUIManager menuUIManager;
-    public ModoCarrera modoCarrera;
+    public RaceManager modoCarrera;
 
      float progreso = 0.2f;
     float speed = 0;

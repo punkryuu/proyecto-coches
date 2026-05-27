@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class FinishLineCollision : MonoBehaviour
 {
-    [SerializeField] private ModoCarrera raceController;
+    [SerializeField] private RaceManager raceController;
     [SerializeField] TMP_Text lapCounterText;
     [SerializeField] private bool isTimeTrialMode = false;
     void OnTriggerEnter(Collider other)

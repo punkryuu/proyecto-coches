@@ -9,7 +9,7 @@ public class PlayerCar : MonoBehaviour
     public int totalWaypoints;
     public float distanceToNextWayPoint = 0f;
     public PersonajeSO personajeData;
-    ModoCarrera modoCarrera;
+    RaceManager modoCarrera;
 
     public WayPointsCircuit circuit;
 
