@@ -55,7 +55,7 @@ public class FSMManager : StateMachineFlow {
     private float steerPower;
     private float frictionPower;
     private float gravityForce;
-
+    private float airControlPower;
     private float driftFrictionPower;
     private float driftPower;
     private float driftSideForce;
@@ -73,7 +73,9 @@ public class FSMManager : StateMachineFlow {
     bool first, second, third;
     private int driftLevel;// 0, 1, 2, 3
 
-
+    [Header("Control Aéreo")]
+    // de 0 a 1 , cuánto control tiene el jugador en el aire (0 = sin control, 1 = control total)
+    [SerializeField] private float airControlMultiplier = 0.5f;
 
     [Header("Boost")]
     public BoostType currentBoostType;
@@ -100,6 +102,7 @@ public class FSMManager : StateMachineFlow {
     private Quaternion originalVisualRotation;
     private bool restoringRotation;
     private Coroutine restoreCoroutine;
+
     [Header("Partículas")]
     private List<ParticleSystem> driftParticles = new List<ParticleSystem>();
     private List<ParticleSystem> turboParticles = new List<ParticleSystem>();
@@ -264,7 +267,7 @@ public class FSMManager : StateMachineFlow {
             driftSideForce = baseDriftSideForce;
             driftAngle = baseDriftAngle;
             driftEntrySpeed = baseDriftEntrySpeed;
-
+            airControlPower = airControlMultiplier;
             boostDurationMultiplier = baseBoostDurationMultiplier;
             return;
         }
@@ -276,6 +279,7 @@ public class FSMManager : StateMachineFlow {
 
         frictionPower = baseFriction * personajeSO.weightMultiplier;
         gravityForce = baseGravity * personajeSO.weightMultiplier;
+        airControlPower = personajeSO.airControlMultiplier;
 
         driftPower = baseDriftPower * personajeSO.driftControlMultiplier;
         driftSideForce = baseDriftSideForce * personajeSO.driftControlMultiplier;
@@ -403,8 +407,9 @@ public class FSMManager : StateMachineFlow {
     {
         if (Mathf.Abs(horizontalInput) > Mathf.Epsilon && rb.linearVelocity != Vector3.zero)
         {
+            float steerMultiplier = CheckGrounded() ? 1f : airControlMultiplier;
             float direction = Vector3.Dot(rb.linearVelocity, hitBox.transform.forward) >= 0f ? 1f : -1f;
-            float targetAngle = horizontalInput * steerPower * direction;
+            float targetAngle = horizontalInput * steerPower * steerMultiplier * direction;
             Quaternion targetRot = Quaternion.LookRotation(
                 Quaternion.Euler(0, targetAngle, 0) * hitBox.transform.forward,
                 Vector3.up
@@ -413,7 +418,7 @@ public class FSMManager : StateMachineFlow {
             hitBox.transform.rotation = Quaternion.Slerp(hitBox.transform.rotation, targetRot, Time.deltaTime * 5f);
         }
 
-        ApplyLateralFriction(frictionPower);
+        if (CheckGrounded()) ApplyLateralFriction(frictionPower);
     }
 
     public void RotateHitbox()

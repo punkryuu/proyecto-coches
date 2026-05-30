@@ -15,6 +15,7 @@ public class Falling: TemplateStateMachine {
     public override void UpdateLogic()
     {
         base.UpdateLogic();
+        _fsm.horizontalInput = _fsm.GetInputActions().Driving.Steer.ReadValue<float>();
 
         // Si está en el aire y puede hacer truco, activa el flag
         if (_fsm.canTrick && _fsm.GetInputActions().Driving.Trick.IsPressed())
@@ -44,5 +45,7 @@ public class Falling: TemplateStateMachine {
     {
         base.UpdatePhysics();
         _fsm.ApplyGravity();
+        _fsm.ApplySteer();
+
     }
 }
