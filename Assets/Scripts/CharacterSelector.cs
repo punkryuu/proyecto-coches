@@ -45,7 +45,11 @@ public class CharacterSelector : MonoBehaviour
 
         continueButton.interactable = true;
         historyButton.interactable = true;
-        visualSpawn.gameObject.SetActive(true);
+        if (panelHistoria.activeSelf == false)
+        {
+            visualSpawn.gameObject.SetActive(true);
+
+        }
 
         if (GameManager.Instance != null)
         {
