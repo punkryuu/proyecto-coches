@@ -18,6 +18,8 @@ public abstract class PersonajeSO : ScriptableObject
     public float airControlMultiplier = 1f;
     public float HitBoxRadius = 1.5f;//por defecto
     public float poderDuracion = 10f; // Duración del poder
+    public string name;
+    public string historia;
 
     [Header("0: selección, 1: Derrota, 2: Poder, 3: Golpe, 4: Truco, 5: Victoria, 6: Turbo")]
 
