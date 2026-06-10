@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6705523149103971478}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -5627652522864860497, guid: efc960fc1159a4944bfd6446d0a781b9, type: 3}
 --- !u!23 &620532717641557489
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -107,8 +107,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.7996977
-  m_Height: 2.415876
+  m_Radius: 1.2
+  m_Height: 3
   m_Direction: 1
   m_Center: {x: -0.11414681, y: 0.20793794, z: 0.21260418}
 --- !u!114 &2560017105469394834
@@ -123,6 +123,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77762e64303003048b6452589e365513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barraPoder: {fileID: 0}
-  uiManager: {fileID: 0}
   velocidadRotacion: {x: 50, y: 200, z: 0}
