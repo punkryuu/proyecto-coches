@@ -14,6 +14,7 @@ public class TrackCheck : MonoBehaviour
 
     public void AgentThroughCheckPoint(object car, int index)
     {
+        Debug.Log($"Entró checkpoint {index}, esperado {nextCheckpointIndex[car]}");
         if (circuit == null)
         {
             Debug.LogError("TrackCheck.circuit ES NULL");
@@ -58,6 +59,13 @@ public class TrackCheck : MonoBehaviour
         }
     }
 
+    public Transform GetCurrentCheckpoint(object car)
+    {
+        if (!nextCheckpointIndex.ContainsKey(car))
+            nextCheckpointIndex[car] = 0;
+
+        return circuit.GetWayPoint(nextCheckpointIndex[car]);
+    }
     public Transform GetNextCheckpoint(object car)
     {
         if (!nextCheckpointIndex.ContainsKey(car))

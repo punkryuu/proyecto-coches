@@ -53,7 +53,7 @@ public class NPCAgent : Agent
     public float gravityMultiplier = 1f;
     private float gravityForce = 100f;
     private float episodeTimer = 0f;
-    private float maxEpisodeTime = 50f; // tiempo de unos 
+    private float maxEpisodeTime = 200f; // tiempo de unos 3 minutos a 60fps
 
     public override void Initialize()
     {
@@ -265,7 +265,9 @@ public class NPCAgent : Agent
     public void OnPassedCheckpoint(NPCAgent agent)
     {
         Debug.Log("Checkpoint pasasdo: " + agent.currentCheckPoint.name);
-        agent.currentCheckPoint = agent.trackCheck.GetNextCheckpoint(agent);
+        agent.currentCheckPoint = agent.trackCheck.GetCurrentCheckpoint(agent);
+        //agent.playerCar.OnCorrectCheckpoint();
+        Debug.Log("Nuevo checkpoint objetivo: " + agent.currentCheckPoint.name);
         agent.previousDistanceToCheckpoint = Vector3.Distance( agent.npcPosition.position, agent.currentCheckPoint.position);
         playerCar.currentWayPoint++;
         agent.timeSinceLastProgress = 0f;
