@@ -44,6 +44,9 @@
         },
         {
             "m_Id": "d3b2e478789c491889f494cf00c2b24a"
+        },
+        {
+            "m_Id": "3386c16bc445452faddb9056c874b20f"
         }
     ],
     "m_Keywords": [
@@ -219,6 +222,9 @@
         },
         {
             "m_Id": "ed2d47ed3d044a77a46077b2edd5d65c"
+        },
+        {
+            "m_Id": "6b3b9349c995452abadaa0d8b952f9a8"
         }
     ],
     "m_GroupDatas": [
@@ -420,6 +426,20 @@
                     "m_Id": "fc30d2ac3bae48bc9c41f374f6ea9674"
                 },
                 "m_SlotId": 2
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "6b3b9349c995452abadaa0d8b952f9a8"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "0915d982a8754c3cae6bb090a6815759"
+                },
+                "m_SlotId": 0
             }
         },
         {
@@ -1757,6 +1777,36 @@
 }
 
 {
+    "m_SGVersion": 3,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.ColorShaderProperty",
+    "m_ObjectId": "3386c16bc445452faddb9056c874b20f",
+    "m_Guid": {
+        "m_GuidSerialized": "22747d94-5904-4c57-9540-38befa6cbe3f"
+    },
+    "m_Name": "Emission",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "Emission",
+    "m_DefaultReferenceName": "_Emission",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 0.0
+    },
+    "isMainColor": false,
+    "m_ColorMode": 0
+}
+
+{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector2MaterialSlot",
     "m_ObjectId": "351dbd33fb304e1c9947b028efc86eff",
@@ -1967,7 +2017,7 @@
     "m_Title": "Gradiente",
     "m_Position": {
         "x": 2575.0,
-        "y": -2986.999755859375
+        "y": -2987.0
     }
 }
 
@@ -2923,6 +2973,42 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "6b3b9349c995452abadaa0d8b952f9a8",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": 2793.0,
+            "y": 688.0,
+            "width": 123.0,
+            "height": 34.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "a024957cdd524cb6806a84129f876c21"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "3386c16bc445452faddb9056c874b20f"
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty",
     "m_ObjectId": "6bd7263650dc478fbb9fecc2350e1059",
     "m_Guid": {
@@ -3544,8 +3630,8 @@
     "m_ObjectId": "8c596041e1bd462ea5de6d4519cf3453",
     "m_Title": "Tex",
     "m_Position": {
-        "x": -735.0000610351563,
-        "y": -1659.9998779296875
+        "x": -735.0,
+        "y": -1660.0
     }
 }
 
@@ -4249,6 +4335,31 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
+    "m_ObjectId": "a024957cdd524cb6806a84129f876c21",
+    "m_Id": 0,
+    "m_DisplayName": "Emission",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.GradientInputMaterialSlot",
     "m_ObjectId": "a0aafec4101940f89087dcf3a20249d4",
     "m_Id": 0,
@@ -4681,8 +4792,8 @@
     "m_ObjectId": "ace070999193483dbe770696d71cb019",
     "m_Title": "MIx y condicion de efectos puntos",
     "m_Position": {
-        "x": 1595.9998779296875,
-        "y": -1007.9999389648438
+        "x": 1596.0,
+        "y": -1008.0
     }
 }
 
@@ -5389,7 +5500,7 @@
     "m_ObjectId": "d1cf1ef3ddb94dae9bda65d119eb1f3b",
     "m_Title": "Roughness",
     "m_Position": {
-        "x": -450.0000305175781,
+        "x": -450.0,
         "y": 508.0
     }
 }
@@ -6339,6 +6450,9 @@
         },
         {
             "m_Id": "b06582a618a9455c84bd3762b425e58a"
+        },
+        {
+            "m_Id": "3386c16bc445452faddb9056c874b20f"
         }
     ]
 }
