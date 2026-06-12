@@ -17,7 +17,6 @@ public class UIManager : MonoBehaviour {
     [SerializeField] Slider barraPoder;
 
     MenuUIManager menuUIManager;
-    public ModoCarrera modoCarrera;
 
      float progreso = 0.2f;
     float speed = 0;
@@ -87,10 +86,7 @@ public class UIManager : MonoBehaviour {
         SceneManager.LoadScene(1);
     }
 
-    public void NextRace()
-    {
-        SceneManager.LoadScene(modoCarrera.raceCounter);
-    }
+
     public float GetProgreso()
     {
         return progreso;
