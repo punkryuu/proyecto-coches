@@ -1,19 +1,24 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class SelectionModeMenu : MonoBehaviour
 {
-    [SerializeField] private string timetrialScene;
-    [SerializeField] private string raceModeScene;
+    [SerializeField] private string nextScene;
+    [SerializeField] GameObject firtObject;
 
+    private void OnEnable()
+    {
+        EventSystem.current.SetSelectedGameObject(firtObject);
+    }
     public void RaceButton()
     {
-        SceneManager.LoadScene(raceModeScene);
+        SceneManager.LoadScene(nextScene);
         GameManager.Instance.gameMode = GameMode.Race;
     }
     public void TimeTrialButton()
     {
-        SceneManager.LoadScene(timetrialScene);
+        SceneManager.LoadScene(nextScene);
         GameManager.Instance.gameMode = GameMode.TimeTrial;
 
     }

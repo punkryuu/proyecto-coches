@@ -1,11 +1,12 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEditor;
-using UnityEngine.UI;
-using TMPro;
-using System.Collections.Generic;
 using NUnit.Framework;
+using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class CharacterSelector : MonoBehaviour
 {
     [SerializeField] Image selectedImage;
@@ -20,7 +21,19 @@ public class CharacterSelector : MonoBehaviour
 
     private GameObject visualActual;
 
-    [SerializeField] private string nextScene;
+    [SerializeField] private string raceScene;
+    [SerializeField] private string timeTrialScene;
+    [SerializeField] GameObject firtObject;
+
+    private void OnEnable()
+    {
+        EventSystem.current.SetSelectedGameObject(firtObject);
+    }
+   public void SeleccionarBotonHistoria(GameObject go) 
+    {
+        EventSystem.current.SetSelectedGameObject(go);
+
+    }
     public void Start()
     {
         continueButton.interactable = false;
@@ -66,7 +79,14 @@ public class CharacterSelector : MonoBehaviour
     {         
         if (selectedChar != null)
         {
-            SceneManager.LoadScene(nextScene);
+            if (GameManager.Instance.gameMode == GameMode.Race)
+            {
+                SceneManager.LoadScene(raceScene);
+            }
+            if (GameManager.Instance.gameMode == GameMode.TimeTrial)
+            {
+                SceneManager.LoadScene(timeTrialScene);
+            }
         }
     }
 }

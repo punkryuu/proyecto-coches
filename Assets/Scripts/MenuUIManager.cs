@@ -3,6 +3,7 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MenuUIManager: MonoBehaviour
@@ -16,10 +17,11 @@ public class MenuUIManager: MonoBehaviour
 
     Resolution[] resolutions;
     List<string> options = new List<string>();
-
+  [SerializeField] string nextScene;
     bool isOptionsActive = false;
     public void Start()
     {
+
         contenedorOpciones.SetActive(false);
         resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();//limpiar el dropdown para llenarlo con las resoluciones disponibles
@@ -41,14 +43,24 @@ public class MenuUIManager: MonoBehaviour
     {
         if ((isOptionsActive && Input.GetKeyDown(KeyCode.Escape)))
         {
-            panel.SetActive(true);
-            contenedorOpciones.SetActive(false);
-            isOptionsActive = false;
+           CloseSettings();
         }
+    }
+    [SerializeField] GameObject firtObject;
+
+    private void OnEnable()
+    {
+        EventSystem.current.SetSelectedGameObject(firtObject);
+    }
+    public  void CloseSettings() 
+    {
+        panel.SetActive(true);
+        contenedorOpciones.SetActive(false);
+        isOptionsActive = false;
     }
     public void PlayButton()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(characterSelectorSceneIndex);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(nextScene);
     }
     public void OptionButton()
     {
