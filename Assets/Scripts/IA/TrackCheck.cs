@@ -14,7 +14,7 @@ public class TrackCheck : MonoBehaviour
 
     public void AgentThroughCheckPoint(object car, int index)
     {
-        Debug.Log($"Entró checkpoint {index}, esperado {nextCheckpointIndex[car]}");
+       // Debug.Log($"Entró checkpoint {index}, esperado {nextCheckpointIndex[car]}");
         if (circuit == null)
         {
             Debug.LogError("TrackCheck.circuit ES NULL");
