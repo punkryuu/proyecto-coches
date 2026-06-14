@@ -365,11 +365,15 @@ public class FSMManager : StateMachineFlow {
         }
     }
     // ==================== RESPAWN ====================
-    public void Respawn() 
+    public void Respawn()
     {
+        Vector3 respawnPos = CheckPoints.GetActiveCheckPointPosition();
+
+        Debug.Log("Respawning at: " + respawnPos);
+
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-        this.transform.position = CheckPoints.GetActiveCheckPointPosition();
+        transform.position = respawnPos;
     }
 
     // ==================== MOVIMIENTO ====================
