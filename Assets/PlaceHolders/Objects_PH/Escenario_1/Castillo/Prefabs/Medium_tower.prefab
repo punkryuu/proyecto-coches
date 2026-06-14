@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 01713b07aa5fa1147bfc93aa16c96a97, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -7635826562936255635, guid: 01713b07aa5fa1147bfc93aa16c96a97, type: 3}
       propertyPath: m_CastShadows
       value: 0
@@ -175,6 +179,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -757410828236944880, guid: 8041c944df514fd4c995f69cec0747e0, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -757410828236944880, guid: 8041c944df514fd4c995f69cec0747e0, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fa9315df3ab80554189533707573a2fc, type: 2}
     - target: {fileID: 919132149155446097, guid: 8041c944df514fd4c995f69cec0747e0, type: 3}
       propertyPath: m_Name
       value: Torre_Medium_Lod00
@@ -242,6 +254,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1028144118348275655, guid: 75b190622ec97c848b74df60e33dec3a, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -1028144118348275655, guid: 75b190622ec97c848b74df60e33dec3a, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fa9315df3ab80554189533707573a2fc, type: 2}
     - target: {fileID: 919132149155446097, guid: 75b190622ec97c848b74df60e33dec3a, type: 3}
       propertyPath: m_Name
       value: Torre_Medium_Lod01
@@ -309,6 +329,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4186346940266143971, guid: e447c0e72d497b947a6286b980a06f56, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4186346940266143971, guid: e447c0e72d497b947a6286b980a06f56, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fa9315df3ab80554189533707573a2fc, type: 2}
     - target: {fileID: 919132149155446097, guid: e447c0e72d497b947a6286b980a06f56, type: 3}
       propertyPath: m_Name
       value: Torre_Medium_Lod02

@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 83
   m_IsActive: 1
 --- !u!4 &5928522644787669724
 Transform:
@@ -42,6 +42,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5928522644787669724}
     m_Modifications:
+    - target: {fileID: 1563323286860908637, guid: fb97000672c118d46bb3be42d0707e98, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
+      objectReference: {fileID: 0}
+    - target: {fileID: 1915676461152050887, guid: fb97000672c118d46bb3be42d0707e98, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
+      objectReference: {fileID: 0}
+    - target: {fileID: 4788155046789503891, guid: fb97000672c118d46bb3be42d0707e98, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903228750741643663, guid: fb97000672c118d46bb3be42d0707e98, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
+      objectReference: {fileID: 0}
     - target: {fileID: 8451276445432684664, guid: fb97000672c118d46bb3be42d0707e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.41
@@ -82,9 +98,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8667107036365444974, guid: fb97000672c118d46bb3be42d0707e98, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
+      objectReference: {fileID: 0}
     - target: {fileID: 9080144751228123842, guid: fb97000672c118d46bb3be42d0707e98, type: 3}
       propertyPath: m_Name
       value: Rueda_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9080144751228123842, guid: fb97000672c118d46bb3be42d0707e98, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -104,6 +128,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5928522644787669724}
     m_Modifications:
+    - target: {fileID: 1563323286860908637, guid: fb97000672c118d46bb3be42d0707e98, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
+      objectReference: {fileID: 0}
+    - target: {fileID: 1915676461152050887, guid: fb97000672c118d46bb3be42d0707e98, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
+      objectReference: {fileID: 0}
+    - target: {fileID: 4788155046789503891, guid: fb97000672c118d46bb3be42d0707e98, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903228750741643663, guid: fb97000672c118d46bb3be42d0707e98, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
+      objectReference: {fileID: 0}
     - target: {fileID: 8451276445432684664, guid: fb97000672c118d46bb3be42d0707e98, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.40999222
@@ -144,9 +184,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8667107036365444974, guid: fb97000672c118d46bb3be42d0707e98, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
+      objectReference: {fileID: 0}
     - target: {fileID: 9080144751228123842, guid: fb97000672c118d46bb3be42d0707e98, type: 3}
       propertyPath: m_Name
       value: Rueda_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9080144751228123842, guid: fb97000672c118d46bb3be42d0707e98, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -206,9 +254,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 787618607965795564, guid: c6c17f204c477f445a29ff373b38f1f0, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
+      objectReference: {fileID: 0}
     - target: {fileID: 1065151607145672150, guid: c6c17f204c477f445a29ff373b38f1f0, type: 3}
       propertyPath: m_Name
       value: Carro
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065151607145672150, guid: c6c17f204c477f445a29ff373b38f1f0, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
+      objectReference: {fileID: 0}
+    - target: {fileID: 2349738989043393720, guid: c6c17f204c477f445a29ff373b38f1f0, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
+      objectReference: {fileID: 0}
+    - target: {fileID: 6735860389833974845, guid: c6c17f204c477f445a29ff373b38f1f0, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
+      objectReference: {fileID: 0}
+    - target: {fileID: 7583540159594908064, guid: c6c17f204c477f445a29ff373b38f1f0, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 83
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
