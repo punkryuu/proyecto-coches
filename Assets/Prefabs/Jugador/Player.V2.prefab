@@ -392,6 +392,7 @@ MonoBehaviour:
     m_Bits: 64
   visual: {fileID: 1232648858020963825}
   stunStars: {fileID: 8838929380295551636}
+  minimapPlane: {fileID: 7693707574793382570}
   playerCar: {fileID: 8716802694784510367}
   driftFlag: 0
   airControlMultiplier: 0.5
@@ -584,7 +585,7 @@ MonoBehaviour:
   currentWayPoint: 0
   totalWaypoints: 0
   distanceToNextWayPoint: 0
-  personajeData: {fileID: 11400000, guid: 10aaee8df23bb7349b5d7dd5b6e2db00, type: 2}
+  personajeData: {fileID: 11400000, guid: 8daa233e339b5ed44a81cc1ab7c1dfcf, type: 2}
   Visual: {fileID: 0}
   circuit: {fileID: 0}
 --- !u!1 &5336917421892882631
@@ -813,7 +814,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &6612458245605733615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -997,7 +998,6 @@ GameObject:
   - component: {fileID: 1180794343380527506}
   - component: {fileID: 4300264544772454900}
   - component: {fileID: 6846781758460671472}
-  - component: {fileID: 1191287621557229563}
   m_Layer: 8
   m_Name: Plane
   m_TagString: Untagged
@@ -1013,13 +1013,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7693707574793382570}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 200, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 7, y: 1, z: 7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 918635737100812005}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &4300264544772454900
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1051,7 +1051,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1073,28 +1073,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1191287621557229563
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7693707574793382570}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &8159686973195006032
 GameObject:
   m_ObjectHideFlags: 0
@@ -1123,7 +1101,7 @@ Transform:
   m_GameObject: {fileID: 8159686973195006032}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 252, z: 0}
+  m_LocalPosition: {x: 0, y: 562, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1138,7 +1116,7 @@ Camera:
   m_GameObject: {fileID: 8159686973195006032}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -1163,12 +1141,12 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 150
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 264
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 7ad55df74702cbe47b167ae67fd3f879, type: 2}
   m_TargetDisplay: 0

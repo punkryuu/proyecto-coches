@@ -67,12 +67,15 @@ public class CharacterSelector : MonoBehaviour
         if (GameManager.Instance != null)
         {
             GameManager.Instance.SetCharacter(personajes[buttonIndex]);
-            nombre.text = personajes[buttonIndex].name;
-            historia.text = personajes[buttonIndex].historia;
+
         }
-        else {
+        else
+        {
             Debug.LogError("GAMEMANAGER INSTANCE IS NULL. Make sure a GameManager object exists in the scene.");
         }
+        nombre.text = personajes[buttonIndex].name;
+        historia.text = personajes[buttonIndex].historia;
+       
     }
 
     public void Continue()
