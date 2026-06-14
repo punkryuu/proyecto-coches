@@ -18,6 +18,7 @@ public abstract class PersonajeSO : ScriptableObject
     public float airControlMultiplier = 1f;
     public float HitBoxRadius = 1.5f;//por defecto
     public float poderDuracion = 10f; // Duración del poder
+    public Sprite imagenMinimapa;
     public string name;
     public string historia;
 

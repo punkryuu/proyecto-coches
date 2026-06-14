@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 123
   m_IsActive: 1
 --- !u!4 &1560549449902665923
 Transform:
@@ -107,6 +107,10 @@ PrefabInstance:
     - target: {fileID: 5809270961264259416, guid: 85e7706c842c2ae42baf2bec6f09c864, type: 3}
       propertyPath: m_Name
       value: Tela_Mercadillo_2 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5809270961264259416, guid: 85e7706c842c2ae42baf2bec6f09c864, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 123
       objectReference: {fileID: 0}
     - target: {fileID: 6617333239966444514, guid: 85e7706c842c2ae42baf2bec6f09c864, type: 3}
       propertyPath: m_LocalPosition.x
@@ -209,6 +213,10 @@ PrefabInstance:
     - target: {fileID: 6840176258096332913, guid: a0cbd55df14bb39459c1a14acf56c392, type: 3}
       propertyPath: m_Name
       value: Mesa
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840176258096332913, guid: a0cbd55df14bb39459c1a14acf56c392, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 123
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

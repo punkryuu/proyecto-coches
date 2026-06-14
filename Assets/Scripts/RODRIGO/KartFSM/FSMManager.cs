@@ -19,6 +19,8 @@ public class FSMManager : StateMachineFlow {
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform visual; // Contenedor del modelo visual (asignar en Inspector)
     [SerializeField] private Transform stunStars;
+    [SerializeField] private GameObject minimapPlane;
+
     private AudioSource audioSource; // Fuente de audio para efectos y música
     private Transform visualModel;
     private PlayerInputActions inputActions;
@@ -150,7 +152,11 @@ public class FSMManager : StateMachineFlow {
         // Instanciar modelo visual y partículas
         InstantiateVisualSO();
         uiManager = FindAnyObjectByType<UIManager>();
+        SetMinimapImage();
+
     }
+
+
 
     protected override void GetinitialState(out TemplateStateMachine _stateMachine)
     {
@@ -249,6 +255,15 @@ public class FSMManager : StateMachineFlow {
             }
         }
     }
+    void SetMinimapImage() 
+    {
+        if (personajeSO == null)
+        {
+            Debug.LogError("FSMManager: PersonajeSO no asignado.");
+            return;
+        }
+        minimapPlane.GetComponent<MeshRenderer>().material.mainTexture = personajeSO.imagenMinimapa.texture;
+    }
 
     // ==================== MULTIPLICADORES ====================
     private void ApplyMultipliersFromSO()
@@ -296,11 +311,7 @@ public class FSMManager : StateMachineFlow {
     }
     }
 
-    public void SetPersonajeSO(PersonajeSO so)
-    {
-        personajeSO = so;
-        ApplyMultipliersFromSO();
-    }
+    
 
     // ==================== INPUTS ====================
     public PlayerInputActions GetInputActions() => inputActions;
@@ -363,11 +374,15 @@ public class FSMManager : StateMachineFlow {
         }
     }
     // ==================== RESPAWN ====================
-    public void Respawn() 
+    public void Respawn()
     {
+        Vector3 respawnPos = CheckPoints.GetActiveCheckPointPosition();
+
+        Debug.Log("Respawning at: " + respawnPos);
+
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-        this.transform.position = CheckPoints.GetActiveCheckPointPosition();
+        transform.position = respawnPos;
     }
 
     // ==================== MOVIMIENTO ====================

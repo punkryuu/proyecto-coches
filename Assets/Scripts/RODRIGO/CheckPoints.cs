@@ -9,7 +9,7 @@ public class CheckPoints : MonoBehaviour {
     /// Indicate if the checkpoint is activated
     /// </summary>
     public bool Activated = false;
-
+    public bool canRspawn = true;
     #endregion
 
     #region Static Variables
@@ -64,7 +64,8 @@ public class CheckPoints : MonoBehaviour {
         }
 
         // We activated the current checkpoint
-        Activated = true;
+
+            Activated = true;
     }
 
     #endregion
@@ -81,7 +82,8 @@ public class CheckPoints : MonoBehaviour {
         // If the player passes through the checkpoint, we activate it
         if (other.tag == "Player")
         {
-            ActivateCheckPoint();
+            if (canRspawn)
+                ActivateCheckPoint();
         }
     }
 }

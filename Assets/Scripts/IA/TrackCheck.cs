@@ -14,6 +14,7 @@ public class TrackCheck : MonoBehaviour
 
     public void AgentThroughCheckPoint(object car, int index)
     {
+       // Debug.Log($"Entró checkpoint {index}, esperado {nextCheckpointIndex[car]}");
         if (circuit == null)
         {
             Debug.LogError("TrackCheck.circuit ES NULL");
@@ -58,13 +59,30 @@ public class TrackCheck : MonoBehaviour
         }
     }
 
+    public Transform GetCurrentCheckpoint(object car)
+    {
+        if (!nextCheckpointIndex.ContainsKey(car))
+            nextCheckpointIndex[car] = 0;
+
+        return circuit.GetWayPoint(nextCheckpointIndex[car]);
+    }
     public Transform GetNextCheckpoint(object car)
     {
         if (!nextCheckpointIndex.ContainsKey(car))
         {
             nextCheckpointIndex[car] = 0;
+
         }
         return circuit.GetWayPoint(nextCheckpointIndex[car]);
+    }
+    public Transform GetLastCheckpoint(NPCAgent agent)
+    {
+        int index = nextCheckpointIndex[agent] - 1;
+
+        if (index < 0)
+            return null;
+
+        return circuit.GetWayPoint(index);
     }
 
     public void ResetCheckpoint(object car)
@@ -80,5 +98,24 @@ public class TrackCheck : MonoBehaviour
     {
         return circuit.GetWayPoint(0).rotation;
     }
+    public Transform GetNextNextCheckpoint(object car)
+    {
+        if (!nextCheckpointIndex.ContainsKey(car))
+            nextCheckpointIndex[car] = 0;
 
+        int nextIndex = nextCheckpointIndex[car] + 1;
+
+        if (nextIndex >= circuit.GetWayPointsCount())
+            nextIndex = 0;
+
+        return circuit.GetWayPoint(nextIndex);
+    }
+
+    public bool HasCompletedLap(Component car)
+    {
+        if (!nextCheckpointIndex.ContainsKey(car))
+            return false;
+
+        return nextCheckpointIndex[car] >= circuit.GetWayPointsCount();
+    }
 }
