@@ -152,6 +152,8 @@ public class FSMManager : StateMachineFlow {
         uiManager = FindAnyObjectByType<UIManager>();
     }
 
+
+
     protected override void GetinitialState(out TemplateStateMachine _stateMachine)
     {
         _stateMachine = idleState;

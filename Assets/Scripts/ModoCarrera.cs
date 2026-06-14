@@ -28,7 +28,7 @@ public class ModoCarrera : MonoBehaviour
     
 
  
-   // GameObject npc = Instantiate(NPC, Vector3.zero, Quaternion.identity);
+
 
     public void Awake()
      {
@@ -69,14 +69,16 @@ public class ModoCarrera : MonoBehaviour
             Transform spawn = NPCpositions[i];
             Debug.LogWarning("Spawn position for " + chosen.name + ": " + spawn.position);
             GameObject npcInstance = Instantiate(chosen.characterPrefab, spawn.position, spawn.rotation);
+
+
             NPCAgent agent = npcInstance.GetComponent<NPCAgent>();
             agent.spawnPoint = spawn;
 
             PlayerCar car = npcInstance.GetComponent<PlayerCar>();
-            car.circuit = FindAnyObjectByType<WayPointsCircuit>();
             car.personajeData = chosen;
-
+            car.circuit = FindAnyObjectByType<WayPointsCircuit>();
             FSMManager fsm = npcInstance.GetComponent<FSMManager>();
+            if(car.isPlayer)
             fsm.playerCar = car;
 
             RegisterNPC(npcInstance);

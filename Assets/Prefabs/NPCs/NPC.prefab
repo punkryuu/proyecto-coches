@@ -206,7 +206,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 918635737100812005}
-  - component: {fileID: 6201759470707482290}
   - component: {fileID: 6942431811437918486}
   - component: {fileID: 6906419765089951152}
   - component: {fileID: 5067736895779759968}
@@ -239,54 +238,6 @@ Transform:
   - {fileID: 4445134920326946967}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!114 &6201759470707482290
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4126455363605797109}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 984f1e66af0f9a041b4cf2052feeeb1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stateName: {fileID: 0}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  visual: {fileID: 1232648858020963825}
-  stunStars: {fileID: 8838929380295551636}
-  playerCar: {fileID: 8808664538561090654}
-  driftFlag: 0
-  airControlMultiplier: 0.5
-  currentBoostType: 0
-  boostDuration: 0
-  trickBoostDuration: 0.5
-  triggerBoost: 0
-  triggerBoostDuration: 0
-  gravityMultiplier: 1
-  canTrick: 0
-  isTricking: 0
-  stunned: 0
-  stunDuration: 1
-  triggerStunDuration: 0
-  canBeStunned: 1
-  isCurrentlyStunned: 0
-  drift1Start: {r: 1, g: 0.7486793, b: 0, a: 0}
-  drift1End: {r: 1, g: 0.20615105, b: 0, a: 0}
-  drift2Start: {r: 0.8867924, g: 0, b: 0.0034775643, a: 0}
-  drift2End: {r: 0.4716981, g: 0, b: 0.09989873, a: 0}
-  drift3Start: {r: 0, g: 0.76069474, b: 1, a: 0}
-  drift3End: {r: 0, g: 0.01243639, b: 1, a: 0}
-  wheels: []
-  pivots: []
-  accelerateInput: 0
-  brakeInput: 0
-  horizontalInput: 0
-  driftInput: 0
-  trickInput: 0
-  powerInput: 0
 --- !u!135 &6942431811437918486
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -528,7 +479,8 @@ MonoBehaviour:
   currentWayPoint: 0
   totalWaypoints: 0
   distanceToNextWayPoint: 0
-  personajeData: {fileID: 11400000, guid: 10aaee8df23bb7349b5d7dd5b6e2db00, type: 2}
+  personajeData: {fileID: 0}
+  Visual: {fileID: 918635737100812005}
   circuit: {fileID: 0}
 --- !u!114 &8263861452363750769
 MonoBehaviour:
