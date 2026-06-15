@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Outline_prueba
-  m_Shader: {fileID: -6465566751694194690, guid: 9f0cd6d1a35590f4bbe41887985102d5, type: 3}
+  m_Name: Outline_Personaje
+  m_Shader: {fileID: -6465566751694194690, guid: d727dcf0e2ee20d4db9a2b311380b515, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -102,17 +102,20 @@ Material:
     - _GlossyReflections: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
+    - _Outline_width: 0.03
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _ScaleOutline: 1.017
+    - _Scale_Outline: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _Width: 0.15
+    - _Width: 0.05
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
