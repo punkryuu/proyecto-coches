@@ -31,7 +31,6 @@ public class TimeTrialMode : MonoBehaviour
 
     [SerializeField] UIManager ui;
     [SerializeField] TMP_Text countdownText;
-    [SerializeField] GameManager GameManager;
     private void Start()
     {
         StartCoroutine(StartCountdown());
@@ -59,10 +58,10 @@ public class TimeTrialMode : MonoBehaviour
         if (lapTime < bestLapTime)
         {
             bestLapTime = lapTime;
-            GetComponent<AudioSource>().PlayOneShot(GameManager.selectedCharacter.audios[5]);
+            GetComponent<AudioSource>().PlayOneShot(GameManager.Instance.selectedCharacter.audios[5]);
 
         }
-        else GetComponent<AudioSource>().PlayOneShot(GameManager.selectedCharacter.audios[1]);
+        else GetComponent<AudioSource>().PlayOneShot(GameManager.Instance.selectedCharacter.audios[1]);
 
 
         lastLapTime = lapTime;

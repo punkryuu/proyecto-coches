@@ -477,7 +477,7 @@ public class FSMManager : StateMachineFlow {
 
         rb.linearVelocity = Vector3.Lerp( rb.linearVelocity,forwardVel,Time.deltaTime * 3f );
 
-        if (accelerateInput)
+        if (accelerateInput && rb.linearVelocity.magnitude <= maxSpeed * 0.8f)
         {
             rb.AddForce(hitBox.transform.forward * accelerationPower * 0.7f,ForceMode.Acceleration);
         }
@@ -526,7 +526,7 @@ public class FSMManager : StateMachineFlow {
             first = true;
             colorChanged = true;
         }
-        else if (first && !second && driftTimer > 3f)
+        else if (first && !second && driftTimer > 1.5f)
         {
             driftLevel = 2;
             newColorStart = drift2Start;
@@ -534,7 +534,7 @@ public class FSMManager : StateMachineFlow {
             second = true;
             colorChanged = true;
         }
-        else if (first && second && !third && driftTimer > 5f)
+        else if (first && second && !third && driftTimer > 3f)
         {
             driftLevel = 3;
             newColorStart = drift3Start;
