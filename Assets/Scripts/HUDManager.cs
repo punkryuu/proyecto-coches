@@ -63,6 +63,8 @@ public class UIManager : MonoBehaviour {
 
     public IEnumerator Delay()
     {
+        Time.timeScale = 0;
+
         contenedorPausa.SetActive(false);
         countdownText.gameObject.SetActive(true);
 
