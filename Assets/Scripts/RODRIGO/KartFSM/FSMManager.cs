@@ -175,6 +175,7 @@ public class FSMManager : StateMachineFlow {
         {
             PersonajeSO selectedCharacter = GameManager.Instance.selectedCharacter;
             if (selectedCharacter != null) { personajeSO = selectedCharacter; }
+            playerCar.personajeData = selectedCharacter;
         }
         else
         {
@@ -743,7 +744,7 @@ public class FSMManager : StateMachineFlow {
     {
         if (personajeSO == null || personajeSO.audios == null || index < 0 || index >= personajeSO.audios.Length)
         {
-            Debug.LogError("FSMManager: Audio clip index out of range or PersonajeSO/audios not assigned.");
+           // Debug.LogError("FSMManager: Audio clip index out of range or PersonajeSO/audios not assigned.");
             return;
         }
         audioSource.clip = personajeSO.audios[index];
