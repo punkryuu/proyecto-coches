@@ -144,7 +144,7 @@ public class FSMManager : StateMachineFlow {
         rb = GetComponent<Rigidbody>();
         hitBox = GetComponentInChildren<CapsuleCollider>();
         audioSource = GetComponent<AudioSource>();
-        if (CompareTag("Player")) 
+        if (playerCar.isPlayer)
         {
             SetCharacterSO();
 
