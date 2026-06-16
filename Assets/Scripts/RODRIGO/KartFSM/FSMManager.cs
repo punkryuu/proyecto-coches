@@ -144,17 +144,22 @@ public class FSMManager : StateMachineFlow {
         rb = GetComponent<Rigidbody>();
         hitBox = GetComponentInChildren<CapsuleCollider>();
         audioSource = GetComponent<AudioSource>();
+        if (CompareTag("Player")) 
+        {
+            SetCharacterSO();
 
+            InstantiateVisualSO();
+
+          
+            SetMinimapImage();
+        }
+        ApplyMultipliersFromSO();
+
+        uiManager = FindAnyObjectByType<UIManager>();
         SetStars(false);
 
         // Cargar personaje seleccionado
-        SetCharacterSO();
-
-        ApplyMultipliersFromSO();
-        InstantiateVisualSO();
-
-        uiManager = FindAnyObjectByType<UIManager>();
-        SetMinimapImage();
+       
     }
 
 
