@@ -411,7 +411,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
-  m_BehaviorType: 0
+  m_BehaviorType: 1
   m_BehaviorName: NPCAgent
   TeamId: 0
   m_UseChildSensors: 1
@@ -526,10 +526,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2902496c0120472b90269f94a0aec7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Record: 0
+  Record: 1
   NumStepsToRecord: 0
   DemonstrationName: pruebaencircuito
-  DemonstrationDirectory: C:\Users\Nathan\Documents\GitHub\projecto-coches\Assets\demos2
+  DemonstrationDirectory: C:\Users\Nathan\Documents\GitHub\projecto-coches\Assets\demos3
 --- !u!114 &-5036753493124754214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -552,7 +552,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4126455363605797109}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 984f1e66af0f9a041b4cf2052feeeb1d, type: 3}
   m_Name: 
