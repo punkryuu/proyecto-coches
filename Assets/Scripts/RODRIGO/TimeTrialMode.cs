@@ -25,6 +25,7 @@ public class TimeTrialMode : MonoBehaviour {
     [SerializeField] private TMP_Text[] finalLapTimeTexts; 
     [SerializeField] private TMP_Text finalTotalTimeText; 
     [SerializeField] private TMP_Text finalBestLapText;
+    [SerializeField] private GameObject interfaz;
 
     float currentLapStartTime;
     public int playerLapCounter = 0;
@@ -92,6 +93,7 @@ public class TimeTrialMode : MonoBehaviour {
 
     void FinishTrial()
     {
+        interfaz.SetActive(false);
         raceActive = false;
         ui.contenedorFinalizar.SetActive(true);
 
