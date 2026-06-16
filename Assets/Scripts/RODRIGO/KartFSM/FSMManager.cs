@@ -129,7 +129,7 @@ public class FSMManager : StateMachineFlow {
 
     private void Awake()
     {
-        // Inicializar estados
+        // Estados
         idleState = new Idle(this);
         acceleratingState = new Accelerating(this);
         brakingState = new Braking(this);
@@ -138,22 +138,23 @@ public class FSMManager : StateMachineFlow {
         boostingState = new Boosting(this);
         stunnedState = new Stunned(this);
 
-        // Componentes
         inputActions = new PlayerInputActions();
         inputActions.Enable();
+
         rb = GetComponent<Rigidbody>();
         hitBox = GetComponentInChildren<CapsuleCollider>();
         audioSource = GetComponent<AudioSource>();
-        SetStars(false);
-        personajeSO = playerCar.personajeData;
-        // Aplicar multiplicadores desde el SO
-        ApplyMultipliersFromSO();
 
-        // Instanciar modelo visual y partículas
+        SetStars(false);
+
+        // Cargar personaje seleccionado
+        SetCharacterSO();
+
+        ApplyMultipliersFromSO();
         InstantiateVisualSO();
+
         uiManager = FindAnyObjectByType<UIManager>();
         SetMinimapImage();
-
     }
 
 

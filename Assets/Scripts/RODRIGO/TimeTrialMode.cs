@@ -31,24 +31,28 @@ public class TimeTrialMode : MonoBehaviour
 
     [SerializeField] UIManager ui;
     [SerializeField] TMP_Text countdownText;
-    private void Start()
-    {
-        StartCoroutine(StartCountdown());
 
-    }
-    private void StartRace() //reinicia el timer, activa la carrera y muestra la cuenta regresiva antes de empezar
+private void Start()
+{
+    raceTimerText.text = FormatTime(0f);
+    lastLapTimeText.text = FormatTime(0f);
+    bestLapTimeText.text = FormatTime(0f);
+
+    StartCoroutine(StartCountdown());
+}
+    
+    private void StartRace()
     {
         raceTimer = 0f;
+        currentLapStartTime = 0f;
         raceActive = true;
-
     }
     void Update()
     {
         if (raceActive)
         {
             raceTimer += Time.deltaTime;
-            raceTimerText.text = raceTimer.ToString("F2");
-            //Debug.Log(raceTimer);
+            raceTimerText.text = FormatTime(raceTimer);
         }
     }
     public void OnPlayerLapCompleted() // calcula el tiempo de la vuelta, lo compara con el mejor tiempo, actualiza el contador de vueltas y verifica si se ha completado la carrera
@@ -58,18 +62,18 @@ public class TimeTrialMode : MonoBehaviour
         if (lapTime < bestLapTime)
         {
             bestLapTime = lapTime;
-            GetComponent<AudioSource>().PlayOneShot(GameManager.Instance.selectedCharacter.audios[5]);
+            //GetComponent<AudioSource>().PlayOneShot(GameManager.Instance.selectedCharacter.audios[5]);
 
         }
-        else GetComponent<AudioSource>().PlayOneShot(GameManager.Instance.selectedCharacter.audios[1]);
+        //else GetComponent<AudioSource>().PlayOneShot(GameManager.Instance.selectedCharacter.audios[1]);
 
 
         lastLapTime = lapTime;
         currentLapStartTime = raceTimer;
         playerLapCounter++;
 
-        lastLapTimeText.text = lastLapTime.ToString("F2");
-        bestLapTimeText.text = bestLapTime.ToString("F2");
+        lastLapTimeText.text = FormatTime(lastLapTime);
+        bestLapTimeText.text = FormatTime(bestLapTime);
 
         if (playerLapCounter >= totalLaps)
             FinishTrial();
@@ -90,5 +94,16 @@ public class TimeTrialMode : MonoBehaviour
         }
         countdownText.gameObject.SetActive(false);
         StartRace();
+    }
+    private string FormatTime(float time)
+    {
+        int minutes = Mathf.FloorToInt(time / 60);
+        int seconds = Mathf.FloorToInt(time % 60);
+        int milliseconds = Mathf.FloorToInt((time * 1000) % 1000);
+
+        return string.Format("{0:00}:{1:00}:{2:000}",
+            minutes,
+            seconds,
+            milliseconds);
     }
 }
