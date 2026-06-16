@@ -10,7 +10,7 @@ public class Falling: TemplateStateMachine {
     public override void Enter()
     {
         base.Enter();
-        _fsm.stateName.text = name;
+       // _fsm.stateName.text = name;
     }
     public override void UpdateLogic()
     {
