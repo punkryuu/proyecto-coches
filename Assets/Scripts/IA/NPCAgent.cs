@@ -312,6 +312,11 @@ public class NPCAgent : Agent
             //EndEpisode();
 
         }
+        if (collision.gameObject.CompareTag("voidPlane"))
+        {
+            AddReward(-0.5f);
+            EndEpisode();
+        }
     }
 
     private void FinishedLap()
