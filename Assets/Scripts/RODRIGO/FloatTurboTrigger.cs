@@ -5,7 +5,7 @@ public class FloatTurboTrigger : MonoBehaviour
     [SerializeField] private float boostDuration = 2f;
 
     [Range(0f, 1f)]
-    [SerializeField] private float gravityMultiplier = 0.6f;
+    [SerializeField] private float gravityMultiplier = 0.5f;
 
     [SerializeField] private float gravityDuration = 1.5f;
 
@@ -18,16 +18,32 @@ public class FloatTurboTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Entró: " + other.name);
+
+
+        NPCAgent npc = other.GetComponentInParent<NPCAgent>();
+
+        if (npc != null)
+        {
+            Debug.Log("NPC encontrado");
+            npc.triggerBoost = true;
+            npc.triggerBoostDuration = boostDuration;
+
+            StartCoroutine(ApplyGravityEffectNPC(npc));
+            StartCoroutine(DisableTemporarily());
+        }
         FSMManager fsm = other.GetComponentInParent<FSMManager>();
+        if (fsm != null)
+        {
+            Debug.Log("FSM encontrado");
+            fsm.triggerBoost = true;
+            fsm.triggerBoostDuration = boostDuration;
 
-        if (fsm == null) return;
+            StartCoroutine(ApplyGravityEffect(fsm));
+            StartCoroutine(DisableTemporarily());
+            return;
+        }
 
-        fsm.triggerBoost = true;
-        fsm.triggerBoostDuration = boostDuration;
-
-        StartCoroutine(ApplyGravityEffect(fsm));
-
-        StartCoroutine(DisableTemporarily());
     }
 
     private IEnumerator ApplyGravityEffect(FSMManager fsm)
@@ -40,7 +56,16 @@ public class FloatTurboTrigger : MonoBehaviour
 
         fsm.gravityMultiplier = original;
     }
+    private IEnumerator ApplyGravityEffectNPC(NPCAgent npc)
+    {
+        float original = npc.gravityMultiplier;
 
+        npc.gravityMultiplier = gravityMultiplier;
+
+        yield return new WaitForSeconds(gravityDuration);
+
+        npc.gravityMultiplier = original;
+    }
     private IEnumerator DisableTemporarily()
     {
         col.enabled = false;

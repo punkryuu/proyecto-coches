@@ -17,9 +17,11 @@ public class PlayerCar : MonoBehaviour
 
     void Start()
     {
-
-        if (personajeData != null && Visual != null)
+        if (!isPlayer && personajeData != null && Visual != null)
+        {
             Instantiate(personajeData.visual, Visual);
+        }
+
         if (circuit == null)
         {
             circuit = FindFirstObjectByType<WayPointsCircuit>();
