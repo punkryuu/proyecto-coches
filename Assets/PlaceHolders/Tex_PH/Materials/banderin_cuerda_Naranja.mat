@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: banderin_cuerda_Naranja
-  m_Shader: {fileID: -6465566751694194690, guid: cf69794c119d36e4eb4e6ed897ccfe06, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 02a78f37f9625fc4083e27f1918d07fe, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
@@ -115,7 +115,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Degradado: 1
+    - _Degradado: 0.15
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _Difuminado_Puntos: -0.28
@@ -128,11 +128,11 @@ Material:
     - _Max: 0.4
     - _Metallic: 0
     - _Min: 0.3
-    - _Movimiento_Mascara: 30
+    - _Movimiento_Mascara: 183
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _Puntos_Activado: 1
-    - _Puntos_Tile: 30
+    - _Puntos_Tile: 208
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -153,7 +153,8 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color_1: {r: 1, g: 1, b: 1, a: 0}
-    - _Color_2: {r: 0, g: 0, b: 0, a: 0}
+    - _Color_2: {r: 0, g: 1, b: 0.9895632, a: 0}
+    - _Emission: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _UV: {r: 1.36, g: 1.41, b: 0, a: 0}
