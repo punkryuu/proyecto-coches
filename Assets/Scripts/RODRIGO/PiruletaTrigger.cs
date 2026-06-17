@@ -3,13 +3,16 @@ using UnityEngine;
 
 public class PiruletaTrigger : MonoBehaviour {
     [Header("Movimiento")]
-private float forwardSpeed = 50f;        //(0 = usar solo jugador*1.2), hasta que la velocidad del jugador * 1.2 sea mayor a este valor la piruleta ira a esta velocidad
-    private float returnSpeed = 75f;      
- private float timeBeforeReturn = 2f;
-private float destroyTime = 2f;
+    private float forwardSpeed = 50f; 
+    private float returnSpeed = 75f;
+    private float timeBeforeReturn = 2f;
+    private float destroyTime = 2f;
 
     [Header("Ataque")]
- private float stunDuration = 1.5f;
+    private float stunDuration = 1.5f;
+
+    [Header("Visual")]
+    [SerializeField] private float spinSpeed = 720f; 
 
     private Rigidbody rb;
     private GameObject owner;
@@ -38,16 +41,23 @@ private float destroyTime = 2f;
         if (ownerFSM == null) yield break;
 
         float playerMinSpeed = ownerFSM.GetCurrentSpeed() * 1.2f;
-
         float launchSpeed = Mathf.Max(forwardSpeed, playerMinSpeed);
 
         rb.linearVelocity = ownerFSM.GetHitboxTransform().forward * launchSpeed;
 
         yield return new WaitForSeconds(timeBeforeReturn);
+
         returning = true;
 
         yield return new WaitForSeconds(destroyTime);
+
         Destroy(gameObject);
+    }
+
+    private void Update()
+    {
+        // Giro constante sobre sí misma
+        transform.Rotate(Vector3.forward, spinSpeed * Time.deltaTime, Space.Self);
     }
 
     private void FixedUpdate()
@@ -58,8 +68,8 @@ private float destroyTime = 2f;
         if (ownerFSM == null) return;
 
         Vector3 dir = (ownerFSM.GetHitboxTransform().position - transform.position).normalized;
+
         rb.linearVelocity = dir * returnSpeed;
-        transform.forward = dir;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -74,12 +84,15 @@ private float destroyTime = 2f;
     private bool PerteneceAlDueño(Collider other)
     {
         if (owner == null) return false;
-        return other.transform.IsChildOf(owner.transform) || other.gameObject == owner;
+
+        return other.transform.IsChildOf(owner.transform) ||
+               other.gameObject == owner;
     }
 
     private void StunTarget(Collider other)
     {
         FSMManager fsm = other.GetComponentInParent<FSMManager>();
+
         if (fsm == null) return;
         if (fsm.isCurrentlyStunned) return;
 
