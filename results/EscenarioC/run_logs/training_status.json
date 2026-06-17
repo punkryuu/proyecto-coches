@@ -1,0 +1,56 @@
+{
+    "NPCAgent": {
+        "checkpoints": [
+            {
+                "steps": 81523,
+                "file_path": "results\\EscenarioC\\NPCAgent\\NPCAgent-81523.onnx",
+                "reward": -231.79999982751906,
+                "creation_time": 1779895771.5215027,
+                "auxillary_file_paths": [
+                    "results\\EscenarioC\\NPCAgent\\NPCAgent-81523.pt"
+                ]
+            },
+            {
+                "steps": 95786,
+                "file_path": "results\\EscenarioC\\NPCAgent\\NPCAgent-95786.onnx",
+                "reward": -277.23333223784965,
+                "creation_time": 1779895904.0753863,
+                "auxillary_file_paths": [
+                    "results\\EscenarioC\\NPCAgent\\NPCAgent-95786.pt"
+                ]
+            },
+            {
+                "steps": 211087,
+                "file_path": "results\\EscenarioC\\NPCAgent\\NPCAgent-211087.onnx",
+                "reward": null,
+                "creation_time": 1779896664.6982584,
+                "auxillary_file_paths": [
+                    "results\\EscenarioC\\NPCAgent\\NPCAgent-211087.pt"
+                ]
+            },
+            {
+                "steps": 259709,
+                "file_path": "results\\EscenarioC\\NPCAgent\\NPCAgent-259709.onnx",
+                "reward": 28.189989607781172,
+                "creation_time": 1779897442.7891078,
+                "auxillary_file_paths": [
+                    "results\\EscenarioC\\NPCAgent\\NPCAgent-259709.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 259709,
+            "file_path": "results\\EscenarioC\\NPCAgent.onnx",
+            "reward": 28.189989607781172,
+            "creation_time": 1779897442.7891078,
+            "auxillary_file_paths": [
+                "results\\EscenarioC\\NPCAgent\\NPCAgent-259709.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.1.2+cpu"
+    }
+}
