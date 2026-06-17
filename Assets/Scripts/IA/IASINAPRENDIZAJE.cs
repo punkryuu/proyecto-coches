@@ -80,7 +80,8 @@ public class IASINAPRENDIZAJE : MonoBehaviour
         {
             boostTimer -= Time.fixedDeltaTime;
 
-            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, transform.forward * maxSpeed, Time.fixedDeltaTime * 10f);
+            Vector3 forward = transform.forward * maxSpeed;
+            rb.AddForce(forward * 2f, ForceMode.Acceleration);
 
             if (boostTimer <= 0f)
                 isBoosting = false;
