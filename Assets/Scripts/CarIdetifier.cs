@@ -10,8 +10,9 @@ public class PlayerCar : MonoBehaviour
     public float distanceToNextWayPoint = 0f;
     public PersonajeSO personajeData;
     RaceManager modoCarrera;
-
+    public Transform modelParent;
     public WayPointsCircuit circuit;
+    public TrackCheck trackCheck;
 
     void Start()
     {
@@ -25,11 +26,12 @@ public class PlayerCar : MonoBehaviour
             }
         }
 
-        totalWaypoints = circuit.GetWayPointsCount();
+        totalWaypoints = circuit.waypoints.Length;
     }
     void Update()
     {
         UpdateDistance();
+
     }
     void UpdateDistance()
     {
@@ -44,6 +46,7 @@ public class PlayerCar : MonoBehaviour
     public void OnCorrectCheckpoint()
     {
         currentWayPoint++;
+      
 
     }
 
@@ -57,6 +60,7 @@ public class PlayerCar : MonoBehaviour
         currentWayPoint = 0;
         currentLap = 0;
     }
+
 }
     
 

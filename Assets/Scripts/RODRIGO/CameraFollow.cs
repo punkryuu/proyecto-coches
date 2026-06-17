@@ -79,5 +79,6 @@ public class CameraFollow : MonoBehaviour
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, fovSmooth * Time.deltaTime);
         }
     }
+
     
 }

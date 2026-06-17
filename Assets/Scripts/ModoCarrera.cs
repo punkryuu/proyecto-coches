@@ -66,19 +66,30 @@ public class RaceManager : MonoBehaviour
             PersonajeSO chosen = SOOptions[randomIndex];
             selectedCharacters.Add(chosen);
             Debug.Log("Instanciando: " + chosen.name);
+            
             Transform spawn = NPCpositions[i];
             Debug.LogWarning("Spawn position for " + chosen.name + ": " + spawn.position);
+            
             GameObject npcInstance = Instantiate(chosen.characterPrefab, spawn.position, spawn.rotation);
-            NPCAgent agent = npcInstance.GetComponent<NPCAgent>();
-            agent.spawnPoint = spawn;
+
+
+            IASINAPRENDIZAJE racer = npcInstance.GetComponent<IASINAPRENDIZAJE>();
+            racer.InstantiateVisualSO(npcInstance, chosen);
+            if (racer != null)
+            {
+                racer.spawnPoint = spawn;
+                racer.trackCheck = FindAnyObjectByType<TrackCheck>();
+            }
+
 
             PlayerCar car = npcInstance.GetComponent<PlayerCar>();
-            car.circuit = FindAnyObjectByType<WayPointsCircuit>();
-            car.personajeData = chosen;
+            if (car != null)
+            {
+                car.circuit = FindAnyObjectByType<WayPointsCircuit>();
+                car.personajeData = chosen;
+            }
 
-            FSMManager fsm = npcInstance.GetComponent<FSMManager>();
-            fsm.playerCar = car;
-
+            // Registrar NPC
             RegisterNPC(npcInstance);
             instances[chosen] = npcInstance;
         }
