@@ -27,6 +27,7 @@ public class NPCAgent : Agent
     [SerializeField] float driftSideForce = 15f;
     [SerializeField] float driftFrictionPower = 2f;
 
+
     private float rayDistance = 2f;
 
     bool accelerateInput = false;
@@ -50,6 +51,10 @@ public class NPCAgent : Agent
 
     public bool triggerBoost;
     public float triggerBoostDuration;
+
+    private bool isBoosting;
+    private float boostTimer;
+
     public float gravityMultiplier = 1f;
     private float gravityForce = 100f;
     private float episodeTimer = 0f;
@@ -77,11 +82,27 @@ public class NPCAgent : Agent
         {
             ApplyGravity();
         }
+        if (isBoosting)
+        {
+            boostTimer -= Time.fixedDeltaTime;
+
+            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, transform.forward * maxSpeed, Time.fixedDeltaTime * 10f);
+
+            if (boostTimer <= 0f)
+                isBoosting = false;
+        }
 
     }
 
     private void Update()
     {
+        if (triggerBoost)
+        {
+            triggerBoost = false;
+            isBoosting = true;
+            boostTimer = triggerBoostDuration;
+        }
+
         episodeTimer += Time.deltaTime;
 
         if (episodeTimer >= maxEpisodeTime)
