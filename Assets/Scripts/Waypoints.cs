@@ -20,6 +20,13 @@ public class Waypoints : MonoBehaviour {
     }
     private void OnTriggerEnter(Collider other)
     {
+        IASINAPRENDIZAJE racer = other.GetComponentInParent<IASINAPRENDIZAJE>();
+        if (racer != null)
+        {
+            circuitTrackCheck.AgentThroughCheckPoint(racer, index);
+            return;
+        }
+
         NPCAgent ai = other.GetComponentInParent<NPCAgent>();
         if (ai != null)
         {

@@ -256,10 +256,6 @@ public class NPCAgent : Agent
 
         Move(steer, movementAction);
 
-        // ============================================================
-        // ===================== RECOMPENSAS ===========================
-        // ============================================================
-
         Collider[] nearby = Physics.OverlapSphere(transform.position, 1.5f);
 
         foreach (var c in nearby)

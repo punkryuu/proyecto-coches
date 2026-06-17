@@ -21,6 +21,17 @@ public class FloatTurboTrigger : MonoBehaviour
         Debug.Log("Entró: " + other.name);
 
 
+        IASINAPRENDIZAJE racer = other.GetComponentInParent<IASINAPRENDIZAJE>();
+        if (racer != null) 
+            {
+            Debug.Log("IA encontrado");
+            racer.triggerBoost = true;
+            racer.triggerBoostDuration = boostDuration;
+            StartCoroutine(ApplyGravityEffectNPC(racer));
+            StartCoroutine(DisableTemporarily());
+            return;
+        }
+
         NPCAgent npc = other.GetComponentInParent<NPCAgent>();
 
         if (npc != null)
@@ -57,6 +68,17 @@ public class FloatTurboTrigger : MonoBehaviour
         fsm.gravityMultiplier = original;
     }
     private IEnumerator ApplyGravityEffectNPC(NPCAgent npc)
+    {
+        float original = npc.gravityMultiplier;
+
+        npc.gravityMultiplier = gravityMultiplier;
+
+        yield return new WaitForSeconds(gravityDuration);
+
+        npc.gravityMultiplier = original;
+    }
+
+    private IEnumerator ApplyGravityEffectNPC(IASINAPRENDIZAJE npc)
     {
         float original = npc.gravityMultiplier;
 

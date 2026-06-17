@@ -551,6 +551,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   hitBox: {fileID: 0}
+  sphereCollider: {fileID: 0}
   trackCheck: {fileID: 0}
   IaPlayerCar: {fileID: 0}
   maxSpeed: 300
@@ -569,6 +570,11 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  steerNoise: 0.15
+  speedVariation: 0.2
+  decisionJitter: 0.1
+  triggerBoost: 0
+  triggerBoostDuration: 0
 --- !u!1 &5336917421892882631
 GameObject:
   m_ObjectHideFlags: 0
