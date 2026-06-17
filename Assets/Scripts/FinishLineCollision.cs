@@ -3,11 +3,13 @@ using UnityEngine;
 
 public class FinishLineCollision : MonoBehaviour
 {
-    [SerializeField] private ModoCarrera raceController;
-    [SerializeField] TMP_Text lapCounterText;
+    [SerializeField] private RaceManager raceController;
+    //[SerializeField] TMP_Text lapCounterText;
     [SerializeField] private bool isTimeTrialMode = false;
+    public TrackCheck trackCheck;
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log("NPC lap increment called for: " + other.name);
         // --- Modo contrarreloj ---
         if (isTimeTrialMode)
         {
@@ -20,10 +22,10 @@ public class FinishLineCollision : MonoBehaviour
                 TimeTrialMode.Instance.OnPlayerLapCompleted();
 
                 // Actualizar UI de vueltas 
-                if (lapCounterText != null)
+                /*if (lapCounterText != null)
                 {
                     lapCounterText.text = (TimeTrialMode.Instance.playerLapCounter).ToString();
-                }
+                }*/
 
                 // Reiniciar waypoints 
                 carIdetifier.currentWayPoint = 0;
@@ -33,8 +35,7 @@ public class FinishLineCollision : MonoBehaviour
 
         // --- Modo carrera normal
         if (raceController.playerLapCounter < raceController.totalLaps)
-        {
-            Debug.Log("Trigger con: " + other.name);
+        {;
             PlayerCar carIdetifier = other.GetComponentInParent<PlayerCar>();
             if (carIdetifier == null) return;
 
@@ -44,12 +45,14 @@ public class FinishLineCollision : MonoBehaviour
                 {
                     raceController.playerLapCounter++;
                     carIdetifier.currentLap++;
-                    lapCounterText.text = raceController.playerLapCounter.ToString();
+                    //lapCounterText.text = raceController.playerLapCounter.ToString();
                     raceController.FinishedRace();
                 }
                 else
                 {
-                    raceController.IncrementNPCLapCounter(other.gameObject);
+                
+                    carIdetifier.currentLap++;
+                    
                 }
                 carIdetifier.currentWayPoint = 0;
             }

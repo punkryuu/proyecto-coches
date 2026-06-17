@@ -7,9 +7,9 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static UnityEngine.UI.GridLayoutGroup;
 
-public class ModoCarrera : MonoBehaviour
+public class RaceManager : MonoBehaviour
 {
-    public static ModoCarrera Instance { get; private set; }
+    public static RaceManager Instance { get; private set; }
     public GameObject NPC;
     public PersonajeSO[] SOOptions;
     public  List <PersonajeSO> selectedCharacters = new List<PersonajeSO>();
@@ -28,7 +28,7 @@ public class ModoCarrera : MonoBehaviour
     
 
  
-
+   // GameObject npc = Instantiate(NPC, Vector3.zero, Quaternion.identity);
 
     public void Awake()
      {
@@ -51,7 +51,7 @@ public class ModoCarrera : MonoBehaviour
     }
     void Start()
     {
-        StartCoroutine(StartCountdown());
+        //StartCoroutine(StartCountdown());
        
     }
 
@@ -66,21 +66,30 @@ public class ModoCarrera : MonoBehaviour
             PersonajeSO chosen = SOOptions[randomIndex];
             selectedCharacters.Add(chosen);
             Debug.Log("Instanciando: " + chosen.name);
+            
             Transform spawn = NPCpositions[i];
             Debug.LogWarning("Spawn position for " + chosen.name + ": " + spawn.position);
+            
             GameObject npcInstance = Instantiate(chosen.characterPrefab, spawn.position, spawn.rotation);
 
 
-            NPCAgent agent = npcInstance.GetComponent<NPCAgent>();
-            agent.spawnPoint = spawn;
+            IASINAPRENDIZAJE racer = npcInstance.GetComponent<IASINAPRENDIZAJE>();
+            racer.InstantiateVisualSO(npcInstance, chosen);
+            if (racer != null)
+            {
+                racer.spawnPoint = spawn;
+                racer.trackCheck = FindAnyObjectByType<TrackCheck>();
+            }
+
 
             PlayerCar car = npcInstance.GetComponent<PlayerCar>();
-            car.personajeData = chosen;
-            car.circuit = FindAnyObjectByType<WayPointsCircuit>();
-            FSMManager fsm = npcInstance.GetComponent<FSMManager>();
-            if(car.isPlayer)
-            fsm.playerCar = car;
+            if (car != null)
+            {
+                car.circuit = FindAnyObjectByType<WayPointsCircuit>();
+                car.personajeData = chosen;
+            }
 
+            // Registrar NPC
             RegisterNPC(npcInstance);
             instances[chosen] = npcInstance;
         }
@@ -176,7 +185,7 @@ public class ModoCarrera : MonoBehaviour
                 int oldPosition = lastPositions[character.characterPrefab];
                 if (position < oldPosition)
                 {
-                    // Aquí puedes actualizar la UI o realizar otras acciones basadas en el cambio de posición
+                   
                     Debug.Log(character.characterPrefab.name + " ha cambiado a la posición " + position);
                     lastPositions[character.characterPrefab] = position;
                 }

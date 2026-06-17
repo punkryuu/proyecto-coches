@@ -11,7 +11,7 @@ public class TrackCheck : MonoBehaviour
     public event Action<NPCAgent> OnWrongCheckPointAI;
     public event Action<PlayerCar> OnCorrectCheckPointPlayer;
     public event Action<PlayerCar> OnWrongCheckPointPlayer;
-
+    public event Action<IASINAPRENDIZAJE> OnCorrectCheckPointRacer;
     public void AgentThroughCheckPoint(object car, int index)
     {
        // Debug.Log($"Entró checkpoint {index}, esperado {nextCheckpointIndex[car]}");
