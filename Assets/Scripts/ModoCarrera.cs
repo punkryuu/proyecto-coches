@@ -172,6 +172,7 @@ public class RaceManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(1f);
         }
         countdownText.gameObject.SetActive(false);
+        player.canMove = true;
         raceStarted = true;
     }
 

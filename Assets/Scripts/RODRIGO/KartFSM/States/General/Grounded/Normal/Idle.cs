@@ -23,13 +23,16 @@ public class Idle : Normal
         _fsm.accelerateInput = _fsm.GetInputActions().Driving.Accelerate.IsPressed();
         _fsm.brakeInput = _fsm.GetInputActions().Driving.Stop.IsPressed();
         _fsm.horizontalInput = _fsm.GetInputActions().Driving.Steer.ReadValue<float>();
-        if (_fsm.accelerateInput)
+        if (_fsm.playerCar.canMove)
         {
-            stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).acceleratingState);
-        }
-        else if (_fsm.brakeInput)
-        {
-            stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).brakingState);
+            if (_fsm.accelerateInput)
+            {
+                stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).acceleratingState);
+            }
+            else if (_fsm.brakeInput)
+            {
+                stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).brakingState);
+            }
         }
     }
     public override void UpdatePhysics()
