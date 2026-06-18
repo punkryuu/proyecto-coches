@@ -35,7 +35,7 @@ public class Stunned : General
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        _fsm.ApplySlowDown();
+        _fsm.ApplySlowDown(100);
         if (!_fsm.CheckGrounded()) _fsm.ApplyGravity();
     }
     public override void Exit()
