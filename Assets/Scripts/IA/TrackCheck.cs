@@ -12,9 +12,12 @@ public class TrackCheck : MonoBehaviour
     public event Action<PlayerCar> OnCorrectCheckPointPlayer;
     public event Action<PlayerCar> OnWrongCheckPointPlayer;
     public event Action<IASINAPRENDIZAJE> OnCorrectCheckPointRacer;
+    public event Action<IASINAPRENDIZAJE> OnWrongCheckPointRacer;
+
+
     public void AgentThroughCheckPoint(object car, int index)
     {
-       // Debug.Log($"Entró checkpoint {index}, esperado {nextCheckpointIndex[car]}");
+        //Debug.Log($"Entró checkpoint {index}, esperado {nextCheckpointIndex[car]}");
         if (circuit == null)
         {
             Debug.LogError("TrackCheck.circuit ES NULL");
@@ -33,11 +36,17 @@ public class TrackCheck : MonoBehaviour
         if (correct)
         {
             nextCheckpointIndex[car]++;
-            if(nextCheckpointIndex[car] >= circuit.GetWayPointsCount())
+            if (nextCheckpointIndex[car] >= circuit.GetWayPointsCount())
             {
                 nextCheckpointIndex[car] = 0;
+               
             }
-            if(car is NPCAgent agent)
+
+            if (car is IASINAPRENDIZAJE racer)
+            {
+                racer.OnPassedCheckpoint(racer);
+            }
+            if (car is NPCAgent agent)
             {
                 OnCorrectCheckPointAI?.Invoke(agent);
             }
@@ -48,7 +57,11 @@ public class TrackCheck : MonoBehaviour
         }
         else
         {
-            if(car is NPCAgent agent)
+            if (car is IASINAPRENDIZAJE racer)
+            {
+                OnWrongCheckPointRacer?.Invoke(racer);
+            }
+            if (car is NPCAgent agent)
             {
                 OnWrongCheckPointAI?.Invoke(agent);
             }
@@ -111,11 +124,4 @@ public class TrackCheck : MonoBehaviour
         return circuit.GetWayPoint(nextIndex);
     }
 
-    public bool HasCompletedLap(Component car)
-    {
-        if (!nextCheckpointIndex.ContainsKey(car))
-            return false;
-
-        return nextCheckpointIndex[car] >= circuit.GetWayPointsCount();
-    }
 }

@@ -549,11 +549,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b61fdb3f523a564bb79817a0571215b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  hitBox: {fileID: 0}
-  sphereCollider: {fileID: 0}
+  rb: {fileID: 6906419765089951152}
+  hitBox: {fileID: 9002019786373921149}
+  sphereCollider: {fileID: 6942431811437918486}
   trackCheck: {fileID: 0}
-  IaPlayerCar: {fileID: 0}
+  IaPlayerCar: {fileID: 3208604029215809347}
   maxSpeed: 300
   turnSpeed: 80
   accelerationForce: 40
@@ -569,12 +569,7 @@ MonoBehaviour:
   rayDistance: 2
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
-  steerNoise: 0.15
-  speedVariation: 0.2
-  decisionJitter: 0.1
-  triggerBoost: 0
-  triggerBoostDuration: 0
+    m_Bits: 64
 --- !u!1 &5336917421892882631
 GameObject:
   m_ObjectHideFlags: 0

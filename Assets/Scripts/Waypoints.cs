@@ -23,6 +23,7 @@ public class Waypoints : MonoBehaviour {
         IASINAPRENDIZAJE racer = other.GetComponentInParent<IASINAPRENDIZAJE>();
         if (racer != null)
         {
+            Debug.Log("IA ha toqueteado Waypoint: " + index);
             circuitTrackCheck.AgentThroughCheckPoint(racer, index);
             return;
         }

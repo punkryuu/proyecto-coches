@@ -13,6 +13,7 @@ public class PlayerCar : MonoBehaviour
     public Transform modelParent;
     public WayPointsCircuit circuit;
     public TrackCheck trackCheck;
+    public bool canMove = false;
 
     void Start()
     {
@@ -53,6 +54,11 @@ public class PlayerCar : MonoBehaviour
     public void OnWrongCheckpoint()
     {
         Debug.Log("Checkpoint incorrecto");
+    }
+
+    public void SetCanMove(bool value)
+    {
+        canMove = value;
     }
 
     public void ResetProgress()

@@ -25,8 +25,8 @@ public class FloatTurboTrigger : MonoBehaviour
         if (racer != null) 
             {
             Debug.Log("IA encontrado");
-            racer.triggerBoost = true;
-            racer.triggerBoostDuration = boostDuration;
+            //racer.triggerBoost = true;
+           // racer.triggerBoostDuration = boostDuration;
             StartCoroutine(ApplyGravityEffectNPC(racer));
             StartCoroutine(DisableTemporarily());
             return;

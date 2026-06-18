@@ -4,9 +4,10 @@ using UnityEngine;
 public class FinishLineCollision : MonoBehaviour
 {
     [SerializeField] private RaceManager raceController;
-    //[SerializeField] TMP_Text lapCounterText;
+    [SerializeField] TMP_Text lapCounterText;
     [SerializeField] private bool isTimeTrialMode = false;
     public TrackCheck trackCheck;
+    [SerializeField] private WayPointsCircuit wayPointsCircuit;
     void OnTriggerEnter(Collider other)
     {
         Debug.Log("NPC lap increment called for: " + other.name);
@@ -22,10 +23,10 @@ public class FinishLineCollision : MonoBehaviour
                 TimeTrialMode.Instance.OnPlayerLapCompleted();
 
                 // Actualizar UI de vueltas 
-                /*if (lapCounterText != null)
+                if (lapCounterText != null)
                 {
                     lapCounterText.text = (TimeTrialMode.Instance.playerLapCounter).ToString();
-                }*/
+                }
 
                 // Reiniciar waypoints 
                 carIdetifier.currentWayPoint = 0;
@@ -38,23 +39,30 @@ public class FinishLineCollision : MonoBehaviour
         {;
             PlayerCar carIdetifier = other.GetComponentInParent<PlayerCar>();
             if (carIdetifier == null) return;
-
-            if (carIdetifier.currentWayPoint >= carIdetifier.totalWaypoints)
+            Debug.Log("wayPointsCircuit = " + wayPointsCircuit);
+            if (carIdetifier.currentWayPoint >= wayPointsCircuit.GetWayPointsCount())
             {
                 if (carIdetifier.isPlayer)
                 {
                     raceController.playerLapCounter++;
                     carIdetifier.currentLap++;
-                    //lapCounterText.text = raceController.playerLapCounter.ToString();
+                    lapCounterText.text = raceController.playerLapCounter.ToString();
                     raceController.FinishedRace();
+                    carIdetifier.currentWayPoint = 0;
+                    return;
                 }
-                else
+                IASINAPRENDIZAJE ia = other.GetComponentInParent<IASINAPRENDIZAJE>();
+                GameObject npcRoot = ia.gameObject;
+                if (raceController.npcLapCounter.ContainsKey(npcRoot))
                 {
-                
-                    carIdetifier.currentLap++;
-                    
+                    raceController.IncrementNPCLapCounter(ia.gameObject);
+                    ia.IaPlayerCar.currentWayPoint = 0;
                 }
-                carIdetifier.currentWayPoint = 0;
+               
+            }
+            else
+            {
+                Debug.Log("Player has not completed all waypoints yet.");
             }
         }
     }

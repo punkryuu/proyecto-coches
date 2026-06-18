@@ -1,7 +1,9 @@
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -25,10 +27,11 @@ public class RaceManager : MonoBehaviour
     private GameObject[] spawnedNPC;
     [SerializeField] Transform[] NPCpositions;
     [SerializeField]UIManager ui;
-    
+    public bool raceStarted = false;
+    public PlayerCar player;
 
- 
-   // GameObject npc = Instantiate(NPC, Vector3.zero, Quaternion.identity);
+
+
 
     public void Awake()
      {
@@ -48,11 +51,22 @@ public class RaceManager : MonoBehaviour
             instances.Clear();
             SpawnEnemies();
         }
+        Debug.Log("NPCs instanciados: " + instances.Count);
+
     }
     void Start()
     {
-        //StartCoroutine(StartCountdown());
+        player = FindObjectsOfType<PlayerCar>().FirstOrDefault(p => p.isPlayer);
+        StartCoroutine(StartCountdown());
        
+
+    }
+
+    void Update()
+    {
+        if (!raceStarted) return;
+        UpdatePositions();
+        FinishedRace();
     }
 
     void SpawnEnemies()
@@ -89,7 +103,7 @@ public class RaceManager : MonoBehaviour
                 car.personajeData = chosen;
             }
 
-            // Registrar NPC
+
             RegisterNPC(npcInstance);
             instances[chosen] = npcInstance;
         }
@@ -98,19 +112,35 @@ public class RaceManager : MonoBehaviour
  
     public void FinishedRace()
     {
-        if(playerLapCounter >= totalLaps)
+        Debug.Log("INSTANCES EN PODIO: " + instances.Count);
+        if (playerLapCounter >= totalLaps)
         {
-            Debug.Log("FinishedRace ejecutado");
-            List<PersonajeSO> posiciones = GetPositions();
+            var posiciones = GetAllCarsOrdered();
             string podio = "";
+
             raceCounter++;
             playerLapCounter = 0;
+
             ui.contenedorFinalizar.SetActive(true);
-            for (int i = 0; i <posiciones.Count; i++)
+
+            for (int i = 0; i < posiciones.Count; i++)
             {
-               podio += (i + 1) + posiciones[i].characterPrefab.name + "\n";
-                //ui.contenedorFinalizar.GetComponentInChildren<TMP_Text>().text = podio;
+                var entry = posiciones[i];
+
+                string nombre = "";
+
+                if (entry.so == null)
+                {
+                    nombre = "Jugador";
+                }
+                else
+                {
+                    nombre = entry.so.name;
+                }
+
+                podio += (i + 1) + " - " + nombre + "\n";
             }
+
             ui.contenedorFinalizar.GetComponentInChildren<TMP_Text>().text = podio;
         }
     }
@@ -126,6 +156,7 @@ public class RaceManager : MonoBehaviour
         if (npcLapCounter.ContainsKey(npc))
         {
             npcLapCounter[npc]++;
+            npc.GetComponent<PlayerCar>().currentLap++;
         }
         else
         {
@@ -141,26 +172,22 @@ public class RaceManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(1f);
         }
         countdownText.gameObject.SetActive(false);
+        raceStarted = true;
     }
-      
-    public List <PersonajeSO> GetPositions() //Bubble sort para ordenar los personajes según su progreso en la carrera, el que tenga más progreso va primero
-    {
 
-        for (int i = 0; i < selectedCharacters.Count; i++)
+    public List<(PersonajeSO so, GameObject car)> GetAllCarsOrdered()
+    {
+        List<(PersonajeSO so, GameObject car)> lista = new();
+
+        lista.Add((null, player.gameObject));
+        foreach (var kvp in instances)
         {
-            for (int j = i + 1; j < selectedCharacters.Count; j++)
-            {
-                float progressI = CalculateProgress(instances[selectedCharacters[i]]);
-                float progressJ = CalculateProgress(instances[selectedCharacters[j]]);
-                if (progressJ > progressI)
-                {
-                    PersonajeSO temp = selectedCharacters[i];
-                    selectedCharacters[i] = selectedCharacters[j];
-                    selectedCharacters[j] = temp;
-                }
-            }
+            Debug.Log("NPC en podio: " + kvp.Key.name);;
+            lista.Add((kvp.Key, kvp.Value));
         }
-        return selectedCharacters;
+        lista = lista.OrderByDescending(x => CalculateProgress(x.car)).ToList();
+
+        return lista;
     }
     float CalculateProgress(GameObject car) //Calcula el progreso de un coche en la carrera, teniendo en cuenta las vueltas completadas, los waypoints y la distancia al siguiente waypoint
     {
@@ -174,24 +201,25 @@ public class RaceManager : MonoBehaviour
 
     void UpdatePositions()
     {
-         List<PersonajeSO> orderedCharacters = GetPositions();
-        for (int i = 0; i < orderedCharacters.Count; i++)
+        var orderedCars = GetAllCarsOrdered();
+
+        for (int i = 0; i < orderedCars.Count; i++)
         {
-            PersonajeSO character = orderedCharacters[i];
+            var entry = orderedCars[i];
             int position = i + 1;
 
-            if (lastPositions.ContainsKey(character.characterPrefab))
+            GameObject car = entry.car;
+
+            if (lastPositions.ContainsKey(car))
             {
-                int oldPosition = lastPositions[character.characterPrefab];
+                int oldPosition = lastPositions[car];
                 if (position < oldPosition)
                 {
-                   
-                    Debug.Log(character.characterPrefab.name + " ha cambiado a la posición " + position);
-                    lastPositions[character.characterPrefab] = position;
+                    Debug.Log(car.name + " ha cambiado a la posición " + position);
                 }
             }
-            lastPositions[character.characterPrefab] = position;
 
+            lastPositions[car] = position;
         }
 
     }

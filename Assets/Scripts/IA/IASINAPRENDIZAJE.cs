@@ -13,7 +13,7 @@ public class IASINAPRENDIZAJE : MonoBehaviour
     [Header("Driving")]
     public float maxSpeed = 800f;
     public float turnSpeed = 80f;
-    public float accelerationForce =80f;
+    public float accelerationForce =50f;
     public float brakeForce = 20f;
     public float driftPower = 20f;
     public float driftSideForce = 15f;
@@ -37,57 +37,31 @@ public class IASINAPRENDIZAJE : MonoBehaviour
     public float rayDistance = 2f;
     public LayerMask groundLayer;
 
-    [Header("AI Variation")]
-    public float steerNoise = 0.15f;
-    public float speedVariation = 0.2f;
-    public float decisionJitter = 0.1f;
-
-    private float noiseSeed;
-    private float speedMultiplier = 1f;
-    private float nextDecisionTime;
-
-    public bool triggerBoost;
-    public float triggerBoostDuration;
-
-    private bool isBoosting;
-    private float boostTimer;
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         hitBox = GetComponentInChildren<CapsuleCollider>();
         sphereCollider = GetComponentInChildren<SphereCollider>();
         IaPlayerCar = GetComponent<PlayerCar>();
-        trackCheck = FindObjectOfType<TrackCheck>();
+        trackCheck = FindFirstObjectByType<TrackCheck>();
 
 
         currentCheckpoint = trackCheck.GetNextCheckpoint(this);
         trackCheck.OnCorrectCheckPointRacer += OnPassedCheckpoint;
-
-        noiseSeed = Random.value * 1000f;
-        speedMultiplier = Random.Range(0.85f, 1.15f);
-
+       // trackCheck.OnWrongCheckPointRacer += OnWrongCheckpoint;
     }
 
     void FixedUpdate()
     {
+        if (!RaceManager.Instance.raceStarted)
+            return;
         bool grounded = CheckGrounded();
+
         if (!grounded)
-        {
             ApplyGravity();
-        }
-        if (isBoosting)
-        {
-            boostTimer -= Time.fixedDeltaTime;
-
-            Vector3 forward = transform.forward * maxSpeed;
-            rb.AddForce(forward * 2f, ForceMode.Acceleration);
-
-            if (boostTimer <= 0f)
-                isBoosting = false;
-        }
         UpdateAI();
         Drive();
+
 
         if (rb.linearVelocity.magnitude > maxSpeed)
         {
@@ -95,22 +69,9 @@ public class IASINAPRENDIZAJE : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (triggerBoost)
-        {
-            triggerBoost = false;
-            isBoosting = true;
-            boostTimer = triggerBoostDuration;
-        }
-
-    }
 
     void UpdateAI()
     {
-        if (Time.time < nextDecisionTime) return;
-        nextDecisionTime = Time.time + Random.Range(0.05f, decisionJitter);
-
         // Obtener checkpoint actual
         currentCheckpoint = trackCheck.GetNextCheckpoint(this);
 
@@ -119,18 +80,21 @@ public class IASINAPRENDIZAJE : MonoBehaviour
 
         // Convertir dirección a espacio local
         Vector3 localDir = transform.InverseTransformDirection(targetDirection);
-        float noise = (Mathf.PerlinNoise(Time.time * 0.5f, noiseSeed) - 0.5f) * steerNoise;
 
-        float rawSteer = localDir.x + noise;
-        steerInput = Mathf.Lerp(steerInput,rawSteer,steeringSmooth * Time.fixedDeltaTime);
+        // Dirección de giro
+        steerInput = Mathf.Lerp(steerInput, localDir.x, Time.fixedDeltaTime * steeringSmooth);
 
-        float speedFactor = Mathf.Lerp(0.9f, 1.1f,Mathf.PerlinNoise(noiseSeed, Time.time * 0.3f));
-        accelerateInput = localDir.z > Random.Range(0.15f, 0.3f) && rb.linearVelocity.magnitude < maxSpeed * speedFactor;
+        // Acelerar si el checkpoint está adelante
+        accelerateInput = localDir.z > 0.2f;
 
-        brakeInput = localDir.z < Random.Range(-0.1f, 0f);
+        // Frenar si el checkpoint está detrás
+        brakeInput = localDir.z < 0f;
+
+        // Activar drift si el ángulo es grande
         float angle = Vector3.SignedAngle(transform.forward, targetDirection, Vector3.up);
-        driftInput = Mathf.Abs(angle) > driftAngleThreshold + Random.Range(-5f, 5f);
+        driftInput = Mathf.Abs(angle) > driftAngleThreshold;
     }
+
     void Drive()
     {
         // Giro
@@ -164,7 +128,11 @@ public class IASINAPRENDIZAJE : MonoBehaviour
     {
         float driftRotation = steer * driftPower;
 
-        hitBox.transform.localRotation = Quaternion.Slerp(hitBox.transform.localRotation,Quaternion.Euler(0, driftRotation, 0),Time.deltaTime * 1.5f);
+        hitBox.transform.localRotation = Quaternion.Slerp(
+            hitBox.transform.localRotation,
+            Quaternion.Euler(0, driftRotation, 0),
+            Time.deltaTime * 1.5f
+        );
 
         rb.AddForce(transform.right * steer * driftSideForce, ForceMode.Acceleration);
     }
