@@ -370,16 +370,19 @@ public class FSMManager : StateMachineFlow {
         return avg.normalized;
     }
     // ==================== COLISIONES ====================
-
+    
     private void OnCollisionEnter(Collision collision)
     {
         int groundLayerIndex = LayerMask.NameToLayer("Ground");
 
         if (collision.gameObject.layer != groundLayerIndex)
         {
+            Debug.Log("Collision detected with: " + collision.gameObject.name);
+
             SetAndPlayAudioClip(3);
         }
     }
+    
     // ==================== RESPAWN ====================
     public void Respawn()
     {
