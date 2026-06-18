@@ -54,8 +54,14 @@ public class CameraFollow : MonoBehaviour
         float distance = Vector3.Distance(target.position, desiredPosition);
 
         RaycastHit hit;
-
-        if (Physics.SphereCast(target.position, collisionRadius, direction, out hit, distance, collisionMask))
+        if (Physics.SphereCast(
+            target.position,
+            collisionRadius,
+            direction,
+            out hit,
+            distance,
+            collisionMask,
+            QueryTriggerInteraction.Ignore))
         {
             desiredPosition = target.position + direction * hit.distance;
         }
