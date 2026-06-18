@@ -587,8 +587,10 @@ MonoBehaviour:
   totalWaypoints: 0
   distanceToNextWayPoint: 0
   personajeData: {fileID: 11400000, guid: 8daa233e339b5ed44a81cc1ab7c1dfcf, type: 2}
-  Visual: {fileID: 0}
+  modelParent: {fileID: 0}
   circuit: {fileID: 0}
+  trackCheck: {fileID: 0}
+  canMove: 0
 --- !u!1 &5336917421892882631
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,7 +1002,7 @@ GameObject:
   - component: {fileID: 1180794343380527506}
   - component: {fileID: 4300264544772454900}
   - component: {fileID: 6846781758460671472}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1147,7 +1149,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 264
+    m_Bits: 776
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 7ad55df74702cbe47b167ae67fd3f879, type: 2}
   m_TargetDisplay: 0
