@@ -33,6 +33,7 @@ public class RaceManager : MonoBehaviour
 
 
 
+
     public void Awake()
     {
         if (Instance != null && Instance != this)
@@ -82,9 +83,15 @@ public class RaceManager : MonoBehaviour
             Debug.Log("Instanciando: " + chosen.name);
 
             Transform spawn = NPCpositions[i];
+            Vector3 pos = spawn.position;
+            RaycastHit hit;
+            if (Physics.Raycast(pos + Vector3.up * 2f, Vector3.down, out hit, 10f))
+            {
+                pos.y = hit.point.y;
+            }
             Debug.LogWarning("Spawn position for " + chosen.name + ": " + spawn.position);
 
-            GameObject npcInstance = Instantiate(chosen.characterPrefab, spawn.position, spawn.rotation);
+            GameObject npcInstance = Instantiate(chosen.characterPrefab, pos, spawn.rotation);
 
 
             IASINAPRENDIZAJE racer = npcInstance.GetComponent<IASINAPRENDIZAJE>();
