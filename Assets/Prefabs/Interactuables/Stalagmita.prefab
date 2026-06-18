@@ -154,9 +154,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7635826562936255635, guid: eaef583e00d21a44e9585bac1d06a964, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: eaef583e00d21a44e9585bac1d06a964, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: a2f0654731e904046a6bf2b683210d72, type: 2}
+      objectReference: {fileID: 2100000, guid: 056a9ad20566f7546b86b86105964a38, type: 2}
+    - target: {fileID: -7635826562936255635, guid: eaef583e00d21a44e9585bac1d06a964, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2a9d97aa97c62144a9301675ec9b66d7, type: 2}
     - target: {fileID: 919132149155446097, guid: eaef583e00d21a44e9585bac1d06a964, type: 3}
       propertyPath: m_Name
       value: Estalactita_1

@@ -14,19 +14,39 @@ public class ColisionCharco : MonoBehaviour
     }
     IEnumerator VidaCharco()
     {
+        IASINAPRENDIZAJE ownerIA = owner.GetComponent<IASINAPRENDIZAJE>();
+        FSMManager ownerFSM = owner.GetComponent<FSMManager>();
+        if (ownerIA == null || ownerFSM == null)
+            yield break;
         yield return new WaitForSeconds(duracion);
         Destroy(gameObject);
 
     }
+    public void SetOwner(GameObject newOwner)
+    {
+        owner = newOwner;
+    }
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Colision con enemigo: ");
         if (other.gameObject == owner) return; // Ignora colisiones con el propietario del charco
 
-           PersonajeSO enemigo = other.gameObject.GetComponent<PersonajeSO>();
-            if (enemigo != null)
+        PlayerCar enemigo = other.GetComponentInParent<PlayerCar>();
+        if (enemigo != null)
             {             
-                enemigo.maxSpeedMultiplier = factorReduccion; // Reduce la velocidad a la mitad      
+                Debug.Log("Colision con enemigo: " + enemigo.name);
+                enemigo.personajeData.maxSpeedMultiplier = factorReduccion; // Reduce la velocidad a la mitad      
             }              
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject == owner) return;
+
+        PlayerCar enemigo = other.GetComponentInParent<PlayerCar>();
+        if (enemigo != null)
+        {
+            enemigo.personajeData.maxSpeedMultiplier = 1f; // Restaura al salir
+        }
     }
     private void OnDestroy()
     {
@@ -35,10 +55,10 @@ public class ColisionCharco : MonoBehaviour
         {
             if (col.gameObject == owner) continue; // Ignora el propietario del charco
             {
-                PersonajeSO enemigo = col.gameObject.GetComponent<PersonajeSO>();
+                PlayerCar enemigo = col.GetComponentInParent<PlayerCar>();
                 if (enemigo != null)
                 {
-                    enemigo.maxSpeedMultiplier = 1f; // Restaura la velocidad original
+                    enemigo.personajeData.maxSpeedMultiplier = 1f; // Restaura la velocidad original
                 }
             }
         }

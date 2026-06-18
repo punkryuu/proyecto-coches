@@ -20,6 +20,14 @@ public class Waypoints : MonoBehaviour {
     }
     private void OnTriggerEnter(Collider other)
     {
+        IASINAPRENDIZAJE racer = other.GetComponentInParent<IASINAPRENDIZAJE>();
+        if (racer != null)
+        {
+            Debug.Log("IA ha toqueteado Waypoint: " + index);
+            circuitTrackCheck.AgentThroughCheckPoint(racer, index);
+            return;
+        }
+
         NPCAgent ai = other.GetComponentInParent<NPCAgent>();
         if (ai != null)
         {

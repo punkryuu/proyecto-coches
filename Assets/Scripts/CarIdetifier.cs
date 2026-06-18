@@ -7,19 +7,17 @@ public class PlayerCar : MonoBehaviour
     public int currentLap = 0;
     public int currentWayPoint = 0;
     public int totalWaypoints;
+    public float powerCounter = 0;   
     public float distanceToNextWayPoint = 0f;
     public PersonajeSO personajeData;
-    [SerializeField] Transform Visual;
-    ModoCarrera modoCarrera;
-
+    RaceManager modoCarrera;
+    public Transform modelParent;
     public WayPointsCircuit circuit;
-
+    public TrackCheck trackCheck;
+    public bool canMove = false;
 
     void Start()
     {
-
-        if (personajeData != null && Visual != null)
-            Instantiate(personajeData.visual, Visual);
         if (circuit == null)
         {
             circuit = FindFirstObjectByType<WayPointsCircuit>();
@@ -30,13 +28,12 @@ public class PlayerCar : MonoBehaviour
             }
         }
 
-        totalWaypoints = circuit.GetWayPointsCount();
+        totalWaypoints = circuit.waypoints.Length;
     }
-
-
     void Update()
     {
         UpdateDistance();
+
     }
     void UpdateDistance()
     {
@@ -48,10 +45,10 @@ public class PlayerCar : MonoBehaviour
         Transform nextWayPoint = circuit.GetWayPoint(currentWayPoint);
         distanceToNextWayPoint = Vector3.Distance(transform.position, nextWayPoint.position);
     }
-
     public void OnCorrectCheckpoint()
     {
         currentWayPoint++;
+      
 
     }
 
@@ -60,11 +57,17 @@ public class PlayerCar : MonoBehaviour
         Debug.Log("Checkpoint incorrecto");
     }
 
+    public void SetCanMove(bool value)
+    {
+        canMove = value;
+    }
+
     public void ResetProgress()
     {
         currentWayPoint = 0;
         currentLap = 0;
     }
+
 }
     
 

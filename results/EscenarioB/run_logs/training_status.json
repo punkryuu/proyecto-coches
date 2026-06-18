@@ -1,0 +1,56 @@
+{
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.1.2+cpu"
+    },
+    "NPCAgent": {
+        "checkpoints": [
+            {
+                "steps": 499974,
+                "file_path": "results\\EscenarioB\\NPCAgent\\NPCAgent-499974.onnx",
+                "reward": null,
+                "creation_time": 1779886353.9150183,
+                "auxillary_file_paths": [
+                    "results\\EscenarioB\\NPCAgent\\NPCAgent-499974.pt"
+                ]
+            },
+            {
+                "steps": 606889,
+                "file_path": "results\\EscenarioB\\NPCAgent\\NPCAgent-606889.onnx",
+                "reward": null,
+                "creation_time": 1779886917.814085,
+                "auxillary_file_paths": [
+                    "results\\EscenarioB\\NPCAgent\\NPCAgent-606889.pt"
+                ]
+            },
+            {
+                "steps": 747379,
+                "file_path": "results\\EscenarioB\\NPCAgent\\NPCAgent-747379.onnx",
+                "reward": -95.5,
+                "creation_time": 1779887580.800021,
+                "auxillary_file_paths": [
+                    "results\\EscenarioB\\NPCAgent\\NPCAgent-747379.pt"
+                ]
+            },
+            {
+                "steps": 809826,
+                "file_path": "results\\EscenarioB\\NPCAgent\\NPCAgent-809826.onnx",
+                "reward": 43.88499519104759,
+                "creation_time": 1779897070.3361418,
+                "auxillary_file_paths": [
+                    "results\\EscenarioB\\NPCAgent\\NPCAgent-809826.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 809826,
+            "file_path": "results\\EscenarioB\\NPCAgent.onnx",
+            "reward": 43.88499519104759,
+            "creation_time": 1779897070.3361418,
+            "auxillary_file_paths": [
+                "results\\EscenarioB\\NPCAgent\\NPCAgent-809826.pt"
+            ]
+        }
+    }
+}

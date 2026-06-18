@@ -144,17 +144,22 @@ public class FSMManager : StateMachineFlow {
         rb = GetComponent<Rigidbody>();
         hitBox = GetComponentInChildren<CapsuleCollider>();
         audioSource = GetComponent<AudioSource>();
+        if (playerCar.isPlayer)
+        {
+            SetCharacterSO();
 
+            InstantiateVisualSO();
+
+          
+            SetMinimapImage();
+        }
+        ApplyMultipliersFromSO();
+
+        uiManager = FindAnyObjectByType<UIManager>();
         SetStars(false);
 
         // Cargar personaje seleccionado
-        SetCharacterSO();
-
-        ApplyMultipliersFromSO();
-        InstantiateVisualSO();
-
-        uiManager = FindAnyObjectByType<UIManager>();
-        SetMinimapImage();
+       
     }
 
 
@@ -170,6 +175,7 @@ public class FSMManager : StateMachineFlow {
         {
             PersonajeSO selectedCharacter = GameManager.Instance.selectedCharacter;
             if (selectedCharacter != null) { personajeSO = selectedCharacter; }
+            playerCar.personajeData = selectedCharacter;
         }
         else
         {
@@ -364,16 +370,19 @@ public class FSMManager : StateMachineFlow {
         return avg.normalized;
     }
     // ==================== COLISIONES ====================
-
+    
     private void OnCollisionEnter(Collision collision)
     {
         int groundLayerIndex = LayerMask.NameToLayer("Ground");
 
         if (collision.gameObject.layer != groundLayerIndex)
         {
+            Debug.Log("Collision detected with: " + collision.gameObject.name);
+
             SetAndPlayAudioClip(3);
         }
     }
+    
     // ==================== RESPAWN ====================
     public void Respawn()
     {
@@ -738,7 +747,7 @@ public class FSMManager : StateMachineFlow {
     {
         if (personajeSO == null || personajeSO.audios == null || index < 0 || index >= personajeSO.audios.Length)
         {
-            Debug.LogError("FSMManager: Audio clip index out of range or PersonajeSO/audios not assigned.");
+           // Debug.LogError("FSMManager: Audio clip index out of range or PersonajeSO/audios not assigned.");
             return;
         }
         audioSource.clip = personajeSO.audios[index];

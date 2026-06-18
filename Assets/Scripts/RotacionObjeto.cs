@@ -26,6 +26,15 @@ public class RotacionObjeto : MonoBehaviour {
 
             StartCoroutine(Reaparecer());
         }
+        else
+        {
+            IASINAPRENDIZAJE ia = other.GetComponentInParent<IASINAPRENDIZAJE>();
+            if (ia != null)
+            {
+                ia.IaPlayerCar.powerCounter++;
+                StartCoroutine(Reaparecer());
+            }
+        }
     }
 
     IEnumerator Reaparecer()
