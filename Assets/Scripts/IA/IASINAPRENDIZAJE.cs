@@ -38,7 +38,7 @@ public class IASINAPRENDIZAJE : MonoBehaviour
     private bool driftInput;
     public Transform spawnPoint;
     
-    public float powerCost = 5f;
+    public float powerCost = 3f;
     public float gravityMultiplier = 1f;
     public float gravityForce = 20f;
     public float rayDistance = 2f;
