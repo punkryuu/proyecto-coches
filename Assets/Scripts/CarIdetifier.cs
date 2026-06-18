@@ -7,6 +7,7 @@ public class PlayerCar : MonoBehaviour
     public int currentLap = 0;
     public int currentWayPoint = 0;
     public int totalWaypoints;
+    public float powerCounter = 0;   
     public float distanceToNextWayPoint = 0f;
     public PersonajeSO personajeData;
     RaceManager modoCarrera;

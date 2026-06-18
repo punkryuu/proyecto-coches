@@ -13,21 +13,21 @@ public class Bruja : PersonajeSO
 
     private IEnumerator ActivarGrito(MonoBehaviour ejecutor)
     {
-        // Afecta a todos los NPC
-        foreach (NPCAgent npc in GameObject.FindObjectsOfType<NPCAgent>())
+       AudioClip grito = this.audios[2];
+        foreach (IASINAPRENDIZAJE npc in GameObject.FindObjectsOfType<IASINAPRENDIZAJE>())
         {
             if (npc.gameObject == ejecutor.gameObject) continue;
-            npc.power *= 0.75f; // Reduce su barra de poder
+            npc.IaPlayerCar.powerCounter *= 0.75f; // Reduce su barra de poder
         }
 
         // Afecta al Player
         PlayerCar player = GameObject.FindObjectOfType<PlayerCar>();
         if (player != null && player.gameObject != ejecutor.gameObject)
         {
-            Slider slider = player.GetComponentInChildren<Slider>();
-            if (slider != null)
+         
+            if (player.powerCounter != null)
             {
-                slider.value *= 0.75f; // Elimina toda la barra de poder del enemigo
+                player.powerCounter *= 0.75f; // Elimina toda la barra de poder del enemigo
             }
         }
         yield return null;

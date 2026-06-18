@@ -11,12 +11,19 @@ public class IASINAPRENDIZAJE : MonoBehaviour
 
 
     [Header("Driving")]
-    public float maxSpeed = 800f;
-    public float turnSpeed = 80f;
-    public float accelerationForce =50f;
-    public float brakeForce = 20f;
-    public float driftPower = 20f;
-    public float driftSideForce = 15f;
+    public float baseMaxSpeed = 800f;
+    public float baseTurnSpeed = 80f;
+    public float baseAcceleration = 50f;
+    public float baseBrakeForce = 20f;
+    public float baseDriftPower = 20f;
+    public float baseDriftSideForce = 15f;
+
+    public float maxSpeed;
+    public float turnSpeed;
+    public float accelerationForce;
+    public float brakeForce;
+    public float driftPower;
+    public float driftSideForce;
 
     [Header("AI")]
     public float checkpointLookAhead = 10f;
@@ -31,7 +38,7 @@ public class IASINAPRENDIZAJE : MonoBehaviour
     private bool driftInput;
     public Transform spawnPoint;
     
-
+    public float powerCost = 5f;
     public float gravityMultiplier = 1f;
     public float gravityForce = 20f;
     public float rayDistance = 2f;
@@ -48,7 +55,7 @@ public class IASINAPRENDIZAJE : MonoBehaviour
 
         currentCheckpoint = trackCheck.GetNextCheckpoint(this);
         trackCheck.OnCorrectCheckPointRacer += OnPassedCheckpoint;
-       // trackCheck.OnWrongCheckPointRacer += OnWrongCheckpoint;
+        ApplyPersonajeSO();
     }
 
     void FixedUpdate()
@@ -113,7 +120,17 @@ public class IASINAPRENDIZAJE : MonoBehaviour
             ApplyDrift(steerInput);
     }
 
+    void ApplyPersonajeSO()
+{
+    if (IaPlayerCar.personajeData == null) return;
 
+    maxSpeed = baseMaxSpeed * IaPlayerCar.personajeData.maxSpeedMultiplier;
+    accelerationForce = baseAcceleration * IaPlayerCar.personajeData.accelerationMultiplier;
+    turnSpeed = baseTurnSpeed * IaPlayerCar.personajeData.steeringMultiplier;
+    brakeForce = baseBrakeForce * IaPlayerCar.personajeData.weightMultiplier;
+    driftPower = baseDriftPower * IaPlayerCar.personajeData.driftControlMultiplier;
+    driftSideForce = baseDriftSideForce * IaPlayerCar.personajeData.driftControlMultiplier;
+}
     private void ApplyAccelerationNPC()
     {
         rb.AddForce(transform.forward * accelerationForce, ForceMode.Acceleration);
@@ -207,6 +224,18 @@ public class IASINAPRENDIZAJE : MonoBehaviour
         visualInstance.transform.localRotation = Quaternion.identity;
 
         Transform visualModel = visualInstance.transform;
+    }
+
+    public void Power()
+    {
+        if (IaPlayerCar.personajeData != null)
+        {
+            if(IaPlayerCar.powerCounter >= powerCost)
+            {
+                IaPlayerCar.personajeData.UsePower(this);
+                IaPlayerCar.powerCounter = 0;
+            }
+        }
     }
 }
 
