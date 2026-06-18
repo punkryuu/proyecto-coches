@@ -12,6 +12,7 @@ public class MenuUIManager: MonoBehaviour
     [SerializeField] private GameObject panel;
     [SerializeField] AudioMixer audioMixer;
     [SerializeField] TMP_Dropdown resolutionDropdown;
+    [SerializeField] TMP_Dropdown qualityDropdown;
     [SerializeField] private Slider volumenGeneral, volumenMusica, volumenSFX;
     [SerializeField] private int characterSelectorSceneIndex;
 
@@ -25,6 +26,7 @@ public class MenuUIManager: MonoBehaviour
         contenedorOpciones.SetActive(false);
         resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();//limpiar el dropdown para llenarlo con las resoluciones disponibles
+    
         int currentResolutionIndex = 0;
         for (int i = 0; i < resolutions.Length; i++)
         {
@@ -73,6 +75,8 @@ public class MenuUIManager: MonoBehaviour
     public void SetQuality(int qualityIndex)
     {
         QualitySettings.SetQualityLevel(qualityIndex);
+        qualityDropdown.value = qualityIndex;
+        qualityDropdown.RefreshShownValue();
 
     }
     public void SetFullscreen(bool isFullscreen)

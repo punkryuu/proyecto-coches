@@ -9,5 +9,11 @@ public class RespawnTrigger : MonoBehaviour
         {
             fsm.Respawn();
         }
+
+        IASINAPRENDIZAJE ia = other.GetComponentInParent<IASINAPRENDIZAJE>();
+        if (ia != null)
+        {
+            ia.Respawn();
+        }
     }
 }

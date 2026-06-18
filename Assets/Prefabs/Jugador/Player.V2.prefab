@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1762469712563575536
 RectTransform:
   m_ObjectHideFlags: 0
@@ -275,6 +275,7 @@ MonoBehaviour:
   stunStars: {fileID: 8838929380295551636}
   minimapPlane: {fileID: 7693707574793382570}
   playerCar: {fileID: 8716802694784510367}
+  canDrive: 0
   driftFlag: 0
   airControlMultiplier: 0.5
   currentBoostType: 0
@@ -465,6 +466,7 @@ MonoBehaviour:
   currentLap: 0
   currentWayPoint: 0
   totalWaypoints: 0
+  powerCounter: 0
   distanceToNextWayPoint: 0
   personajeData: {fileID: 11400000, guid: 8daa233e339b5ed44a81cc1ab7c1dfcf, type: 2}
   modelParent: {fileID: 0}

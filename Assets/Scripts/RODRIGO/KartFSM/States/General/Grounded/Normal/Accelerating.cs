@@ -13,6 +13,7 @@ public class Accelerating : Normal
         base.Enter();
         _fsm.stateName.text = name;
 
+
     }
     public override void UpdateLogic()
     {
@@ -37,6 +38,10 @@ public class Accelerating : Normal
     }
     public override void UpdatePhysics()
     {
+        if(!_fsm.canDrive)
+        {
+                       stateMachineFlow.ChangeState(((FSMManager)stateMachineFlow).idleState);
+        }
         base.UpdatePhysics();
         _fsm.ApplyAcceleration();
     }

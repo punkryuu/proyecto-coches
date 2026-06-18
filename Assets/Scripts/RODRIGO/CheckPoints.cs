@@ -85,5 +85,11 @@ public class CheckPoints : MonoBehaviour {
             if (canRspawn)
                 ActivateCheckPoint();
         }
+
+        if (other.tag == "NPC")
+        {
+            if (canRspawn)
+                ActivateCheckPoint();
+        }
     }
 }

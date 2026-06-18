@@ -43,6 +43,15 @@ public class IASINAPRENDIZAJE : MonoBehaviour
     public float gravityForce = 20f;
     public float rayDistance = 2f;
     public LayerMask groundLayer;
+    private Vector3 lastPosition;
+    private float stuckTimer; 
+    public GameObject minimapPlane;
+
+
+    [Header("Randomization")]
+    [Range(0f, 1f)] public float aggressiveness;
+    [Range(0f, 1f)] public float mistakeChance;
+    [Range(0f, 1f)] public float steeringNoise;
 
     void Start()
     {
@@ -56,6 +65,11 @@ public class IASINAPRENDIZAJE : MonoBehaviour
         currentCheckpoint = trackCheck.GetNextCheckpoint(this);
         trackCheck.OnCorrectCheckPointRacer += OnPassedCheckpoint;
         ApplyPersonajeSO();
+
+        aggressiveness = Random.Range(0.4f, 1f);
+        mistakeChance = Random.Range(0.0f, 0.3f);
+        steeringNoise = Random.Range(0.0f, 0.15f);
+        SetMinimapImage();
     }
 
     void FixedUpdate()
@@ -74,6 +88,23 @@ public class IASINAPRENDIZAJE : MonoBehaviour
         {
             rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
         }
+        float moved = Vector3.Distance(transform.position, lastPosition);
+
+        if (moved < 0.05f)
+        {
+            stuckTimer += Time.fixedDeltaTime;
+        }
+        else
+        {
+            stuckTimer = 0f;
+        }
+        lastPosition = transform.position;
+        if (stuckTimer > 1.5f)
+        {
+            rb.AddForce(transform.forward * accelerationForce * 2f, ForceMode.Acceleration);
+            rb.AddTorque(Vector3.up * 5f, ForceMode.Acceleration);
+            return; 
+        }
     }
 
 
@@ -89,17 +120,25 @@ public class IASINAPRENDIZAJE : MonoBehaviour
         Vector3 localDir = transform.InverseTransformDirection(targetDirection);
 
         // Dirección de giro
-        steerInput = Mathf.Lerp(steerInput, localDir.x, Time.fixedDeltaTime * steeringSmooth);
+        float noise = Random.Range(-steeringNoise, steeringNoise);
+        float angle = Vector3.SignedAngle(transform.forward, targetDirection + new Vector3(noise, 0, 0), Vector3.up);
+        steerInput = Mathf.Clamp(angle / 45f, -1f, 1f);
 
         // Acelerar si el checkpoint está adelante
-        accelerateInput = localDir.z > 0.2f;
+        accelerateInput = localDir.z > (0.2f - aggressiveness * 0.1f);
 
         // Frenar si el checkpoint está detrás
         brakeInput = localDir.z < 0f;
 
         // Activar drift si el ángulo es grande
-        float angle = Vector3.SignedAngle(transform.forward, targetDirection, Vector3.up);
-        driftInput = Mathf.Abs(angle) > driftAngleThreshold;
+        float bigangle = Vector3.SignedAngle(transform.forward, targetDirection, Vector3.up);
+        driftInput = Mathf.Abs(bigangle) > driftAngleThreshold && Random.value < (0.5f + aggressiveness * 0.5f); ;
+
+        if (Random.value < mistakeChance * Time.fixedDeltaTime)
+        {
+            accelerateInput = false;
+            brakeInput = true;
+        }
     }
 
     void Drive()
@@ -236,6 +275,27 @@ public class IASINAPRENDIZAJE : MonoBehaviour
                 IaPlayerCar.powerCounter = 0;
             }
         }
+    }
+
+    public void Respawn()
+    {
+        Vector3 respawnPos = CheckPoints.GetActiveCheckPointPosition();
+
+        Debug.Log("Respawning at: " + respawnPos);
+
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        transform.position = respawnPos;
+    }
+
+    void SetMinimapImage()
+    {
+        if (IaPlayerCar.personajeData == null)
+        {
+           Debug.Log("NPC: PersonajeSO no asignado, no se puede establecer la imagen del minimapa.");
+            return;
+        }
+        minimapPlane.GetComponent<MeshRenderer>().material.mainTexture = IaPlayerCar.personajeData.imagenMinimapa.texture;
     }
 }
 

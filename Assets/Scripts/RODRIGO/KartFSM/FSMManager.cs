@@ -65,6 +65,8 @@ public class FSMManager : StateMachineFlow {
     private float driftEntrySpeed;
 
     private float boostDurationMultiplier;
+    public bool canDrive = false;
+
 
     [Header("Drift")]
     private float driftTimer;
@@ -157,7 +159,6 @@ public class FSMManager : StateMachineFlow {
 
         uiManager = FindAnyObjectByType<UIManager>();
         SetStars(false);
-
         // Cargar personaje seleccionado
        
     }

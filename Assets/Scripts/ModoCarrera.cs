@@ -1,4 +1,4 @@
-using NUnit.Framework;
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,19 +14,19 @@ public class RaceManager : MonoBehaviour
     public static RaceManager Instance { get; private set; }
     public GameObject NPC;
     public PersonajeSO[] SOOptions;
-    public  List <PersonajeSO> selectedCharacters = new List<PersonajeSO>();
+    public List<PersonajeSO> selectedCharacters = new List<PersonajeSO>();
     public Dictionary<GameObject, int> lastPositions = new Dictionary<GameObject, int>();
     public int characterCount = 3;
     public int playerLapCounter = 0;
-    public Dictionary<GameObject,int> npcLapCounter = new Dictionary<GameObject,int>();
+    public Dictionary<GameObject, int> npcLapCounter = new Dictionary<GameObject, int>();
     public int raceCounter = 0;
-    public Dictionary<PersonajeSO, GameObject> instances = new Dictionary<PersonajeSO, GameObject>();
+    public Dictionary<GameObject, PersonajeSO> instances = new Dictionary<GameObject, PersonajeSO>();
     [SerializeField] TMP_Text countdownText;
     public float countdown = 3f;
     public int totalLaps = 3;
     private GameObject[] spawnedNPC;
     [SerializeField] Transform[] NPCpositions;
-    [SerializeField]UIManager ui;
+    [SerializeField] UIManager ui;
     public bool raceStarted = false;
     public PlayerCar player;
 
@@ -34,7 +34,7 @@ public class RaceManager : MonoBehaviour
 
 
     public void Awake()
-     {
+    {
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -42,7 +42,7 @@ public class RaceManager : MonoBehaviour
 
         }
         else
-        Instance = this;
+            Instance = this;
         DontDestroyOnLoad(gameObject);
 
         if (selectedCharacters.Count != characterCount || instances.Count != characterCount)
@@ -58,7 +58,7 @@ public class RaceManager : MonoBehaviour
     {
         player = FindObjectsOfType<PlayerCar>().FirstOrDefault(p => p.isPlayer);
         StartCoroutine(StartCountdown());
-       
+
 
     }
 
@@ -73,17 +73,17 @@ public class RaceManager : MonoBehaviour
     {
         Debug.Log("Spawning NPCs...");
         selectedCharacters.Clear();
-       instances.Clear();
+        instances.Clear();
         for (int i = 0; i < characterCount; i++)
         {
             int randomIndex = Random.Range(0, SOOptions.Length);
             PersonajeSO chosen = SOOptions[randomIndex];
             selectedCharacters.Add(chosen);
             Debug.Log("Instanciando: " + chosen.name);
-            
+
             Transform spawn = NPCpositions[i];
             Debug.LogWarning("Spawn position for " + chosen.name + ": " + spawn.position);
-            
+
             GameObject npcInstance = Instantiate(chosen.characterPrefab, spawn.position, spawn.rotation);
 
 
@@ -105,14 +105,13 @@ public class RaceManager : MonoBehaviour
 
 
             RegisterNPC(npcInstance);
-            instances[chosen] = npcInstance;
+            instances[npcInstance] = chosen;
         }
 
     }
- 
+
     public void FinishedRace()
     {
-        Debug.Log("INSTANCES EN PODIO: " + instances.Count);
         if (playerLapCounter >= totalLaps)
         {
             var posiciones = GetAllCarsOrdered();
@@ -175,14 +174,13 @@ public class RaceManager : MonoBehaviour
         raceStarted = true;
     }
 
-    public List<(PersonajeSO so, GameObject car)> GetAllCarsOrdered()
+    public List<(GameObject car, PersonajeSO so)> GetAllCarsOrdered()
     {
-        List<(PersonajeSO so, GameObject car)> lista = new();
+        List<(GameObject car, PersonajeSO so )> lista = new();
 
-        lista.Add((null, player.gameObject));
+        lista.Add((player.gameObject, player.personajeData));
         foreach (var kvp in instances)
         {
-            Debug.Log("NPC en podio: " + kvp.Key.name);;
             lista.Add((kvp.Key, kvp.Value));
         }
         lista = lista.OrderByDescending(x => CalculateProgress(x.car)).ToList();
@@ -191,12 +189,12 @@ public class RaceManager : MonoBehaviour
     }
     float CalculateProgress(GameObject car) //Calcula el progreso de un coche en la carrera, teniendo en cuenta las vueltas completadas, los waypoints y la distancia al siguiente waypoint
     {
-      float progress = 0f;
-     PlayerCar data = car.GetComponent<PlayerCar>();
-     progress += data.currentLap * 100000f;
-     progress += data.currentWayPoint * 1000f;
-     progress -=  data.distanceToNextWayPoint;
-     return progress;
+        float progress = 0f;
+        PlayerCar data = car.GetComponent<PlayerCar>();
+        progress += data.currentLap * 100000f;
+        progress += data.currentWayPoint * 1000f;
+        progress -= data.distanceToNextWayPoint;
+        return progress;
     }
 
     void UpdatePositions()
@@ -224,6 +222,3 @@ public class RaceManager : MonoBehaviour
 
     }
 }
-
-
-
