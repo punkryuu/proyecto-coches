@@ -1,11 +1,18 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 
-public class FinishLineCollision : MonoBehaviour
+public class FinishLineCollision : MonoBehaviour 
 {
     [SerializeField] private RaceManager raceController;
     [SerializeField] TMP_Text lapCounterText;
     [SerializeField] private bool isTimeTrialMode = false;
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip warningSound;
+
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioClip finalLapMusic;
     public TrackCheck trackCheck;
     [SerializeField] private WayPointsCircuit wayPointsCircuit;
     void OnTriggerEnter(Collider other)
@@ -40,6 +47,7 @@ public class FinishLineCollision : MonoBehaviour
             PlayerCar carIdetifier = other.GetComponentInParent<PlayerCar>();
             if (carIdetifier == null) return;
             Debug.Log("wayPointsCircuit = " + wayPointsCircuit);
+
             if (carIdetifier.currentWayPoint >= wayPointsCircuit.GetWayPointsCount())
             {
                 if (carIdetifier.isPlayer)
@@ -49,6 +57,10 @@ public class FinishLineCollision : MonoBehaviour
                     lapCounterText.text = raceController.playerLapCounter.ToString();
                     raceController.FinishedRace();
                     carIdetifier.currentWayPoint = 0;
+                    if(carIdetifier.currentLap == raceController.totalLaps-1)
+                    {
+                        StartCoroutine(ChangeMusicSequence());
+                    }
                     return;
                 }
                 IASINAPRENDIZAJE ia = other.GetComponentInParent<IASINAPRENDIZAJE>();
@@ -65,5 +77,13 @@ public class FinishLineCollision : MonoBehaviour
                 Debug.Log("Player has not completed all waypoints yet.");
             }
         }
+    }
+
+    private IEnumerator ChangeMusicSequence()
+    {
+        sfxSource.PlayOneShot(warningSound);
+        yield return new WaitForSeconds(warningSound.length);
+        musicSource.clip = finalLapMusic;
+        musicSource.Play();
     }
 }
