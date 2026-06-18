@@ -689,9 +689,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -3944876722980995559, guid: a32b4c5b14115684288a7718e6351ae9, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -3944876722980995559, guid: a32b4c5b14115684288a7718e6351ae9, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: a02254d185dc39f44aaa6564d50f6f42, type: 2}
+    - target: {fileID: -3944876722980995559, guid: a32b4c5b14115684288a7718e6351ae9, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f57ab53e0dfdd9a4a9c04fd36b7fe089, type: 2}
     - target: {fileID: 919132149155446097, guid: a32b4c5b14115684288a7718e6351ae9, type: 3}
       propertyPath: m_Name
       value: Coche_Huevo
@@ -823,12 +831,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4407433375417553736, guid: 85003b407ff29db43ab80a0920a2c83f, type: 3}
       propertyPath: m_Materials.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4407433375417553736, guid: 85003b407ff29db43ab80a0920a2c83f, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
-      objectReference: {fileID: 2100000, guid: a51893c2adf1175469e65580aec294f0, type: 2}
+      objectReference: {fileID: 2100000, guid: 2a9d97aa97c62144a9301675ec9b66d7, type: 2}
     - target: {fileID: 6098201984932384249, guid: 85003b407ff29db43ab80a0920a2c83f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.01
