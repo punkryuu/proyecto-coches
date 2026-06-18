@@ -26,6 +26,7 @@ public class TimeTrialMode : MonoBehaviour {
     [SerializeField] private TMP_Text finalTotalTimeText; 
     [SerializeField] private TMP_Text finalBestLapText;
     [SerializeField] private GameObject interfaz;
+    public PlayerCar player;
 
     float currentLapStartTime;
     public int playerLapCounter = 0;
@@ -126,6 +127,8 @@ public class TimeTrialMode : MonoBehaviour {
             countdownText.text = i.ToString();
             yield return new WaitForSecondsRealtime(1f);
         }
+        player.canMove = true;
+
         countdownText.gameObject.SetActive(false);
         StartRace();
     }

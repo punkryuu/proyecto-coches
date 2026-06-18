@@ -411,7 +411,7 @@ public class FSMManager : StateMachineFlow {
             rb.AddForce(-hitBox.transform.forward * power, ForceMode.Acceleration);
     }
 
-    public void ApplySlowDown(float slowDown = 2f)
+    public void ApplySlowDown(float slowDown = 5f)
     {
         if (rb.linearVelocity.magnitude > 0.1f)
             rb.AddForce(-rb.linearVelocity.normalized * slowDown, ForceMode.Acceleration);
@@ -586,8 +586,27 @@ public class FSMManager : StateMachineFlow {
     public void ApplyBoostSpeed()
     {
         Vector3 v = rb.linearVelocity;
-        Vector3 forward = hitBox.transform.forward * maxSpeed;
+        Vector3 forward = hitBox.transform.forward * maxSpeed*1.25f;
         rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, new Vector3(forward.x, v.y, forward.z), Time.deltaTime * 10f);
+    }
+    public void EndBoost()
+    {
+        Vector3 horizontalVel = new Vector3(
+            rb.linearVelocity.x,
+            0,
+            rb.linearVelocity.z
+        );
+
+        if (horizontalVel.magnitude > maxSpeed)
+        {
+            horizontalVel = horizontalVel.normalized * maxSpeed;
+
+            rb.linearVelocity = new Vector3(
+                horizontalVel.x,
+                rb.linearVelocity.y,
+                horizontalVel.z
+            );
+        }
     }
     // ==================== PODERES ====================
     public void UsePower()

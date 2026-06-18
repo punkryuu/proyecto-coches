@@ -10,6 +10,10 @@ public class General : TemplateStateMachine {
     public override void UpdateLogic()
     {
         base.UpdateLogic();
+        if (!_fsm.playerCar.canMove)
+        {
+            stateMachineFlow.ChangeState(_fsm.idleState);
+        }
         if (_fsm.stunned  && !_fsm.isCurrentlyStunned)
         {
             _fsm.stunned = false;

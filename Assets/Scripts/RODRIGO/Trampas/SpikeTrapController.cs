@@ -19,7 +19,7 @@ public class SpikeTrapController : TrapBase {
 
     protected override IEnumerator Warning()
     {
-        Vector3 warningPos = hiddenPos + Vector3.up * 0.4f;
+        Vector3 warningPos = hiddenPos + Vector3.up * 5f;
 
         yield return MoveTo(warningPos);
 
