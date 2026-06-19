@@ -11,6 +11,10 @@ public class MenuUIManager: MonoBehaviour
     [SerializeField] private GameObject contenedorOpciones;
     [SerializeField] private GameObject panel;
     [SerializeField] AudioMixer audioMixer;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip modoCarrera;
+    [SerializeField] AudioClip modoContrarreloj;
+    [SerializeField] AudioClip boton;
     [SerializeField] TMP_Dropdown resolutionDropdown;
     [SerializeField] TMP_Dropdown qualityDropdown;
     [SerializeField] private Slider volumenGeneral, volumenMusica, volumenSFX;
@@ -56,16 +60,19 @@ public class MenuUIManager: MonoBehaviour
     }
     public  void CloseSettings() 
     {
+        audioSource.PlayOneShot(boton);
         panel.SetActive(true);
         contenedorOpciones.SetActive(false);
         isOptionsActive = false;
     }
     public void PlayButton()
     {
+        audioSource.PlayOneShot(boton);
         UnityEngine.SceneManagement.SceneManager.LoadScene(nextScene);
     }
     public void OptionButton()
     {
+        audioSource.PlayOneShot(boton);
         panel.SetActive(false);
         contenedorOpciones.SetActive(true);
         isOptionsActive = true;
@@ -74,6 +81,7 @@ public class MenuUIManager: MonoBehaviour
 
     public void SetQuality(int qualityIndex)
     {
+        audioSource.PlayOneShot(boton);
         QualitySettings.SetQualityLevel(qualityIndex);
         qualityDropdown.value = qualityIndex;
         qualityDropdown.RefreshShownValue();
@@ -81,11 +89,13 @@ public class MenuUIManager: MonoBehaviour
     }
     public void SetFullscreen(bool isFullscreen)
     {
+        audioSource.PlayOneShot(boton);
         Screen.fullScreen = isFullscreen;
     }
 
     public void SetResolution(int resolutionIndex)
     {
+        
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }

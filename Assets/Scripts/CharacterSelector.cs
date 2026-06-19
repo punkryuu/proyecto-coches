@@ -24,6 +24,7 @@ public class CharacterSelector : MonoBehaviour
     [SerializeField] private string raceScene;
     [SerializeField] private string timeTrialScene;
     [SerializeField] GameObject firtObject;
+    [SerializeField] private AudioSource audioSourcePersonaje;
 
     private void OnEnable()
     {
@@ -76,6 +77,11 @@ public class CharacterSelector : MonoBehaviour
         nombre.text = personajes[buttonIndex].name;
         historia.text = personajes[buttonIndex].historia;
        
+        AudioClip clip = personajes[buttonIndex].audios[0];
+        if (clip != null && audioSourcePersonaje != null)
+        {
+            audioSourcePersonaje.PlayOneShot(clip);
+        }
     }
 
     public void Continue()

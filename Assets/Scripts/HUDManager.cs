@@ -14,8 +14,11 @@ public class UIManager : MonoBehaviour {
     [SerializeField] public GameObject contenedorFinalizar;
     [SerializeField] TMP_Text countdownText;
     [SerializeField] AudioMixer audioMixer;
+    [SerializeField] AudioClip sonidoPausa;
+    [SerializeField] AudioClip sonidoCarga;
+    [SerializeField] AudioSource audioSource;
     [SerializeField] Slider barraPoder;
-
+    private bool sonidoCargaActivo = false;
     MenuUIManager menuUIManager;
 
      float progreso = 0.2f;
@@ -46,13 +49,36 @@ public class UIManager : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            audioSource.PlayOneShot(sonidoPausa);
             contenedorPausa.SetActive(true);
             Time.timeScale = 0;
+            
         }
     }
         public bool PuedeUsarPoder()
     {
-        return barraPoder != null && barraPoder.value >= barraPoder.maxValue;
+        if (barraPoder == null)
+            return false;
+
+        bool estaLlena = barraPoder.value >= barraPoder.maxValue;
+
+        if (estaLlena && !sonidoCargaActivo)
+        {
+            // Activar loop del sonido de carga
+            audioSource.clip = sonidoCarga;
+            audioSource.loop = true;
+            audioSource.Play();
+            sonidoCargaActivo = true;
+        }
+        else if (!estaLlena && sonidoCargaActivo)
+        {
+            // Detener el loop si deja de estar llena
+            audioSource.loop = false;
+            audioSource.Stop();
+            sonidoCargaActivo = false;
+        }
+
+        return estaLlena;
     }
 
     public void ConsumirPoder()
@@ -85,6 +111,7 @@ public class UIManager : MonoBehaviour {
 
     public void MainMenuButton()
     {
+        audioSource.PlayOneShot(sonidoPausa);
         SceneManager.LoadScene(1);
     }
 
