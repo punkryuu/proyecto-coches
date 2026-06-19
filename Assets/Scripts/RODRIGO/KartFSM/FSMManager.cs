@@ -748,15 +748,23 @@ public class FSMManager : StateMachineFlow {
 
     public void PlayTurboParticles()
     {
-        foreach (var p in turboParticles) p.Play();
+        foreach (var p in turboParticles)
+        {
+            p.Clear();
+            p.Play();
+        }
     }
 
     public void StopTurboParticles()
     {
-        foreach (var p in turboParticles) p.Stop();
+        foreach (var p in turboParticles)
+        {
+            p.Stop();
+        }
     }
-    //================RUEDAS=====================
-    public void RotateX()
+
+//================RUEDAS=====================
+public void RotateX()
     {
         float speed = rb.linearVelocity.magnitude;
         float rot = speed * 5f;
