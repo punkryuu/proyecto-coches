@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic; // <-- Añadir
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class TimeTrialMode : MonoBehaviour {
     public static TimeTrialMode Instance { get; private set; }
@@ -27,6 +28,8 @@ public class TimeTrialMode : MonoBehaviour {
     [SerializeField] private TMP_Text finalBestLapText;
     [SerializeField] private GameObject interfaz;
     public PlayerCar player;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip sonidoInicio;
 
     float currentLapStartTime;
     public int playerLapCounter = 0;
@@ -124,6 +127,7 @@ public class TimeTrialMode : MonoBehaviour {
         //countdownText.gameObject.SetActive(true);
         for (int i = 3; i > 0; i--)
         {
+            //audioSource.PlayOneShot(sonidoInicio);
             countdownText.text = i.ToString();
             yield return new WaitForSecondsRealtime(1f);
         }
