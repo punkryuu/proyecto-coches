@@ -29,6 +29,8 @@ public class RaceManager : MonoBehaviour
     [SerializeField] UIManager ui;
     public bool raceStarted = false;
     public PlayerCar player;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip sonidoInicio;
 
 
 
@@ -173,6 +175,7 @@ public class RaceManager : MonoBehaviour
     IEnumerator StartCountdown()
     {
         countdownText.gameObject.SetActive(true);
+        audioSource.PlayOneShot(sonidoInicio);
         for (int i = 3; i > 0; i--)
         {
             countdownText.text = i.ToString();

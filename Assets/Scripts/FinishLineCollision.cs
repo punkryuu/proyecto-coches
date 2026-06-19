@@ -17,7 +17,6 @@ public class FinishLineCollision : MonoBehaviour
     [SerializeField] private WayPointsCircuit wayPointsCircuit;
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("NPC lap increment called for: " + other.name);
         // --- Modo contrarreloj ---
         if (isTimeTrialMode)
         {
@@ -48,19 +47,21 @@ public class FinishLineCollision : MonoBehaviour
             if (carIdetifier == null) return;
             Debug.Log("wayPointsCircuit = " + wayPointsCircuit);
 
+
             if (carIdetifier.currentWayPoint >= wayPointsCircuit.GetWayPointsCount())
             {
                 if (carIdetifier.isPlayer)
                 {
                     raceController.playerLapCounter++;
                     carIdetifier.currentLap++;
-                    lapCounterText.text = raceController.playerLapCounter.ToString();
-                    raceController.FinishedRace();
-                    carIdetifier.currentWayPoint = 0;
-                    if(carIdetifier.currentLap == raceController.totalLaps-1)
+                    if (carIdetifier.currentLap == raceController.totalLaps - 1)
                     {
                         StartCoroutine(ChangeMusicSequence());
                     }
+                    lapCounterText.text = raceController.playerLapCounter.ToString();
+                    raceController.FinishedRace();
+                    carIdetifier.currentWayPoint = 0;
+                    
                     return;
                 }
                 IASINAPRENDIZAJE ia = other.GetComponentInParent<IASINAPRENDIZAJE>();

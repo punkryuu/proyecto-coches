@@ -24,9 +24,10 @@ public class FloatTurboTrigger : MonoBehaviour
         IASINAPRENDIZAJE racer = other.GetComponentInParent<IASINAPRENDIZAJE>();
         if (racer != null) 
             {
+            //FSMManager fsmia = other.GetComponentInParent<FSMManager>();
             Debug.Log("IA encontrado");
-            //racer.triggerBoost = true;
-           // racer.triggerBoostDuration = boostDuration;
+            //fsmia.triggerBoost = true;
+            //fsmia.triggerBoostDuration = boostDuration;
             StartCoroutine(ApplyGravityEffectNPC(racer));
             StartCoroutine(DisableTemporarily());
             return;

@@ -1,12 +1,23 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class RotacionObjeto : MonoBehaviour {
     Slider barraPoder;
     UIManager uiManager;
+    public AudioMixer mixer;
+    public AudioMixerGroup sfxGroup;
+    [SerializeField] AudioClip sonidoRecoger;
 
     public Vector3 velocidadRotacion = new Vector3(50, 200, 0);
+
+    void Awake()
+    {
+        AudioMixerGroup[] groups = mixer.FindMatchingGroups("SFX");
+        if (groups.Length > 0)
+            sfxGroup = groups[0];
+    }
 
     void Update()
     {
@@ -17,6 +28,8 @@ public class RotacionObjeto : MonoBehaviour {
     {
         if (other.CompareTag("Player"))
         {
+           AudioSource audio = this.GetComponent<AudioSource>();
+            audio.PlayOneShot(sonidoRecoger);
             barraPoder.value += uiManager.GetProgreso();
 
             if (barraPoder.value > barraPoder.maxValue)
