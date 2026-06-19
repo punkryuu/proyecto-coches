@@ -111,7 +111,7 @@ public class FSMManager : StateMachineFlow {
     [Header("Partículas")]
     private List<ParticleSystem> driftParticles = new List<ParticleSystem>();
     private List<ParticleSystem> turboParticles = new List<ParticleSystem>();
-    [SerializeField]private Color drift1Start, drift1End;
+    [SerializeField] private Color drift1Start, drift1End;
     [SerializeField] private Color drift2Start, drift2End;
     [SerializeField] private Color drift3Start, drift3End;
 
@@ -131,7 +131,7 @@ public class FSMManager : StateMachineFlow {
     public bool powerInput;
 
     //animacion
-    Animator animator;
+    [SerializeField] Animator animator;
 
 
     private void Awake()
@@ -160,15 +160,15 @@ public class FSMManager : StateMachineFlow {
 
             SetMinimapImage();
 
-            
+
         }
         ApplyMultipliersFromSO();
 
         uiManager = FindAnyObjectByType<UIManager>();
         SetStars(false);
         // Cargar personaje seleccionado
-        //animator = personajeSO.GetComponent<Animator>();
-        
+        // animator = personajeSO.GetComponent<Animator>();
+
     }
 
 
@@ -178,7 +178,7 @@ public class FSMManager : StateMachineFlow {
         _stateMachine = idleState;
     }
     //
-    public void SetCharacterSO() 
+    public void SetCharacterSO()
     {
         if (GameManager.Instance != null)
         {
@@ -188,7 +188,7 @@ public class FSMManager : StateMachineFlow {
 
             //animacion
             animator = selectedCharacter.CharacterAnimation.GetComponent<Animator>();
-            
+
         }
         else
         {
@@ -275,7 +275,7 @@ public class FSMManager : StateMachineFlow {
             }
         }
     }
-    void SetMinimapImage() 
+    void SetMinimapImage()
     {
         if (personajeSO == null)
         {
@@ -324,14 +324,14 @@ public class FSMManager : StateMachineFlow {
 
         boostDurationMultiplier = baseBoostDurationMultiplier * personajeSO.turboMultiplier;
 
-    if (hitBox != null )
-    {
-         if (hitBox.radius != personajeSO.HitBoxRadius)
-            hitBox.radius = personajeSO.HitBoxRadius;
-    }
+        if (hitBox != null)
+        {
+            if (hitBox.radius != personajeSO.HitBoxRadius)
+                hitBox.radius = personajeSO.HitBoxRadius;
+        }
     }
 
-    
+
 
     // ==================== INPUTS ====================
     public PlayerInputActions GetInputActions() => inputActions;
@@ -383,7 +383,7 @@ public class FSMManager : StateMachineFlow {
         return avg.normalized;
     }
     // ==================== COLISIONES ====================
-    
+
     private void OnCollisionEnter(Collision collision)
     {
         int groundLayerIndex = LayerMask.NameToLayer("Ground");
@@ -395,7 +395,7 @@ public class FSMManager : StateMachineFlow {
             SetAndPlayAudioClip(3);
         }
     }
-    
+
     // ==================== RESPAWN ====================
     public void Respawn()
     {
@@ -481,31 +481,31 @@ public class FSMManager : StateMachineFlow {
 
         driftBaseRotation = hitBox.transform.rotation;
         currentDriftAngle = 0f;
-        SetDriftParticlesColor(drift1Start,drift1End);
+        SetDriftParticlesColor(drift1Start, drift1End);
     }
 
     public void ApplyDriftMovement()
     {
         driftTimer += Time.deltaTime;
 
-        currentDriftAngle = Mathf.Lerp(currentDriftAngle,driftAngle, Time.deltaTime * 8f );
+        currentDriftAngle = Mathf.Lerp(currentDriftAngle, driftAngle, Time.deltaTime * 8f);
 
         float steerInfluence = horizontalInput * driftPower;
 
-        Quaternion targetRot = driftBaseRotation * Quaternion.Euler(0, currentDriftAngle * driftDirection, 0) *Quaternion.Euler(0, steerInfluence, 0);
+        Quaternion targetRot = driftBaseRotation * Quaternion.Euler(0, currentDriftAngle * driftDirection, 0) * Quaternion.Euler(0, steerInfluence, 0);
 
-        hitBox.transform.rotation = Quaternion.Slerp(hitBox.transform.rotation,targetRot, Time.deltaTime * 10f );
+        hitBox.transform.rotation = Quaternion.Slerp(hitBox.transform.rotation, targetRot, Time.deltaTime * 10f);
 
         Vector3 forwardVel = hitBox.transform.forward * rb.linearVelocity.magnitude;
 
-        rb.linearVelocity = Vector3.Lerp( rb.linearVelocity,forwardVel,Time.deltaTime * 3f );
+        rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, forwardVel, Time.deltaTime * 3f);
 
         if (accelerateInput && rb.linearVelocity.magnitude <= maxSpeed * 0.8f)
         {
-            rb.AddForce(hitBox.transform.forward * accelerationPower * 0.7f,ForceMode.Acceleration);
+            rb.AddForce(hitBox.transform.forward * accelerationPower * 0.7f, ForceMode.Acceleration);
         }
 
-        rb.AddForce(-hitBox.transform.right * driftDirection * driftSideForce,ForceMode.Acceleration );
+        rb.AddForce(-hitBox.transform.right * driftDirection * driftSideForce, ForceMode.Acceleration);
 
         ApplyLateralFriction(driftFrictionPower * 2f);
         RotateHitboxDrift();
@@ -545,7 +545,7 @@ public class FSMManager : StateMachineFlow {
         {
             driftLevel = 1;
             newColorStart = drift1Start;
-            newColorEnd= drift1End;
+            newColorEnd = drift1End;
             first = true;
             colorChanged = true;
         }
@@ -570,13 +570,13 @@ public class FSMManager : StateMachineFlow {
 
         if (colorChanged)
         {
-                StopDriftParticles();
-                ClearDriftParticles(); 
+            StopDriftParticles();
+            ClearDriftParticles();
 
-                SetDriftParticlesColor(newColorStart, newColorEnd);
+            SetDriftParticlesColor(newColorStart, newColorEnd);
 
-                PlayDriftParticles();
-            
+            PlayDriftParticles();
+
         }
     }
 
@@ -598,7 +598,7 @@ public class FSMManager : StateMachineFlow {
     public void ApplyBoostSpeed()
     {
         Vector3 v = rb.linearVelocity;
-        Vector3 forward = hitBox.transform.forward * maxSpeed*1.25f;
+        Vector3 forward = hitBox.transform.forward * maxSpeed * 1.25f;
         rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, new Vector3(forward.x, v.y, forward.z), Time.deltaTime * 10f);
     }
     public void EndBoost()
@@ -633,10 +633,15 @@ public class FSMManager : StateMachineFlow {
         if (personajeSO != null)
         {
             personajeSO.UsePower(this);
+            StartCoroutine(UsePowerCR());
 
-            animator.SetBool("Poder", true);
-            
         }
+    }
+    IEnumerator UsePowerCR()
+    {
+        animator.SetBool("Poder", true);
+        yield return new WaitForSeconds(1.2f);
+        animator.SetBool("Poder", false);
     }
 
     // ==================== STUN ====================
@@ -778,11 +783,11 @@ public class FSMManager : StateMachineFlow {
         return hitBox.transform;
     }
     public float GetMaxSpeed() => maxSpeed;
-    public void SetAndPlayAudioClip(int index) 
+    public void SetAndPlayAudioClip(int index)
     {
         if (personajeSO == null || personajeSO.audios == null || index < 0 || index >= personajeSO.audios.Length)
         {
-           // Debug.LogError("FSMManager: Audio clip index out of range or PersonajeSO/audios not assigned.");
+            // Debug.LogError("FSMManager: Audio clip index out of range or PersonajeSO/audios not assigned.");
             return;
         }
         audioSource.clip = personajeSO.audios[index];
