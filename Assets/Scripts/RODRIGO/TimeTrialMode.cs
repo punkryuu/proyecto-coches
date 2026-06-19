@@ -121,7 +121,7 @@ public class TimeTrialMode : MonoBehaviour {
 
     IEnumerator StartCountdown()
     {
-        countdownText.gameObject.SetActive(true);
+        //countdownText.gameObject.SetActive(true);
         for (int i = 3; i > 0; i--)
         {
             countdownText.text = i.ToString();
