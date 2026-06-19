@@ -35,7 +35,7 @@ public class TimeTrialMode : MonoBehaviour {
     public int playerLapCounter = 0;
 
     bool raceActive;
-    int totalLaps = 1;
+    int totalLaps = 3;
 
     [SerializeField] UIManager ui;
     [SerializeField] TMP_Text countdownText;
