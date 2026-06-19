@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class IASINAPRENDIZAJE : MonoBehaviour
@@ -52,6 +53,16 @@ public class IASINAPRENDIZAJE : MonoBehaviour
     [Range(0f, 1f)] public float aggressiveness;
     [Range(0f, 1f)] public float mistakeChance;
     [Range(0f, 1f)] public float steeringNoise;
+
+    [Header("Stun System")]
+    public Transform visualModel;
+    public Transform visualRoot;
+    private Quaternion originalVisualRotation;
+    public float stunSpinSpeed = 360f;
+    public GameObject stunStars;
+    private Coroutine restoreCoroutine;
+    private bool isStunned = false;
+
 
     void Start()
     {
@@ -244,9 +255,7 @@ public class IASINAPRENDIZAJE : MonoBehaviour
             Debug.LogWarning("NPC: El PersonajeSO no tiene modelo visual.");
             return;
         }
-
-        // Crear punto de anclaje si no existe
-        Transform visualRoot = npcInstance.transform.Find("VisualRoot");
+         visualRoot = npcInstance.transform.Find("VisualRoot");
 
         if (visualRoot == null)
         {
@@ -263,6 +272,7 @@ public class IASINAPRENDIZAJE : MonoBehaviour
         visualInstance.transform.localRotation = Quaternion.identity;
 
         Transform visualModel = visualInstance.transform;
+        GetComponentInParent<FSMManager>().visualModel = visualModel;
     }
 
     public void Power()
@@ -297,6 +307,59 @@ public class IASINAPRENDIZAJE : MonoBehaviour
         }
         minimapPlane.GetComponent<MeshRenderer>().material.mainTexture = IaPlayerCar.personajeData.imagenMinimapa.texture;
     }
+
+    public void StartStun()
+    {
+        if (visualModel == null) return;
+
+        isStunned = true;
+        originalVisualRotation = visualModel.localRotation;
+
+        if (stunStars != null)
+            stunStars.SetActive(true);
+    }
+
+    public void StayStunned()
+    {
+        if (!isStunned || visualModel == null) return;
+
+        visualModel.Rotate(0f, stunSpinSpeed * Time.deltaTime, 0f, Space.Self);
+    }
+
+    public void StartRestoreRotation()
+    {
+        if (restoreCoroutine != null)
+        {
+            StopCoroutine(restoreCoroutine);
+        }
+
+        restoreCoroutine = StartCoroutine(RestoreRotationCoroutine());
+    }
+    public IEnumerator RestoreRotationCoroutine()
+    {
+        if (visualModel == null) yield break;
+
+        isStunned = false;
+
+        Quaternion startRot = visualModel.localRotation;
+        Quaternion targetRot = originalVisualRotation;
+
+        float time = 0f;
+        float duration = 0.25f;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            visualModel.localRotation = Quaternion.Slerp(startRot, targetRot, time / duration);
+            yield return null;
+        }
+
+        visualModel.localRotation = targetRot;
+
+        if (stunStars != null)
+            stunStars.SetActive(false);
+    }
+
 }
 
 

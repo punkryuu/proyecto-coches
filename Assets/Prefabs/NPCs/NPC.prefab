@@ -314,6 +314,7 @@ GameObject:
   - component: {fileID: 5067736895779759968}
   - component: {fileID: 3208604029215809347}
   - component: {fileID: 3387519907625315713}
+  - component: {fileID: -1740740741987551442}
   m_Layer: 8
   m_Name: NPC
   m_TagString: Player
@@ -551,6 +552,61 @@ MonoBehaviour:
   aggressiveness: 0
   mistakeChance: 0
   steeringNoise: 0
+  visualModel: {fileID: 0}
+  visualRoot: {fileID: 0}
+  stunSpinSpeed: 700
+  stunStars: {fileID: 2923767346558770987}
+--- !u!114 &-1740740741987551442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126455363605797109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 984f1e66af0f9a041b4cf2052feeeb1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateName: {fileID: 2702613700133972365}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  visual: {fileID: 1232648858020963825}
+  stunStars: {fileID: 4729181946343168397}
+  minimapPlane: {fileID: 1474686536304119994}
+  visualModel: {fileID: 0}
+  playerCar: {fileID: 3208604029215809347}
+  canDrive: 0
+  driftFlag: 0
+  airControlMultiplier: 0.5
+  currentBoostType: 0
+  boostDuration: 0
+  trickBoostDuration: 0.5
+  triggerBoost: 0
+  triggerBoostDuration: 0
+  gravityMultiplier: 1
+  canTrick: 0
+  isTricking: 0
+  stunned: 0
+  stunDuration: 1
+  triggerStunDuration: 0
+  canBeStunned: 1
+  isCurrentlyStunned: 0
+  drift1Start: {r: 0, g: 0, b: 0, a: 0}
+  drift1End: {r: 0, g: 0, b: 0, a: 0}
+  drift2Start: {r: 0, g: 0, b: 0, a: 0}
+  drift2End: {r: 0, g: 0, b: 0, a: 0}
+  drift3Start: {r: 0, g: 0, b: 0, a: 0}
+  drift3End: {r: 0, g: 0, b: 0, a: 0}
+  wheels: []
+  pivots: []
+  accelerateInput: 0
+  brakeInput: 0
+  horizontalInput: 0
+  driftInput: 0
+  trickInput: 0
+  powerInput: 0
 --- !u!1 &5555443707811750602
 GameObject:
   m_ObjectHideFlags: 0
@@ -770,6 +826,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67b6839c09831a64392d50f16650c1b5, type: 3}
+--- !u!1 &2923767346558770987 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3722352031400595310, guid: 67b6839c09831a64392d50f16650c1b5, type: 3}
+  m_PrefabInstance: {fileID: 1962229795644477509}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4729181946343168397 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6528619081135425992, guid: 67b6839c09831a64392d50f16650c1b5, type: 3}

@@ -89,13 +89,14 @@ public class RaceManager : MonoBehaviour
             {
                 pos.y = hit.point.y;
             }
-            Debug.LogWarning("Spawn position for " + chosen.name + ": " + spawn.position);
+            //Debug.LogWarning("Spawn position for " + chosen.name + ": " + spawn.position);
 
             GameObject npcInstance = Instantiate(chosen.characterPrefab, pos, spawn.rotation);
 
 
             IASINAPRENDIZAJE racer = npcInstance.GetComponent<IASINAPRENDIZAJE>();
             racer.InstantiateVisualSO(npcInstance, chosen);
+            racer.IaPlayerCar.modelParent = npcInstance.transform.Find("VisualRoot");
             if (racer != null)
             {
                 racer.spawnPoint = spawn;

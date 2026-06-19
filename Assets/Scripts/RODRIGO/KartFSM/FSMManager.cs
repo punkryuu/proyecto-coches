@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
@@ -22,7 +23,7 @@ public class FSMManager : StateMachineFlow {
     [SerializeField] private GameObject minimapPlane;
 
     private AudioSource audioSource; // Fuente de audio para efectos y música
-    private Transform visualModel;
+    public Transform visualModel;
     private PlayerInputActions inputActions;
     private Rigidbody rb;
     private CapsuleCollider hitBox;
@@ -155,7 +156,12 @@ public class FSMManager : StateMachineFlow {
           
             SetMinimapImage();
         }
-        ApplyMultipliersFromSO();
+        else
+        {
+            IASINAPRENDIZAJE ia = GetComponent<IASINAPRENDIZAJE>();
+            visualModel = ia.visualModel;
+        }
+            ApplyMultipliersFromSO();
 
         uiManager = FindAnyObjectByType<UIManager>();
         SetStars(false);

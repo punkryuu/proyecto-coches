@@ -92,12 +92,30 @@ public class PiruletaTrigger : MonoBehaviour {
 
     private void StunTarget(Collider other)
     {
-        FSMManager fsm = other.GetComponentInParent<FSMManager>();
-
+        IASINAPRENDIZAJE ia = other.GetComponentInParent<IASINAPRENDIZAJE>();
+        if (ia != null) 
+         StartCoroutine(StunRoutineIA(ia));
+        
+            FSMManager fsm = other.GetComponentInParent<FSMManager>();
         if (fsm == null) return;
         if (fsm.isCurrentlyStunned) return;
 
         fsm.stunned = true;
         fsm.triggerStunDuration = stunDuration;
+    }
+    private IEnumerator StunRoutineIA(IASINAPRENDIZAJE ia)
+    {
+        Debug.Log("StunRoutineIA started for " + ia.name);
+        ia.StartStun();
+
+        float t = 0f;
+        while (t < stunDuration)
+        {
+            ia.StayStunned();
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        ia.StartRestoreRotation();
     }
 }
