@@ -21,10 +21,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Caballero
-  m_Shader: {fileID: -6465566751694194690, guid: cf69794c119d36e4eb4e6ed897ccfe06, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 700e8bf9abb14aa4b8c686919bd5ff06, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _UVS_BASE
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -143,8 +144,11 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _Tama_o_Puntos: 0.5
+    - _UVS: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - _ghost_Activate: 0
+    - _ghost_Speed: 6
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
