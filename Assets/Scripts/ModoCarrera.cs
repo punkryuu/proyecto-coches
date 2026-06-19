@@ -27,6 +27,7 @@ public class RaceManager : MonoBehaviour
     private GameObject[] spawnedNPC;
     [SerializeField] Transform[] NPCpositions;
     [SerializeField] UIManager ui;
+    [SerializeField] MenuUIManager hud;
     public bool raceStarted = false;
     public PlayerCar player;
     [SerializeField] AudioSource audioSource;
@@ -131,6 +132,7 @@ public class RaceManager : MonoBehaviour
             playerLapCounter = 0;
 
             ui.contenedorFinalizar.SetActive(true);
+            hud.panel.SetActive(false);
 
             for (int i = 0; i < posiciones.Count; i++)
             {

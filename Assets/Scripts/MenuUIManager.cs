@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class MenuUIManager: MonoBehaviour
 {
     [SerializeField] private GameObject contenedorOpciones;
-    [SerializeField] private GameObject panel;
+    [SerializeField] public GameObject panel;
     [SerializeField] AudioMixer audioMixer;
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip modoCarrera;
