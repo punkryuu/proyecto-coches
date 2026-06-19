@@ -4,6 +4,7 @@ using UnityEngine;
 public class PiruletaTrigger : MonoBehaviour {
     [Header("Movimiento")]
     private float forwardSpeed = 50f; 
+
     private float returnSpeed = 75f;
     private float timeBeforeReturn = 2f;
     private float destroyTime = 2f;
@@ -57,7 +58,7 @@ public class PiruletaTrigger : MonoBehaviour {
     private void Update()
     {
         // Giro constante sobre sí misma
-        transform.Rotate(Vector3.forward, spinSpeed * Time.deltaTime, Space.Self);
+        transform.Rotate(Vector3.up, spinSpeed * Time.deltaTime, Space.Self);
     }
 
     private void FixedUpdate()
