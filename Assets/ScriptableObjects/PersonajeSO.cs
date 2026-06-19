@@ -6,6 +6,7 @@ public abstract class PersonajeSO : ScriptableObject
 {
     public GameObject visual;
     public GameObject characterPrefab;
+    public GameObject CharacterAnimation;
     public string driftParticlesPath = "driftParticles";
     public string turboParticlesPath = "turboParticles";
     public Sprite selectionImage;
