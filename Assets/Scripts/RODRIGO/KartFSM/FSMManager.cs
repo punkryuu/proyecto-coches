@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
@@ -129,6 +130,10 @@ public class FSMManager : StateMachineFlow {
     public bool trickInput;
     public bool powerInput;
 
+    //animacion
+    Animator animator;
+
+
     private void Awake()
     {
         // Estados
@@ -146,21 +151,24 @@ public class FSMManager : StateMachineFlow {
         rb = GetComponent<Rigidbody>();
         hitBox = GetComponentInChildren<CapsuleCollider>();
         audioSource = GetComponent<AudioSource>();
+
         if (playerCar.isPlayer)
         {
             SetCharacterSO();
 
             InstantiateVisualSO();
 
-          
             SetMinimapImage();
+
+            
         }
         ApplyMultipliersFromSO();
 
         uiManager = FindAnyObjectByType<UIManager>();
         SetStars(false);
         // Cargar personaje seleccionado
-       
+        //animator = personajeSO.GetComponent<Animator>();
+        
     }
 
 
@@ -177,6 +185,10 @@ public class FSMManager : StateMachineFlow {
             PersonajeSO selectedCharacter = GameManager.Instance.selectedCharacter;
             if (selectedCharacter != null) { personajeSO = selectedCharacter; }
             playerCar.personajeData = selectedCharacter;
+
+            //animacion
+            animator = selectedCharacter.CharacterAnimation.GetComponent<Animator>();
+            
         }
         else
         {
@@ -621,6 +633,9 @@ public class FSMManager : StateMachineFlow {
         if (personajeSO != null)
         {
             personajeSO.UsePower(this);
+
+            animator.SetBool("Poder", true);
+            
         }
     }
 
