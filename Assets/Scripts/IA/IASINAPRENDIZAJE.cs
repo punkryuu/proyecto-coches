@@ -9,6 +9,7 @@ public class IASINAPRENDIZAJE : MonoBehaviour
     public SphereCollider sphereCollider;
     public TrackCheck trackCheck;
     public PlayerCar IaPlayerCar;
+    public WayPointsCircuit circuit;
 
 
     [Header("Driving")]
@@ -71,7 +72,7 @@ public class IASINAPRENDIZAJE : MonoBehaviour
         sphereCollider = GetComponentInChildren<SphereCollider>();
         IaPlayerCar = GetComponent<PlayerCar>();
         trackCheck = FindFirstObjectByType<TrackCheck>();
-
+        circuit = FindFirstObjectByType<WayPointsCircuit>();
 
         currentCheckpoint = trackCheck.GetNextCheckpoint(this);
         trackCheck.OnCorrectCheckPointRacer += OnPassedCheckpoint;
@@ -101,7 +102,9 @@ public class IASINAPRENDIZAJE : MonoBehaviour
         }
         float moved = Vector3.Distance(transform.position, lastPosition);
 
-        if (moved < 0.05f)
+        float speed = rb.linearVelocity.magnitude;
+
+        if (speed < 5f)
         {
             stuckTimer += Time.fixedDeltaTime;
         }
@@ -109,13 +112,13 @@ public class IASINAPRENDIZAJE : MonoBehaviour
         {
             stuckTimer = 0f;
         }
-        lastPosition = transform.position;
+
         if (stuckTimer > 1.5f)
         {
-            rb.AddForce(transform.forward * accelerationForce * 2f, ForceMode.Acceleration);
-            rb.AddTorque(Vector3.up * 5f, ForceMode.Acceleration);
-            return; 
+            FixStuck();
+            return;
         }
+
     }
 
 
@@ -359,6 +362,21 @@ public class IASINAPRENDIZAJE : MonoBehaviour
         if (stunStars != null)
             stunStars.SetActive(false);
     }
+
+    void FixStuck()
+    {
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        Transform cp = circuit.waypoints[IaPlayerCar.currentWayPoint].transform;
+        Vector3 backPos = cp.position - cp.forward * 3f;
+        backPos.y += 0.5f;
+        transform.position = backPos;
+        transform.rotation = Quaternion.LookRotation(cp.forward, Vector3.up);
+        rb.AddForce(transform.forward * accelerationForce * 2f, ForceMode.VelocityChange);
+
+        stuckTimer = 0f;
+    }
+
 
 }
 
