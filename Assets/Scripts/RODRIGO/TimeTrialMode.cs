@@ -16,7 +16,7 @@ public class TimeTrialMode : MonoBehaviour {
         }
         Instance = this;
     }
-
+    [SerializeField] string nextScene;
     float raceTimer;
     [SerializeField] TMP_Text raceTimerText;
     float lastLapTime;
@@ -97,6 +97,7 @@ public class TimeTrialMode : MonoBehaviour {
 
     void FinishTrial()
     {
+
         interfaz.SetActive(false);
         raceActive = false;
         ui.contenedorFinalizar.SetActive(true);
@@ -120,8 +121,14 @@ public class TimeTrialMode : MonoBehaviour {
 
         if (finalBestLapText != null)
             finalBestLapText.text = "Mejor vuelta: " + FormatTime(bestLapTime);
+        StartCoroutine(SkipSceneCr());
     }
-
+  
+    IEnumerator SkipSceneCr()
+    {
+        yield return new WaitForSeconds(5f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(nextScene);
+    }
     IEnumerator StartCountdown()
     {
         //countdownText.gameObject.SetActive(true);

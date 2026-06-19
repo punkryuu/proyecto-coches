@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
@@ -70,6 +71,7 @@ public class MenuUIManager: MonoBehaviour
         audioSource.PlayOneShot(boton);
         UnityEngine.SceneManagement.SceneManager.LoadScene(nextScene);
     }
+    
     public void OptionButton()
     {
         audioSource.PlayOneShot(boton);
