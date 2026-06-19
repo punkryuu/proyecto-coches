@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour {
 
         contenedorPausa.SetActive(false);
         contenedorFinalizar.SetActive(false);
-        countdownText.gameObject.SetActive(false);
+        //countdownText.gameObject.SetActive(false);
 
         if (barraPoder != null)
             barraPoder.value = 0;
@@ -63,7 +63,7 @@ public class UIManager : MonoBehaviour {
 
     public IEnumerator Delay()
     {
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
 
         contenedorPausa.SetActive(false);
         countdownText.gameObject.SetActive(true);
